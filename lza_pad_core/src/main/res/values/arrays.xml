@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 底部导航栏初始化数据 -->
+    <string-array name="navigation_init_names">
+        <item>电子图书</item>
+        <item>电子教参</item>
+        <item>电子期刊</item>
+        <item>到馆新书</item>
+        <item>热门推荐</item>
+        <item>书刊检索</item>
+        <item>图书馆新闻</item>
+        <item>校园新闻</item>
+        <item>国内新闻</item>
+        <item>校园视频</item>
+        <item>校园黄页</item>
+        <item>使用帮助</item>
+    </string-array>
+    <string-array name="navigation_init_icons">
+        <item>navigation_ebooks</item>
+        <item>navigation_eteaching_reference</item>
+        <item>navigation_ejournals</item>
+        <item>navigation_lib_new_books</item>
+        <item>navigation_hot_recommend</item>
+        <item>navigation_book_retrieval</item>
+        <item>navigation_lib_news</item>
+        <item>navigation_campus_news</item>
+        <item>navigation_domestic_news</item>
+        <item>navigation_domestic_news</item>
+        <item>navigation_campus_yellow_pages</item>
+        <item>navigation_using_help</item>
+    </string-array>
+    <integer-array name="navigation_init_sort">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </integer-array>
+    <string-array name="navigation_init_activity">
+        <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+        <item>com.lza.pad.ui.fragment.NewsFragment</item>
+        <item>com.lza.pad.ui.fragment.NewsFragment</item>
+        <item>com.lza.pad.ui.fragment.NewsFragment</item>
+        <item>com.lza.pad.ui.fragment.VideoPlayFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+    </string-array>
+    <integer-array name="navigation_init_has_title_bar">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+    </integer-array>
+    <integer-array name="navigation_init_has_title_button">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+    <integer-array name="navigation_init_data_row_number">
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+    </integer-array>
+    <integer-array name="navigation_init_data_each_row">
+        <item>4</item>
+        <item>4</item>
+        <item>2</item>
+        <item>2</item>
+        <item>2</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+        <item>4</item>
+    </integer-array>
+    <string-array name="navigation_init_api_control_par">
+        <item>ebook</item>
+        <item>ebook_jc</item>
+        <item>qk_message</item>
+        <item>schoolNewBook</item>
+        <item>schoolHotBook</item>
+        <item>ebook</item>
+        <item>News</item>
+        <item>News</item>
+        <item>News</item>
+        <item>ebook</item>
+        <item>ebook</item>
+        <item>ebook</item>
+    </string-array>
+    <string-array name="navigation_init_api_action_par">
+        <item>getMessage</item>
+        <item>getMessage</item>
+        <item>getMessage</item>
+        <item>getMessageList</item>
+        <item>getMessageList</item>
+        <item>getMessage</item>
+        <item>getMessage</item>
+        <item>getMessage</item>
+        <item>getMessage</item>
+        <item>getMessage</item>
+        <item>getMessage</item>
+        <item>getMessage</item>
+    </string-array>
+    <integer-array name="navigation_init_api_page_par">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+    </integer-array>
+    <integer-array name="navigation_init_api_news_type">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>4</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+    <!--<integer-array name="navigation_init_api_page_size_par">
+        <item>16</item>
+        <item>16</item>
+        <item>8</item>
+        <item>16</item>
+        <item>16</item>
+        <item>16</item>
+        <item>16</item>
+        <item>16</item>
+        <item>16</item>
+        <item>16</item>
+        <item>16</item>
+        <item>16</item>
+    </integer-array>-->
+    <integer-array name="navigation_init_api_school_id_par">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>20</item>
+        <item>20</item>
+        <item>1</item>
+        <item>20</item>
+        <item>20</item>
+        <item>20</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+    </integer-array>
+    <string-array name="navigation_init_api_url">
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://115.28.242.196/eb1/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+        <item>http://219.219.114.83/pad_2.0/controller.php?</item>
+    </string-array>
+    <integer-array name="navigation_init_is_activate">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+    </integer-array>
+    <integer-array name="navigation_init_is_closed">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+
+    <integer-array name="api_par_nav_id">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+    </integer-array>
+    <string-array name="api_par_init_key">
+        <item>bookId</item>
+        <item>action</item>
+        <item>control</item>
+        <item>sessionTag</item>
+        <item>pagesize</item>
+        <item>page</item>
+        <item>schoolId</item>
+        <item>action</item>
+    </string-array>
+    <string-array name="api_par_init_value">
+        <item></item>
+        <item>getMrMessage</item>
+        <item>ebook</item>
+        <item></item>
+        <item>1000</item>
+        <item>1</item>
+        <item>1</item>
+        <item>getMessage</item>
+    </string-array>
+    <string-array name="api_par_init_type">
+        <item>detail</item>
+        <item>universal</item>
+        <item>universal</item>
+        <item>universal</item>
+        <item>universal</item>
+        <item>universal</item>
+        <item>universal</item>
+        <item>list</item>
+    </string-array>
+
+</resources>

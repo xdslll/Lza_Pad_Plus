@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="weather">
+        <attr name="city" format="enum">
+            <enum name="nanjing" value="101190101"/>
+            <enum name="beijing" value="101010100"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="title_bar">
+        <attr name="titleText" format="string"/>
+        <attr name="titleVisibility" format="boolean"/>
+        <attr name="subjectVisiblity" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShelvesView">
+        <attr name="shelfBackground" format="reference" />
+    </declare-styleable>
+</resources>

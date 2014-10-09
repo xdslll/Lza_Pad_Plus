@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 测试视频播放资源 -->
+    <string name="test_video_path">/1234abcd_1234abcd.mp4</string>
+
+    <!-- footer_navigation.xml -->
+    <integer name="navigation_max_child">15</integer>
+
+</resources>

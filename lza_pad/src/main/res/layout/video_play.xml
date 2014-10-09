@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    style="@style/ModuleBackground"
+    android:orientation="vertical">
+    <com.lza.pad.ui.widget.TitleBar
+        style="@style/UniversalMatchAndWrap"
+        tool:title="@string/video_play_title"
+        tool:titleVisibility="true"
+        tool:subjectVisiblity="false"
+        android:id="@+id/video_play_title_bar"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/video_play_info"
+            android:textColor="@color/black"
+            />
+    </LinearLayout>
+    <VideoView
+        style="@style/UniversalWrapContent"
+        android:id="@+id/video_play_view"
+        />
+    <TextView
+        style="@style/UniversalMatchAndWrap"
+        android:text="技术支持:乐致安信息技术有限公司"
+        android:textSize="22sp"
+        android:gravity="bottom|center"
+        android:layout_weight="1"
+        android:textColor="@color/gray"
+        />
+</LinearLayout>

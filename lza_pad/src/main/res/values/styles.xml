@@ -1,0 +1,86 @@
+<resources>
+
+    <!-- 通用样式 -->
+    <style name="UniversalWrapContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="UniversalMatchParent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="UniversalMatchAndWrap">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="UniversalWrapAndMatch">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- Splash样式 -->
+    <style name="SplashTitleTextView" parent="UniversalWrapContent">
+        <item name="android:textSize">45sp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">@color/dimgrey</item>
+    </style>
+
+    <style name="SplashSubTitleTextView" parent="UniversalWrapContent">
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="SplashCopyrightTextView" parent="UniversalWrapContent">
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <!-- 时钟样式 -->
+    <style name="DigitalClockPanel" parent="UniversalMatchParent">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:text">@string/digital_clock_default_time</item>
+        <item name="android:textSize">70sp</item>
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="DigitalClockPanelBackground" parent="UniversalWrapContent">
+        <item name="android:background">@drawable/header_analog_clock_bg</item>
+    </style>
+
+    <!-- header.xml -->
+    <style name="Header_DateTextStyle" parent="UniversalMatchAndWrap">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingLeft">40dp</item>
+    </style>
+
+    <style name="Header_DigitalClock" parent="UniversalWrapContent">
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+
+    <!-- 天气样式 -->
+    <style name="WeatherText" parent="UniversalMatchAndWrap">
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="WeatherTempText" parent="WeatherText">
+        <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="WeatherInfoText" parent="WeatherText">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+</resources>

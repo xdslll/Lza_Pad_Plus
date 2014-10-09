@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 数据库 -->
+    <string name="db_name">lza_pad.db</string>
+    <string name="db_version">1</string>
+    <string name="db_init_error">数据库初始化失败!</string>
+    <string name="db_create_error">数据库创建失败!</string>
+    <string name="db_update_error">数据库更新失败!</string>
+
+    <!-- 系统相关 -->
+    <string name="something_error">发生故障</string>
+    <string name="please_deleted_cache_dir">权限出错，无法读取存储空间，需要用户手动删除SD卡下的"/lza/pad/data/"目录</string>
+
+    <!-- 用户信息 -->
+    <string name="ten_thousand">万</string>
+
+    <!-- 缓存相关 -->
+    <string name="cache_begin">开始缓存</string>
+    <string name="cache_back">返回</string>
+    <string name="cache_starting">正在缓存，请稍候...</string>
+    <string name="cache_success">缓存成功！</string>
+
+</resources>

@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:weather="http://schemas.android.com/apk/res-auto"
+    style="@style/UniversalMatchParent"
+    android:background="@drawable/header_bg" >
+    <LinearLayout
+        style="@style/UniversalWrapAndMatch"
+        android:orientation="vertical"
+        android:layout_weight="3">
+        <!-- 日期 -->
+        <TextView
+            style="@style/Header_DateTextStyle"
+            android:text="2014/9/8 星期四"
+            android:id="@+id/header_date"
+            />
+        <!-- 时钟 -->
+        <com.lza.pad.ui.widget.DigitalClock
+            style="@style/Header_DigitalClock"
+            android:id="@+id/header_digital_clock"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        style="@style/UniversalWrapAndMatch"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_weight="1">
+        <!-- 天气 -->
+        <com.lza.pad.ui.widget.WeatherPanel
+            style="@style/UniversalMatchParent"
+            android:id="@+id/header_weather_panel"
+            weather:city="nanjing"
+            />
+    </LinearLayout>
+</LinearLayout>

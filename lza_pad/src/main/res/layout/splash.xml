@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        style="@style/SplashTitleTextView"
+        android:text="@string/splash_title"
+        android:id="@+id/splash_title"
+        />
+    <TextView
+        style="@style/SplashSubTitleTextView"
+        android:layout_below="@id/splash_title"
+        android:text="@string/splash_sub_title"
+        />
+    <TextView
+        style="@style/SplashCopyrightTextView"
+        android:text="@string/splash_copyright"
+        />
+</RelativeLayout>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lza.pad"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <uses-sdk android:minSdkVersion="8"
+        android:targetSdkVersion="15"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:name=".core.utils.GlobalContext"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/BaseTheme" >
+
+        <meta-data android:value="540d141ffd98c59f900191ca" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="0a7d176876363949fa5c7c34b4a99580" android:name="UMENG_MESSAGE_SECRET"/>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+
+        <activity
+            android:name=".ui.activity.main.SplashActivity"
+            android:label="@string/app_name"
+            android:enabled="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.main.HomeActivity"
+            android:enabled="true"
+            android:launchMode="singleTask"
+            />
+        <activity
+            android:name=".ui.fragment.preference.MainPreferenceActivity"
+            android:enabled="true"
+            android:launchMode="singleTask"
+            android:theme="@style/PreferenceTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            />
+        <activity
+            android:name=".ui.fragment.preference.GlobalPreferenceActivity"
+            android:enabled="true"
+            android:launchMode="singleTask"
+            android:theme="@style/PreferenceTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            />
+        <activity
+            android:name=".ui.fragment.preference.ModulePreferenceActivity"
+            android:enabled="true"
+            android:launchMode="singleTask"
+            android:theme="@style/PreferenceTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            />
+        <activity
+            android:name=".ui.fragment.preference.BasePreferenceActivity"
+            android:enabled="true"
+            android:launchMode="singleTask"
+            android:theme="@style/PreferenceTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            />
+        <!--android:parentActivityName=".ui.activity.main.HomeActivity"-->
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".ui.activity.main.NewHomeActivity"/>
+        <activity android:name=".ui.activity.TestActivity"/>
+
+        <service android:name=".ui.service.CacheDataService"
+            android:process=":cache"
+            android:enabled="true"
+            />
+        <receiver android:name=".broadcast.RunOnBoot" >
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.HOME"/>
+            </intent-filter>
+        </receiver>
+        <!-- 友盟自动更新服务 -->
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <!-- 友盟推送服务 -->
+        <receiver
+            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
+            android:exported="false" >
+        </receiver>
+        <receiver android:name="com.umeng.message.RegistrationReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.umeng.message.UmengBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.lza.pad.intent.action.COMMAND" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RE_ELECTION_V2" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.umeng.message.UmengService"
+            android:exported="true"
+            android:process=":umengService_v1" >
+            <intent-filter>
+                <action android:name="com.lza.pad.intent.action.START" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.lza.pad.intent.action.COCKROACH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.PING" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="org.android.agoo.service.ElectionService"
+            android:exported="true"
+            android:process=":umengService_v1" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.ELECTION_V2" />
+            </intent-filter>
+        </service>
+        <service android:name="com.umeng.message.UmengIntentService" />
+        <!-- V1.3.0添加的service，负责下载通知的资源 -->
+        <service android:name="com.umeng.message.UmengDownloadResourceService" />
+    </application>
+
+</manifest>

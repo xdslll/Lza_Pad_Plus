@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/pref_back"
+    android:icon="@drawable/notification_action_previous"
+    android:title="后退"
+    android:showAsAction="ifRoom"
+    />
+</menu>

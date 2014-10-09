@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lza.pad.core">
+
+    <application
+        android:name=".utils.GlobalContext"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher" >
+        <activity android:name=".CoreActivity"/>
+    </application>
+
+</manifest>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="接口设置">
+        <PreferenceScreen
+            android:title="接口设置"
+            android:summary="设置电子图书模块接口地址和参数"
+            android:key="pref_mod_more_api"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="模板设置">
+        <PreferenceScreen
+            android:title="模板设置"
+            android:summary="设置电子图书模块模板"
+            android:key="pref_mod_more_template"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="书架设置">
+        <EditTextPreference
+            android:title="书架的行设置"
+            android:summary="@string/pref_mod_more_row_summary"
+            android:key="pref_mod_shelves_row_number"
+            />
+        <EditTextPreference
+            android:title="书架的列设置"
+            android:summary="@string/pref_mod_more_col_summary"
+            android:key="pref_mod_shelves_col_number"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

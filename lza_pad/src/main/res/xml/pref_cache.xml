@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory
+    android:key="cache_ebook"
+    android:title="缓存电子书数据">
+    <Preference
+        android:layout="@layout/pref_cache_layout"
+        />
+</PreferenceCategory>
+
+</PreferenceScreen>

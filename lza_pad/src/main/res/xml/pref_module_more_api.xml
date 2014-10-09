@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="接口设置"
+        android:key="global_api_settings">
+        <EditTextPreference
+            android:title="Url"
+            android:dialogTitle="设置Url参数"
+            android:key="global_api_url"
+            />
+        <EditTextPreference
+            android:title="Control"
+            android:dialogTitle="设置Control参数"
+            android:key="global_api_control"
+            />
+        <EditTextPreference
+            android:title="Action"
+            android:dialogTitle="设置Action参数"
+            android:key="global_api_action"
+            />
+        <EditTextPreference
+            android:title="CityCode"
+            android:dialogTitle="设置CityCode参数"
+            android:key="global_api_city_code"
+            />
+        <EditTextPreference
+            android:title="SchoolId"
+            android:dialogTitle="设置SchoolId参数"
+            android:key="global_api_school_id"
+            />
+        <EditTextPreference
+            android:title="DeviceCode"
+            android:dialogTitle="设置DeviceCode参数"
+            android:key="global_api_device_code"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

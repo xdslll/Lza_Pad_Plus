@@ -1,0 +1,792 @@
+#
+# generated on 2014/09/23 12:01:43
+#
+# --table-start--
+dataClass=com.lza.pad.core.db.model.ApiParams
+tableName=lza_pad_api_param
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=navId
+columnName=api_par_nav_id
+# --field-end--
+# --field-start--
+fieldName=key
+columnName=api_par_key
+# --field-end--
+# --field-start--
+fieldName=value
+columnName=api_par_value
+# --field-end--
+# --field-start--
+fieldName=type
+columnName=api_par_type
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.Ebook
+tableName=lza_pad_ebook
+# --table-fields-start--
+# --field-start--
+fieldName=innerId
+columnName=inner_id
+# --field-end--
+# --field-start--
+fieldName=id
+indexName=lza_pad_ebook_id_idx
+# --field-end--
+# --field-start--
+fieldName=bookId
+columnName=book_id
+id=true
+indexName=lza_pad_ebook_book_id_idx
+# --field-end--
+# --field-start--
+fieldName=name
+columnName=book_name
+# --field-end--
+# --field-start--
+fieldName=namePy
+columnName=book_name_py
+# --field-end--
+# --field-start--
+fieldName=isbn
+columnName=book_isbn
+# --field-end--
+# --field-start--
+fieldName=author
+columnName=book_author
+# --field-end--
+# --field-start--
+fieldName=translator
+columnName=book_translator
+# --field-end--
+# --field-start--
+fieldName=press
+columnName=book_press
+# --field-end--
+# --field-start--
+fieldName=address
+columnName=book_address
+# --field-end--
+# --field-start--
+fieldName=pubdate
+columnName=book_pubdate
+# --field-end--
+# --field-start--
+fieldName=pages
+columnName=book_pages
+# --field-end--
+# --field-start--
+fieldName=subject
+columnName=book_subject
+# --field-end--
+# --field-start--
+fieldName=ztf
+columnName=book_ztf
+# --field-end--
+# --field-start--
+fieldName=abstractStr
+columnName=book_abstract
+# --field-end--
+# --field-start--
+fieldName=xk
+columnName=book_xk
+# --field-end--
+# --field-start--
+fieldName=px
+columnName=book_px
+# --field-end--
+# --field-start--
+fieldName=imgUrl
+columnName=book_img
+# --field-end--
+# --field-start--
+fieldName=imgPath
+columnName=book_img_path
+# --field-end--
+# --field-start--
+fieldName=updateDate
+columnName=book_update_date
+# --field-end--
+# --field-start--
+fieldName=updateCount
+columnName=book_update_count
+# --field-end--
+# --field-start--
+fieldName=clickCount
+columnName=book_click_count
+# --field-end--
+# --field-start--
+fieldName=type
+columnName=book_type
+indexName=lza_pad_ebook_book_type_idx
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.EbookContent
+tableName=lza_pad_ebook_content
+# --table-fields-start--
+# --field-start--
+fieldName=innerId
+columnName=inner_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=id
+indexName=lza_pad_ebook_content_id_idx
+# --field-end--
+# --field-start--
+fieldName=bookId
+columnName=book_id
+indexName=lza_pad_ebook_content_book_id_idx
+# --field-end--
+# --field-start--
+fieldName=name
+columnName=book_name
+# --field-end--
+# --field-start--
+fieldName=page
+columnName=book_page
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.EbookRequest
+tableName=lza_pad_ebook_request_history
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=qk_table
+columnName=request_qk_table
+# --field-end--
+# --field-start--
+fieldName=qk_articles
+columnName=request_qk_articles
+# --field-end--
+# --field-start--
+fieldName=ebook_table
+columnName=request_ebook_table
+# --field-end--
+# --field-start--
+fieldName=ebook_mr
+columnName=request_ebook_mr
+# --field-end--
+# --field-start--
+fieldName=state
+columnName=request_state
+# --field-end--
+# --field-start--
+fieldName=t_name
+columnName=request_t_name
+# --field-end--
+# --field-start--
+fieldName=pagesize
+columnName=request_page_size
+# --field-end--
+# --field-start--
+fieldName=returnnum
+columnName=request_return_num
+# --field-end--
+# --field-start--
+fieldName=pagenum
+columnName=request_page_num
+# --field-end--
+# --field-start--
+fieldName=ye
+columnName=request_ye
+# --field-end--
+# --field-start--
+fieldName=endTag
+columnName=request_end_tag
+# --field-end--
+# --field-start--
+fieldName=date
+columnName=request_date
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.GlobalInfo
+tableName=lza_pad_global_info
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=key
+columnName=global_info_key
+unique=true
+# --field-end--
+# --field-start--
+fieldName=value
+columnName=global_info_value
+# --field-end--
+# --field-start--
+fieldName=type
+columnName=global_info_type
+# --field-end--
+# --field-start--
+fieldName=subType
+columnName=global_info_sub_type
+# --field-end--
+# --field-start--
+fieldName=remark
+columnName=global_info_remark
+# --field-end--
+# --field-start--
+fieldName=etc
+columnName=global_info_etc
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.HotBook
+tableName=lza_pad_hot_book
+# --table-fields-start--
+# --field-start--
+fieldName=innerId
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=hot_book_id
+indexName=lza_pad_hot_book_hot_book_id_idx
+# --field-end--
+# --field-start--
+fieldName=school_id
+columnName=hot_book_school_id
+# --field-end--
+# --field-start--
+fieldName=title
+columnName=hot_book_title
+# --field-end--
+# --field-start--
+fieldName=author
+columnName=hot_book_author
+# --field-end--
+# --field-start--
+fieldName=isbn
+columnName=hot_book_isbn
+# --field-end--
+# --field-start--
+fieldName=url
+columnName=hot_book_url
+# --field-end--
+# --field-start--
+fieldName=xk
+columnName=hot_book_xk
+# --field-end--
+# --field-start--
+fieldName=smallImg
+columnName=hot_book_small_img
+# --field-end--
+# --field-start--
+fieldName=bigImg
+columnName=hot_book_big_img
+# --field-end--
+# --field-start--
+fieldName=content
+columnName=hot_book_content
+# --field-end--
+# --field-start--
+fieldName=pubdate
+columnName=hot_book_pubdate
+# --field-end--
+# --field-start--
+fieldName=publisher
+columnName=hot_book_publisher
+# --field-end--
+# --field-start--
+fieldName=authorC
+columnName=hot_book_author_c
+# --field-end--
+# --field-start--
+fieldName=mr
+columnName=hot_book_mr
+# --field-end--
+# --field-start--
+fieldName=imgPath
+columnName=hot_book_img_path
+# --field-end--
+# --field-start--
+fieldName=type
+columnName=hot_bok_type
+# --field-end--
+# --field-start--
+fieldName=updateDate
+columnName=hot_book_date
+# --field-end--
+# --field-start--
+fieldName=updateCount
+columnName=hot_book_count
+# --field-end--
+# --field-start--
+fieldName=clickCount
+columnName=hot_book_click
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.HotBookContent
+tableName=lza_pad_hot_book_content
+# --table-fields-start--
+# --field-start--
+fieldName=inner_id
+generatedId=true
+indexName=lza_pad_hot_book_content_inner_id_idx
+# --field-end--
+# --field-start--
+fieldName=title
+columnName=hot_book_content_title
+# --field-end--
+# --field-start--
+fieldName=author
+columnName=hot_book_content_author
+# --field-end--
+# --field-start--
+fieldName=pubisher
+columnName=hot_book_content_pubisher
+# --field-end--
+# --field-start--
+fieldName=cnt1
+columnName=hot_book_content_cnt1
+# --field-end--
+# --field-start--
+fieldName=cnt2
+columnName=hot_book_content_cnt2
+# --field-end--
+# --field-start--
+fieldName=marc_no
+columnName=hot_book_content_marc_no
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.Journals
+tableName=lza_pad_journals
+# --table-fields-start--
+# --field-start--
+fieldName=innerId
+generatedId=true
+indexName=lza_pad_journals_innerId_idx
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=jrl_id
+indexName=lza_pad_journals_jrl_id_idx
+# --field-end--
+# --field-start--
+fieldName=title_c
+columnName=jrl_title_c
+# --field-end--
+# --field-start--
+fieldName=title_e
+columnName=jrl_title_e
+# --field-end--
+# --field-start--
+fieldName=url
+columnName=jrl_url
+# --field-end--
+# --field-start--
+fieldName=company
+columnName=jrl_company
+# --field-end--
+# --field-start--
+fieldName=address
+columnName=jrl_address
+# --field-end--
+# --field-start--
+fieldName=tel
+columnName=jrl_tel
+# --field-end--
+# --field-start--
+fieldName=email
+columnName=jrl_email
+# --field-end--
+# --field-start--
+fieldName=zq
+columnName=jrl_zq
+# --field-end--
+# --field-start--
+fieldName=press
+columnName=jrl_press
+# --field-end--
+# --field-start--
+fieldName=lan
+columnName=jrl_lan
+# --field-end--
+# --field-start--
+fieldName=kb
+columnName=jrl_kb
+# --field-end--
+# --field-start--
+fieldName=issn
+columnName=jrl_issn
+# --field-end--
+# --field-start--
+fieldName=xn
+columnName=jrl_xn
+# --field-end--
+# --field-start--
+fieldName=post
+columnName=jrl_post
+# --field-end--
+# --field-start--
+fieldName=old_name
+columnName=jrl_old_name
+# --field-end--
+# --field-start--
+fieldName=creat_pubdate
+columnName=jrl_creat_pubdate
+# --field-end--
+# --field-start--
+fieldName=database_qg
+columnName=jrl_database_qg
+# --field-end--
+# --field-start--
+fieldName=hx
+columnName=jrl_hx
+# --field-end--
+# --field-start--
+fieldName=gg
+columnName=jrl_gg
+# --field-end--
+# --field-start--
+fieldName=sx
+columnName=jrl_sx
+# --field-end--
+# --field-start--
+fieldName=qkImg
+columnName=jrl_qk_img
+# --field-end--
+# --field-start--
+fieldName=qkImgPath
+columnName=jrl_qk_img_path
+# --field-end--
+# --field-start--
+fieldName=updateDate
+columnName=jrl_update_date
+# --field-end--
+# --field-start--
+fieldName=updateCount
+columnName=jrl_update_count
+# --field-end--
+# --field-start--
+fieldName=clickCount
+columnName=jrl_click_count
+# --field-end--
+# --field-start--
+fieldName=type
+columnName=jrl_type
+indexName=lza_pad_journals_jrl_type_idx
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.JournalsContent
+tableName=lza_pad_journals_content
+# --table-fields-start--
+# --field-start--
+fieldName=inner_id
+generatedId=true
+indexName=lza_pad_journals_content_inner_id_idx
+# --field-end--
+# --field-start--
+fieldName=qkId
+columnName=jrl_content_qk_id
+indexName=lza_pad_journals_content_jrl_content_qk_id_idx
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=jrl_content_id
+indexName=lza_pad_journals_content_jrl_content_id_idx
+# --field-end--
+# --field-start--
+fieldName=title
+columnName=jrl_content_title
+# --field-end--
+# --field-start--
+fieldName=entitle
+columnName=jrl_content_entitle
+# --field-end--
+# --field-start--
+fieldName=author
+columnName=jrl_content_author
+# --field-end--
+# --field-start--
+fieldName=enauthor
+columnName=jrl_content_enauthor
+# --field-end--
+# --field-start--
+fieldName=jigou
+columnName=jrl_content_jigou
+# --field-end--
+# --field-start--
+fieldName=abstractStr
+columnName=jrl_content_abstract
+# --field-end--
+# --field-start--
+fieldName=enabstract
+columnName=jrl_content_enabstract
+# --field-end--
+# --field-start--
+fieldName=keywords
+columnName=jrl_content_keywords
+# --field-end--
+# --field-start--
+fieldName=enkeywords
+columnName=jrl_content_enkeywords
+# --field-end--
+# --field-start--
+fieldName=articlefrom
+columnName=jrl_content_articlefrom
+# --field-end--
+# --field-start--
+fieldName=kan_name
+columnName=jrl_content_kan_name
+# --field-end--
+# --field-start--
+fieldName=enkanname
+columnName=jrl_content_enkanname
+# --field-end--
+# --field-start--
+fieldName=year
+columnName=jrl_content_year
+# --field-end--
+# --field-start--
+fieldName=qi
+columnName=jrl_content_qi
+# --field-end--
+# --field-start--
+fieldName=doi
+columnName=jrl_content_doi
+# --field-end--
+# --field-start--
+fieldName=fenleihao
+columnName=jrl_content_fenleihao
+# --field-end--
+# --field-start--
+fieldName=total_down
+columnName=jrl_content_total_down
+# --field-end--
+# --field-start--
+fieldName=test_url
+columnName=jrl_content_test_url
+# --field-end--
+# --field-start--
+fieldName=fname
+columnName=jrl_content_fname
+# --field-end--
+# --field-start--
+fieldName=kancode
+columnName=jrl_content_kancode
+# --field-end--
+# --field-start--
+fieldName=pubdate
+columnName=jrl_content_pubdate
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.NavigationInfo
+tableName=lza_pad_navigation_info
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+columnName=navigation_name
+# --field-end--
+# --field-start--
+fieldName=resName
+columnName=navigation_res_name
+# --field-end--
+# --field-start--
+fieldName=sortId
+columnName=navigation_sort_id
+# --field-end--
+# --field-start--
+fieldName=activityPath
+columnName=navigation_activity_path
+# --field-end--
+# --field-start--
+fieldName=hasTitleBar
+columnName=navigation_has_title_bar
+# --field-end--
+# --field-start--
+fieldName=hasTitleButton
+columnName=navigation_has_title_button
+# --field-end--
+# --field-start--
+fieldName=dataRowNumber
+columnName=navigation_data_row_number
+# --field-end--
+# --field-start--
+fieldName=dataColumnNumber
+columnName=navigation_data_column_number
+# --field-end--
+# --field-start--
+fieldName=apiControlPar
+columnName=navigation_api_control_par
+# --field-end--
+# --field-start--
+fieldName=apiActionPar
+columnName=navigation_api_action_par
+# --field-end--
+# --field-start--
+fieldName=apiPagePar
+columnName=navigation_api_page_par
+# --field-end--
+# --field-start--
+fieldName=apiPageSizePar
+columnName=navigation_api_page_size_par
+# --field-end--
+# --field-start--
+fieldName=apiSchoolIdPar
+columnName=navigation_api_school_id_par
+# --field-end--
+# --field-start--
+fieldName=apiUrl
+columnName=navigation_api_url
+# --field-end--
+# --field-start--
+fieldName=apiBookId
+columnName=navigation_api_book_id
+# --field-end--
+# --field-start--
+fieldName=isClosed
+columnName=navigation_is_closed
+# --field-end--
+# --field-start--
+fieldName=isActivated
+columnName=navigation_is_activated
+# --field-end--
+# --field-start--
+fieldName=apiXkPar
+columnName=navigation_api_xk
+# --field-end--
+# --field-start--
+fieldName=apiMarcNoPar
+columnName=navigation_api_marc_no
+# --field-end--
+# --field-start--
+fieldName=apiActPar
+columnName=navigation_api_act
+# --field-end--
+# --field-start--
+fieldName=apiTypePar
+columnName=navigation_api_type
+# --field-end--
+# --field-start--
+fieldName=apiReturnNum
+columnName=navigation_api_return_num
+# --field-end--
+# --field-start--
+fieldName=apiLastId
+columnName=navigation_api_last_id
+# --field-end--
+# --field-start--
+fieldName=apiCityCode
+columnName=navigation_api_city_code
+# --field-end--
+# --field-start--
+fieldName=apiDeviceCode
+columnName=navigation_api_device_code
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.lza.pad.core.db.model.News
+tableName=lza_pad_news
+# --table-fields-start--
+# --field-start--
+fieldName=innerId
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=lza_pad_news_id
+indexName=lza_pad_news_lza_pad_news_id_idx
+# --field-end--
+# --field-start--
+fieldName=title
+columnName=lza_pad_news_title
+# --field-end--
+# --field-start--
+fieldName=author
+columnName=lza_pad_news_author
+# --field-end--
+# --field-start--
+fieldName=pubdate
+columnName=lza_pad_news_pubdate
+# --field-end--
+# --field-start--
+fieldName=url
+columnName=lza_pad_news_url
+# --field-end--
+# --field-start--
+fieldName=content
+columnName=lza_pad_news_content
+dataPersister=LONG_STRING
+# --field-end--
+# --field-start--
+fieldName=school_id
+columnName=lza_pad_news_school_id
+# --field-end--
+# --field-start--
+fieldName=type
+columnName=lza_pad_news_type
+# --field-end--
+# --field-start--
+fieldName=Img1
+columnName=lza_pad_news_img1
+# --field-end--
+# --field-start--
+fieldName=Img2
+columnName=lza_pad_news_img2
+# --field-end--
+# --field-start--
+fieldName=Img3
+columnName=lza_pad_news_img3
+# --field-end--
+# --field-start--
+fieldName=imgPath
+columnName=lza_pad_news_img_path
+# --field-end--
+# --field-start--
+fieldName=updateDate
+columnName=lza_pad_news_update_date
+# --field-end--
+# --field-start--
+fieldName=updateCount
+columnName=lza_pad_news_update_count
+# --field-end--
+# --field-start--
+fieldName=clickCount
+columnName=lza_pad_news_click_count
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

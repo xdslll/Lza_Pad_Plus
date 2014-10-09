@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/UniversalMatchParent"
+    android:background="@drawable/navigation_bg">
+    <RadioGroup
+        style="@style/UniversalMatchParent"
+        android:id="@+id/footer_navigation_group"
+        android:orientation="horizontal"
+        />
+</HorizontalScrollView>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- header.xml -->
+    <style name="Header_DigitalClock" parent="UniversalWrapContent">
+        <item name="android:paddingLeft">30dp</item>
+    </style>
+</resources>

@@ -1,0 +1,2 @@
+include ':lza_pad_lib', ':lza_pad', ':lza_pad_core', ':actionbarsherlock'
+include ':aphidFlipViewLibrary'

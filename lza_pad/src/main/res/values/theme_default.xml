@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BaseTheme" parent="Theme.Sherlock.NoActionBar">
+        <item name="android:windowBackground">@color/whitesmoke</item>
+    </style>
+
+    <style name="PreferenceTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+
+    </style>
+
+    <!--<style name="ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_stacked_solid_inverse_holo</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_inverse_holo</item>
+        <item name="android:titleTextStyle">@style/ActionBar.Title.Text</item>
+        <item name="android:subtitleTextStyle">@style/ActionBar.Subtitle.Text</item>
+    </style>
+
+    <style name="ActionBar.Title.Text" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ActionBar.Subtitle.Text" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="DefaultTheme">
+
+    </style>-->
+
+    <!-- ebook_list_old_old.xml -->
+
+    <!-- 通用背景布局 -->
+    <style name="ModuleBackground" parent="UniversalMatchParent">
+        <item name="android:background">@drawable/ebook_list_bg</item>
+    </style>
+
+    <!-- 标题文字样式 -->
+    <style name="EbookListTitle" parent="UniversalWrapContent">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/module_title_text_color</item>
+    </style>
+
+    <!-- 标题学科按钮样式 -->
+    <style name="EbookListSubjectButton" parent="UniversalWrapContent">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@drawable/subject_button</item>
+    </style>
+
+</resources>

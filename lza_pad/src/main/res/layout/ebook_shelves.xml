@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    style="@style/ModuleBackground">
+    <com.lza.pad.ui.widget.TitleBar
+        style="@style/UniversalMatchAndWrap"
+        tool:title="@string/ebook_list_title"
+        tool:titleVisibility="true"
+        tool:subjectVisiblity="true"
+        android:layout_alignParentTop="true"
+        android:id="@+id/ebook_list_title_bar"
+        />
+
+    <com.lza.pad.ui.widget.ShelvesView
+        style="@style/UniversalMatchParent"
+        android:cacheColorHint="#00000000"
+        android:listSelector="@android:color/transparent"
+        tool:shelfBackground="@drawable/ebook_list_shelf_bg_short"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_below="@id/ebook_list_title_bar"
+        android:id="@+id/ebook_list_grid_shelves"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pagebtn_left"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+
+        android:id="@+id/ebook_list_page_prev"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pagebtn_right"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+
+        android:id="@+id/ebook_list_page_next"
+        />
+</RelativeLayout>

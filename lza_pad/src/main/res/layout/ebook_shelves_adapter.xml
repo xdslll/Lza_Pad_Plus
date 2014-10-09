@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.lza.pad.ui.widget.ShelvesView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    style="@style/UniversalMatchParent"
+    android:cacheColorHint="#00000000"
+    android:listSelector="@android:color/transparent"
+    tool:shelfBackground="@drawable/ebook_list_shelf_bg_short"
+    android:stretchMode="columnWidth"
+    android:gravity="center"
+    android:layout_below="@id/ebook_list_title_bar"
+    android:id="@+id/ebook_list_grid_shelves"
+    />
