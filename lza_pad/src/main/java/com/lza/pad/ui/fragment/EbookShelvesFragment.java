@@ -1,8 +1,11 @@
 package com.lza.pad.ui.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,10 @@ import com.lza.pad.ui.adapter.EbookAdapter;
 import com.lza.pad.ui.drawable.FastBitmapDrawable;
 import com.lza.pad.ui.widget.ShelvesView;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -37,24 +43,42 @@ public class EbookShelvesFragment extends AbstractFragment
     private EbookAdapter mAdapter;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ebook_shelves, container, false);
         mGrid = (ShelvesView) view.findViewById(R.id.ebook_list_grid_shelves);
         mBtnPrev = (Button) view.findViewById(R.id.ebook_list_page_prev);
         mBtnNext = (Button) view.findViewById(R.id.ebook_list_page_next);
 
+        //初始化当前页数
+        mCurrentPage = mNavInfo.getApiPagePar();
+        if (mCurrentPage - 1 <= 0) {
+            mBtnPrev.setVisibility(View.GONE);
+        }
         mBtnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mCurrentPage--;
+                if (mCurrentPage - 1 > 0) {
+                    mBtnPrev.setVisibility(View.GONE);
+                    mCurrentPage++;
+                } else {
+                    mNavInfo.setApiPagePar(mCurrentPage);
+                    getLoaderManager().restartLoader(LOADER_ID, null, EbookShelvesFragment.this);
+                    mBtnNext.setVisibility(View.VISIBLE);
+                }
             }
         });
 
         mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int nextPage = mNavInfo.getApiPagePar() + 1;
-                mNavInfo.setApiPagePar(nextPage);
+                mCurrentPage++;
+                mNavInfo.setApiPagePar(mCurrentPage);
                 getLoaderManager().restartLoader(LOADER_ID, null, EbookShelvesFragment.this);
             }
         });
@@ -100,22 +124,27 @@ public class EbookShelvesFragment extends AbstractFragment
         int width = mGrid.getWidth();
         int height = mGrid.getHeight();
 
+        if (data != null) {
+            for (Ebook ebook : data) {
+                setCache(ebook.getImgPath());
+            }
+        }
         if (mAdapter == null) {
             mData = data;
             mAdapter = new EbookAdapter(getActivity(), mData, width, height);
             mDefaultCover = mAdapter.getDefaultCover();
             mGrid.setAdapter(mAdapter);
         } else {
-            //mData = data;
             if (mData != null) {
                 mData.clear();
+                for (int i = 0; i < data.size(); i++) {
+                    mData.add(data.get(i));
+                }
+                mAdapter.notifyDataSetChanged();
+                mBtnPrev.setVisibility(View.VISIBLE);
             } else {
-                mData = new ArrayList<Ebook>();
+                mBtnNext.setVisibility(View.GONE);
             }
-            for (int i = 0; i < data.size(); i++) {
-                mData.add(data.get(i));
-            }
-            mAdapter.notifyDataSetChanged();
         }
 
         /*final ShelvesView grid = mGrid;
@@ -131,6 +160,55 @@ public class EbookShelvesFragment extends AbstractFragment
         /*mGridPosition = getLayoutInflater().inflate(R.layout.grid_position, null);
         mGridPositionText = (TextView) mGridPosition.findViewById(R.id.text);*/
     }
+
+    public static void setCache(String filePath) {
+        //BitmapFactory.Options opts = new BitmapFactory.Options();
+        //opts.inJustDecodeBounds = true;
+        //Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+        //int w = opts.outWidth;
+        //int h = opts.outHeight;
+        //Matrix m = new Matrix();
+        //m.postScale(1.0f, 1.0f);
+        //bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
+        //setCache(filePath, bitmap);
+
+        BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+        bfOptions.inDither = false;
+        bfOptions.inPurgeable = true;
+        bfOptions.inTempStorage = new byte[24 * 1024];
+        // bfOptions.inJustDecodeBounds = true;
+        File file = new File(filePath);
+        FileInputStream fs = null;
+        try {
+            fs = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Bitmap bmp = null;
+        if(fs != null)
+            try {
+                bmp = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
+                setCache(filePath, bmp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally{
+                if(fs!=null) {
+                    try {
+                        fs.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+    }
+    public static void setCache(String key, Bitmap value) {
+        sCache.put(key, value);
+    }
+    public static Bitmap getCache(String key) {
+        return sCache.get(key);
+    }
+
+    public static LruCache<String, Bitmap> sCache = new LruCache<String, Bitmap>(100);
 
     @Override
     public Loader<List<Ebook>> onCreateLoader(int id, Bundle args) {

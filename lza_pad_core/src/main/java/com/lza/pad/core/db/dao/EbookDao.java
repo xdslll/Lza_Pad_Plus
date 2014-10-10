@@ -129,8 +129,9 @@ public class EbookDao extends BaseDao<Ebook, Integer> {
 
             //获取图片缓存的目录并清空
             File imgCacheDir = RuntimeUtility.createImgCacheDirAndClear(navInfo);
-            AppLogger.e("imgCacheDir-->" + imgCacheDir.getAbsolutePath());
-
+            if (imgCacheDir != null) {
+                AppLogger.e("imgCacheDir-->" + imgCacheDir.getAbsolutePath());
+            }
             //更新时间
             long date = new Date().getTime();
             data.setUpdateDate(date);

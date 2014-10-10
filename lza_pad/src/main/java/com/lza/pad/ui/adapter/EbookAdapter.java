@@ -19,6 +19,7 @@ import com.lza.pad.R;
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.ui.adapter.utils.ImageUtilities;
 import com.lza.pad.ui.drawable.FastBitmapDrawable;
+import com.lza.pad.ui.fragment.EbookShelvesFragment;
 
 import java.util.List;
 
@@ -93,24 +94,29 @@ public class EbookAdapter extends BaseAdapter {
         //holder.title.setText(mEbooks.get(position).getName());
 
 
-        Drawable drawable = BitmapDrawable.createFromPath(ebook.getImgPath());
+        //Drawable drawable = BitmapDrawable.createFromPath(ebook.getImgPath());
 
+        String file = ebook.getImgPath();
+        Bitmap bitmap = EbookShelvesFragment.getCache(file);
+        Drawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);
         if (drawable != null) {
-            /*Bitmap bitmap = drawable.get
+        /*if (drawable != null) {
+            Bitmap bitmap = drawable.get
             Matrix matrix = new Matrix();
             matrix.postScale(2.0f, 2.0f);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0,
                     bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            BitmapDrawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);*/
+            BitmapDrawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);*//**//*
             drawable = zoomDrawable(drawable,
                     (int) (drawable.getIntrinsicWidth() * 2.5),
-                    (int) (drawable.getIntrinsicHeight() * 2.5));
+                    (int) (drawable.getIntrinsicHeight() * 2.5));*/
 
             holder.title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable);
         } else {
             holder.title.setCompoundDrawablesWithIntrinsicBounds(null, null, null,
                     ImageUtilities.getCachedCover(String.valueOf(position), mDefaultCover));
         }
+
         return convertView;
     }
 
