@@ -31,6 +31,7 @@ import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.lib.support.utils.UniversalUtility;
 import com.lza.pad.ui.adapter.ModulePreferenceListAdapter;
 import com.lza.pad.ui.fragment.AbstractListFragment;
+import com.lza.pad.ui.fragment.preference.old.MainPreferenceActivity;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ import java.util.List;
  * @author xiads
  * @Date 14-9-15.
  */
-public class ModulePreference extends AbstractListFragment
+public class ModulePreferenceFragment extends AbstractListFragment
         implements LoaderManager.LoaderCallbacks<List<NavigationInfo>>,
         MainPreferenceActivity.OnBackClickListener {
 

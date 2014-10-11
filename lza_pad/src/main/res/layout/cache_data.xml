@@ -3,13 +3,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-<Button
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="@string/cache_begin"
-    android:layout_margin="5dp"
-    android:id="@+id/cache_data_start"
-    />
+    android:gravity="center">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="@string/cache_current_page"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/cache_default_page"
+            android:id="@+id/cache_data_page_propmt"
+            />
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cache_edit_page"
+        android:layout_weight="1"
+        android:id="@+id/cache_data_edit_page"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cache_begin"
+        android:layout_weight="1"
+        android:id="@+id/cache_data_start"
+        />
+</LinearLayout>
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

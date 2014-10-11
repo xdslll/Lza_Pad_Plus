@@ -1,7 +1,9 @@
-package com.lza.pad.ui.fragment.preference;
+package com.lza.pad.ui.fragment.preference.old;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.lza.pad.ui.fragment.preference.BasePreferenceActivity;
 
 /**
  * Say something about this class

@@ -1,6 +1,7 @@
-package com.lza.pad.ui.fragment.preference;
+package com.lza.pad.ui.fragment.preference.old;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -12,6 +13,7 @@ import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.utils.RuntimeUtility;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.lib.support.utils.UniversalUtility;
+import com.lza.pad.ui.fragment.preference.old.AbstractPreferenceActivity;
 
 /**
  * Say something about this class
@@ -20,7 +22,7 @@ import com.lza.pad.lib.support.utils.UniversalUtility;
  * @Date 14-9-14.
  */
 @Deprecated
-public class GlobalPreference extends AbstractPreferenceFragment {
+public class GlobalPreferenceActivity extends AbstractPreferenceActivity {
 
     private EditTextPreference mPrefApiUrl, mPrefCityCode, mPrefUniCode, mPrefDeviceCode;
     private static final String PREF_API_URL = "global_api_url";
@@ -29,14 +31,21 @@ public class GlobalPreference extends AbstractPreferenceFragment {
     private static final String PREF_DEVICE_CODE = "global_api_device_code";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_global);
     }
 
     @Override
-    public void onResume() {
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        getSupportActionBar().setSelectedNavigationItem(0);
+    }
+
+    @Override
+    protected void onResume() {
         super.onResume();
+        getSupportActionBar().setSelectedNavigationItem(0);
         mPrefApiUrl = (EditTextPreference) getPreferenceScreen().findPreference(PREF_API_URL);
         mPrefCityCode = (EditTextPreference) getPreferenceScreen().findPreference(PREF_CITY_CODE);
         mPrefUniCode = (EditTextPreference) getPreferenceScreen().findPreference(PREF_UNIVERSITY_CODE);
@@ -134,12 +143,11 @@ public class GlobalPreference extends AbstractPreferenceFragment {
                 return true;
             }
         });
-
     }
 
     private void showDialog(DialogInterface.OnClickListener onClickListener) {
         UniversalUtility.showDialog(
-                getActivity(),
+                this,
                 R.string.pref_glb_api_update_title,
                 R.string.pref_glb_api_message,
                 onClickListener,
@@ -151,8 +159,4 @@ public class GlobalPreference extends AbstractPreferenceFragment {
                 });
     }
 
-    @Override
-    public void onBack(Object tag) {
-        //ToastUtilsSimplify.show("Oh, it's work!");
-    }
 }

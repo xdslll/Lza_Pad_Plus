@@ -3,23 +3,24 @@ package com.lza.pad.ui.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.lza.pad.R;
 import com.lza.pad.core.db.model.Ebook;
-import com.lza.pad.ui.adapter.utils.ImageUtilities;
+import com.lza.pad.core.db.model.NavigationInfo;
+import com.lza.pad.core.utils.Consts;
+import com.lza.pad.core.utils.RuntimeUtility;
+import com.lza.pad.lib.support.network.VolleySingleton;
 import com.lza.pad.ui.drawable.FastBitmapDrawable;
-import com.lza.pad.ui.fragment.EbookShelvesFragment;
 
 import java.util.List;
 
@@ -29,31 +30,35 @@ import java.util.List;
  * @author xiads
  * @Date 14-9-14.
  */
-public class EbookAdapter extends BaseAdapter {
+public class EbookAdapter extends BaseAdapter implements Consts {
 
     private final Context mContext;
     private final LayoutInflater mInflater;
     private List<Ebook> mEbooks;
+    private NavigationInfo mNavInfo;
     private final Bitmap mDefaultCoverBitmap;
     private final FastBitmapDrawable mDefaultCover;
     private final int W;
     private final int H;
+    private final int mRowNumber, mColNumber, mItemMaxW, mItemMaxH;
+    private final float mImgScaling;
 
-    public EbookAdapter(Context context, List<Ebook> ebooks, int w, int h) {
+    public EbookAdapter(Context context, List<Ebook> ebooks, NavigationInfo navInfo, int w, int h) {
         this.mContext = context;
         this.mEbooks = ebooks;
+        this.mNavInfo = navInfo;
         this.mInflater = LayoutInflater.from(mContext);
-        //BitmapFactory.Options opt = new BitmapFactory.Options();
-        //opt.inSampleSize = 1;
-        mDefaultCoverBitmap = BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.unknown_cover);
-        Matrix matrix = new Matrix();
-        matrix.postScale(2.0f,2.0f);
-        Bitmap temp = Bitmap.createBitmap(mDefaultCoverBitmap, 0, 0,
-                mDefaultCoverBitmap.getWidth(), mDefaultCoverBitmap.getHeight(), matrix, true);
-        this.mDefaultCover = new FastBitmapDrawable(temp);
-        W = w;
-        H = h;
+
+        this.W = w;
+        this.H = h;
+        this.mRowNumber = navInfo.getDataRowNumber();
+        this.mColNumber = navInfo.getDataColumnNumber();
+        this.mItemMaxW = W / mColNumber;
+        this.mItemMaxH = H / mRowNumber;
+        this.mImgScaling = navInfo.getImgScaling();
+        setUnknowCover(context, mItemMaxW, mItemMaxH, mImgScaling);
+        this.mDefaultCoverBitmap = getCache(KEY_CACHE_UNKNOWN_COVER);
+        this.mDefaultCover = new FastBitmapDrawable(mDefaultCoverBitmap);
     }
 
     public FastBitmapDrawable getDefaultCover() {
@@ -82,67 +87,126 @@ public class EbookAdapter extends BaseAdapter {
 
         if (convertView == null) {
             holder = new BookViewHolder();
-            convertView = mInflater.inflate(R.layout.shelf_book, null);
+            if (mNavInfo.getRunningMode() == 0) {
+                convertView = mInflater.inflate(R.layout.shelf_book_db, null);
+            } else {
+                convertView = mInflater.inflate(R.layout.shelf_book_net, null);
+            }
             convertView.setTag(holder);
         } else {
             holder = (BookViewHolder) convertView.getTag();
         }
 
-        holder.title = (TextView) convertView.findViewById(R.id.title);
-        holder.title.setLayoutParams(new AbsListView.LayoutParams(W / 4, H / 4));
-        holder.title.setPadding(0, 0, 0, 30);
-        //holder.title.setText(mEbooks.get(position).getName());
+        /*int maxW = W / mNavInfo.getDataColumnNumber();
+        int maxH = H / mNavInfo.getDataRowNumber();*/
+        //int width = (int) (maxW * mImgScaling);
+        //int height = (int) (maxH * mImgScaling);
+        holder.imgView = (ImageView) convertView.findViewById(R.id.title);
 
-
-        //Drawable drawable = BitmapDrawable.createFromPath(ebook.getImgPath());
-
-        String file = ebook.getImgPath();
-        Bitmap bitmap = EbookShelvesFragment.getCache(file);
-        Drawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);
-        if (drawable != null) {
-        /*if (drawable != null) {
-            Bitmap bitmap = drawable.get
-            Matrix matrix = new Matrix();
-            matrix.postScale(2.0f, 2.0f);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                    bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            BitmapDrawable drawable = new BitmapDrawable(mContext.getResources(), bitmap);*//**//*
-            drawable = zoomDrawable(drawable,
-                    (int) (drawable.getIntrinsicWidth() * 2.5),
-                    (int) (drawable.getIntrinsicHeight() * 2.5));*/
-
-            holder.title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable);
+        if (mNavInfo.getRunningMode() == 0) {
+            holder.imgView.setLayoutParams(new AbsListView.LayoutParams(mItemMaxW, mItemMaxH));
+            holder.imgView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            String filePath = RuntimeUtility.getEbookImageFilePath(ebook);
+            Bitmap bitmap = null;
+            if (filePath != null) {
+                //bitmap = BitmapFactory.decodeFile(filePath);
+                setCache(filePath, mItemMaxW, mItemMaxH, mImgScaling);
+                bitmap = getCache(filePath);
+                if (bitmap != null) {
+                    holder.imgView.setImageBitmap(bitmap);
+                } else {
+                    holder.imgView.setImageDrawable(mDefaultCover);
+                }
+            } else {
+                holder.imgView.setImageDrawable(mDefaultCover);
+            }
         } else {
-            holder.title.setCompoundDrawablesWithIntrinsicBounds(null, null, null,
-                    ImageUtilities.getCachedCover(String.valueOf(position), mDefaultCover));
-        }
+            holder.container = (LinearLayout) convertView.findViewById(R.id.shelf_container);
+            holder.container.setLayoutParams(new AbsListView.LayoutParams(mItemMaxW, mItemMaxH));
+            /*int width = (int) (mItemMaxW * mImgScaling);
+            int height = (int) (mItemMaxH * mImgScaling);*/
 
+            double bW = mItemMaxW * mImgScaling;
+            double bH = (double) mItemMaxH / mItemMaxW * bW;
+
+            if (bH > mItemMaxH * mImgScaling) {
+                bH = mItemMaxH * mImgScaling;
+                bW = (double) mItemMaxW / mItemMaxH * bH;
+            }
+            holder.imgView.setLayoutParams(new LinearLayout.LayoutParams((int) bW, (int) bH));
+            holder.imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            String url = RuntimeUtility.getEbookImageUrl(ebook);
+            ((NetworkImageView) holder.imgView).setDefaultImageResId(R.drawable.ebook_list_item_no_cover);
+            ((NetworkImageView) holder.imgView).setErrorImageResId(R.drawable.ebook_list_item_no_cover);
+            ((NetworkImageView) holder.imgView).setImageUrl(url, VolleySingleton.getInstance(mContext).getImageLoader());
+        }
         return convertView;
     }
 
-    static Bitmap drawableToBitmap(Drawable drawable) // drawable 转换成 bitmap
-    {
-        int width = drawable.getIntrinsicWidth();   // 取 drawable 的长宽
-        int height = drawable.getIntrinsicHeight();
-        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888:Bitmap.Config.RGB_565;         // 取 drawable 的颜色格式
-        Bitmap bitmap = Bitmap.createBitmap(width, height, config);     // 建立对应 bitmap
-        Canvas canvas = new Canvas(bitmap);         // 建立对应 bitmap 的画布
-        drawable.setBounds(0, 0, width, height);
-        drawable.draw(canvas);      // 把 drawable 内容画到画布中
-        return bitmap;
+    /**
+     * 生成图片缓存
+     *
+     * @param filePath 文件路径
+     * @param maxW 单元格宽度
+     * @param maxH 单元格高度
+     */
+    public static void setCache(String filePath, int maxW, int maxH, float imgScaling) {
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inDither = false;
+        opt.inPurgeable = true;
+        opt.inTempStorage = new byte[24 * 1024];
+        //opt.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, opt);
+        bitmap = zoomInOrOutBitmap(bitmap, maxW, maxH, imgScaling);
+        if (filePath != null && bitmap != null) {
+            setCache(filePath, bitmap);
+        }
     }
 
-    static Drawable zoomDrawable(Drawable drawable, int w, int h)
-    {
-        int width = drawable.getIntrinsicWidth();
-        int height= drawable.getIntrinsicHeight();
-        Bitmap oldbmp = drawableToBitmap(drawable); // drawable 转换成 bitmap
-        Matrix matrix = new Matrix();   // 创建操作图片用的 Matrix 对象
-        float scaleWidth = ((float)w / width);   // 计算缩放比例
-        float scaleHeight = ((float)h / height);
-        matrix.postScale(scaleWidth, scaleHeight);         // 设置缩放比例
-        Bitmap newbmp = Bitmap.createBitmap(oldbmp, 0, 0, width, height, matrix, true);       // 建立新的 bitmap ，其内容是对原 bitmap 的缩放后的图
-        return new BitmapDrawable(newbmp);       // 把 bitmap 转换成 drawable 并返回
+    public static Bitmap zoomInOrOutBitmap(Bitmap bitmap, int maxW, int maxH, float imgScaling) {
+        //计算缩小或放大比例
+        if (bitmap != null) {
+            int bmpW = bitmap.getWidth();
+            int bmpH = bitmap.getHeight();
+
+            double newBmpW = maxW * imgScaling;
+            double newBmpH = (double) bmpH / bmpW * newBmpW;
+
+            if (newBmpH > maxH * imgScaling) {
+                newBmpH = maxH * imgScaling;
+                newBmpW = (double) bmpW / bmpH * newBmpH;
+            }
+            if (bmpW > 0 && bmpH >0) {
+                float sx = (float) newBmpW / bmpW;
+                float sy = (float) newBmpH / bmpH;
+                Matrix matrix = new Matrix();
+                matrix.postScale(sx, sy);
+                return Bitmap.createBitmap(bitmap, 0, 0, bmpW, bmpH, matrix, true);
+            }
+        }
+        return null;
     }
 
+    public static void setUnknowCover(Context context, int maxW, int maxH, float imgScaling) {
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inDither = false;
+        opt.inPurgeable = true;
+        opt.inTempStorage = new byte[24 * 1024];
+        //opt.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.ebook_list_item_no_cover, opt);
+        bitmap = zoomInOrOutBitmap(bitmap, maxW, maxH, imgScaling);
+        if (bitmap != null) {
+            setCache(KEY_CACHE_UNKNOWN_COVER, bitmap);
+        }
+    }
+
+    public static void setCache(String key, Bitmap value) {
+        sCache.put(key, value);
+    }
+    public static Bitmap getCache(String key) {
+        return sCache.get(key);
+    }
+
+    public static LruCache<String, Bitmap> sCache = new LruCache<String, Bitmap>(100);
 }

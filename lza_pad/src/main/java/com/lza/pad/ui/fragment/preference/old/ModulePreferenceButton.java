@@ -1,4 +1,4 @@
-package com.lza.pad.ui.fragment.preference;
+package com.lza.pad.ui.fragment.preference.old;
 
 import android.app.AlertDialog;
 import android.content.Context;

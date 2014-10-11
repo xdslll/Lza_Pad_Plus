@@ -45,17 +45,17 @@
     </integer-array>
     <string-array name="navigation_init_activity">
         <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
-        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
-        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
-        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
-        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
-        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
         <item>com.lza.pad.ui.fragment.NewsFragment</item>
         <item>com.lza.pad.ui.fragment.NewsFragment</item>
         <item>com.lza.pad.ui.fragment.NewsFragment</item>
         <item>com.lza.pad.ui.fragment.VideoPlayFragment</item>
-        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
-        <item>com.lza.pad.ui.fragment.EbookListFragment</item>
+        <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
+        <item>com.lza.pad.ui.fragment.HelpFragment</item>
     </string-array>
     <integer-array name="navigation_init_has_title_bar">
         <item>1</item>
@@ -125,7 +125,7 @@
         <item>News</item>
         <item>ebook</item>
         <item>ebook</item>
-        <item>ebook</item>
+        <item>help</item>
     </string-array>
     <string-array name="navigation_init_api_action_par">
         <item>getMessage</item>
@@ -238,6 +238,48 @@
         <item>0</item>
         <item>0</item>
         <item>0</item>
+    </integer-array>
+    <string-array name="navigation_init_img_scaling">
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+        <item>0.8</item>
+    </string-array>
+    <integer-array name="navigation_init_running_mode">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </integer-array>
+    <integer-array name="navigation_init_vertical_offset">
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
+        <item>100</item>
     </integer-array>
 
     <integer-array name="api_par_nav_id">

@@ -160,7 +160,10 @@ public class EbookDao extends BaseDao<Ebook, Integer> {
 
             try {
                 if (oldData != null) {
-                    if (data.getId() == oldData.getId()) {
+                    /*if (data.getId() == oldData.getId()) {
+                        return mDao.update(data);
+                    }*/
+                    if (data.equals(oldData)) {
                         return mDao.update(data);
                     }
                 }

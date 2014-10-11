@@ -10,6 +10,8 @@ import android.app.Activity;
  */
 public interface Consts {
 
+    public static final String KEY_CACHE_UNKNOWN_COVER = "unknown_cover";
+
     public static final String REQUEST_CONTROL_TYPE_EBOOK = "ebook";
     public static final String REQUEST_CONTROL_TYPE_EBOOK_JC = "ebook_jc";
     public static final String REQUEST_CONTROL_TYPE_QK_MESSAGE = "qk_message";
@@ -46,6 +48,8 @@ public interface Consts {
     public static final int TASK_EBOOK_NEXT = 0x008;
     public static final int TASK_EBOOK_FINISH = 0x009;
     public static final int TASK_EBOOK_OVER = 0x010;
+
+    public static final int TASK_OVER_WITH_NO_DATA = 0x011;
 
     public static final String REQUEST_TAG = "REQUEST_TAG";
 

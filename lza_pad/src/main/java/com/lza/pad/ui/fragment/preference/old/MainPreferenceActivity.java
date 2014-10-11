@@ -1,4 +1,4 @@
-package com.lza.pad.ui.fragment.preference;
+package com.lza.pad.ui.fragment.preference.old;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +8,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.lza.pad.R;
+import com.lza.pad.ui.fragment.preference.old.AbstractPreferenceActivity;
 
 /**
  * Say something about this class

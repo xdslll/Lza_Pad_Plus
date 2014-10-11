@@ -17,6 +17,8 @@
 package com.lza.pad.ui.adapter;
 
 import android.database.CharArrayBuffer;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lza.pad.ui.drawable.CrossFadeDrawable;
@@ -28,4 +30,6 @@ class BookViewHolder {
     final CharArrayBuffer buffer = new CharArrayBuffer(64);
     boolean queryCover;
     String sortTitle;
+    ImageView imgView;
+    LinearLayout container;
 }

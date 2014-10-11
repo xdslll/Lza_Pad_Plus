@@ -237,4 +237,18 @@ public class HotBook {
     public void setClickCount(int clickCount) {
         this.clickCount = clickCount;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean flag = false;
+        if (o != null && o instanceof HotBook) {
+            String hotBookTitle = ((HotBook) o).getTitle();
+            String hotBookImg = ((HotBook) o).getSmallImg();
+            if (hotBookTitle.equals(this.title) &&
+                    hotBookImg.equals(this.smallImg)) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
 }

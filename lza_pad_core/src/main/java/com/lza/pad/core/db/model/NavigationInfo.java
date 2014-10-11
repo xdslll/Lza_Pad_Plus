@@ -28,9 +28,16 @@ public class NavigationInfo implements Parcelable, Cloneable {
     public static final String _API_CITY_CODE = "navigation_api_city_code";
     public static final String _API_DEVICE_CODE = "navigation_api_device_code";
     public static final String _API_SCHOOL_ID = "navigation_api_school_id_par";
+    public static final String _API_IMG_SCALING = "navigation_img_scaling";
+    public static final String _API_RUNNING_MODE = "navigation_running_mode";
+    public static final String _API_VERTICAL_OFFSET = "navigation_vertical_offset";
 
     public static final String IS_CLOSED_OPEN_VALUE = "0";
     public static final String IS_ACTIVATED_ACTIVATED_VALUE = "1";
+    public static final float DEFAULT_IMG_SCALING = 0.8f;
+
+    public static final int RUNNING_MODE_DB = 0;
+    public static final int RUNNING_MODE_NET = 1;
 
     @DatabaseField(generatedId = true)
     private int id;
@@ -172,6 +179,26 @@ public class NavigationInfo implements Parcelable, Cloneable {
 
     @DatabaseField(columnName = "navigation_api_device_code")
     private int apiDeviceCode;
+
+    /**
+     * 图片缩放比例
+     */
+    @DatabaseField(columnName = "navigation_img_scaling")
+    private float imgScaling;
+
+    /**
+     * 运行模式
+     * 0 - 使用数据库
+     * 1 - 使用网络
+     */
+    @DatabaseField(columnName = "navigation_running_mode")
+    private int runningMode;
+
+    /**
+     * 书架的垂直偏移量
+     */
+    @DatabaseField(columnName = "navigation_vertical_offset", defaultValue = "100")
+    private int verticalOffset;
 
     public NavigationInfo() {}
 
@@ -383,6 +410,30 @@ public class NavigationInfo implements Parcelable, Cloneable {
         this.apiDeviceCode = apiDeviceCode;
     }
 
+    public float getImgScaling() {
+        return imgScaling;
+    }
+
+    public void setImgScaling(float imgScaling) {
+        this.imgScaling = imgScaling;
+    }
+
+    public int getRunningMode() {
+        return runningMode;
+    }
+
+    public void setRunningMode(int runningMode) {
+        this.runningMode = runningMode;
+    }
+
+    public int getVerticalOffset() {
+        return verticalOffset;
+    }
+
+    public void setVerticalOffset(int verticalOffset) {
+        this.verticalOffset = verticalOffset;
+    }
+
     @Override
     public NavigationInfo clone() {
         NavigationInfo o = null;
@@ -427,6 +478,9 @@ public class NavigationInfo implements Parcelable, Cloneable {
         dest.writeString(apiLastId);
         dest.writeInt(apiCityCode);
         dest.writeInt(apiDeviceCode);
+        dest.writeFloat(imgScaling);
+        dest.writeInt(runningMode);
+        dest.writeInt(verticalOffset);
     }
 
     public static final Creator<NavigationInfo> CREATOR =
@@ -460,6 +514,9 @@ public class NavigationInfo implements Parcelable, Cloneable {
                     navInfo.apiLastId = source.readString();
                     navInfo.apiCityCode = source.readInt();
                     navInfo.apiDeviceCode = source.readInt();
+                    navInfo.imgScaling = source.readFloat();
+                    navInfo.runningMode = source.readInt();
+                    navInfo.verticalOffset = source.readInt();
 
                     return navInfo;
                 }

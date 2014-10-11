@@ -52,6 +52,9 @@ public class NavigationInfoDao extends BaseDao<NavigationInfo, Integer> {
         int[] navIsActivate = context.getResources().getIntArray(R.array.navigation_init_is_activate);
         int[] navIsClosed = context.getResources().getIntArray(R.array.navigation_init_is_closed);
         int[] navNewsType = context.getResources().getIntArray(R.array.navigation_init_api_news_type);
+        String[] navImgScaling = context.getResources().getStringArray(R.array.navigation_init_img_scaling);
+        int[] navRunningMode = context.getResources().getIntArray(R.array.navigation_init_running_mode);
+        int[] navVerticalOffset = context.getResources().getIntArray(R.array.navigation_init_vertical_offset);
 
         int length = navNames.length;
         for (int i = 0; i < length; i++) {
@@ -74,6 +77,9 @@ public class NavigationInfoDao extends BaseDao<NavigationInfo, Integer> {
             ni.setIsActivated(navIsActivate[i]);
             ni.setIsClosed(navIsClosed[i]);
             ni.setApiTypePar(navNewsType[i]);
+            ni.setImgScaling(Float.valueOf(navImgScaling[i]));
+            ni.setRunningMode(navRunningMode[i]);
+            ni.setVerticalOffset(navVerticalOffset[i]);
 
             navigationInfos.add(ni);
         }

@@ -20,5 +20,12 @@
     <string name="cache_back">返回</string>
     <string name="cache_starting">正在缓存，请稍候...</string>
     <string name="cache_success">缓存成功！</string>
-
+    <string name="cache_indicate_page">指定更新页数：</string>
+    <string name="cache_init_page">请输入起始页：</string>
+    <string name="cache_final_page">请输入结尾页：</string>
+    <string name="cache_page_link">至</string>
+    <string name="cache_current_page">当前更新页数：</string>
+    <string name="cache_default_page">默认（更新全部页）</string>
+    <string name="cache_edit_page">修改更新页数</string>
+    <string name="cache_page_prompt">提示：结尾页填写-1表示更新到最后一页</string>
 </resources>

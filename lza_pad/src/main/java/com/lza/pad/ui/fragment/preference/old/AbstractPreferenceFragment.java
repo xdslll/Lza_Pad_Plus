@@ -1,4 +1,4 @@
-package com.lza.pad.ui.fragment.preference;
+package com.lza.pad.ui.fragment.preference.old;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -11,7 +11,7 @@ import android.preference.PreferenceFragment;
  */
 @Deprecated
 public abstract class AbstractPreferenceFragment extends PreferenceFragment
-        implements MainPreferenceActivity.OnBackClickListener{
+        implements MainPreferenceActivity.OnBackClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

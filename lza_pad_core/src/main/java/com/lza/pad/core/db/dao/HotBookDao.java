@@ -119,7 +119,10 @@ public class HotBookDao extends BaseDao<HotBook, Integer> {
 
             try {
                 if (oldData != null) {
-                    if (hotBook.getId() == oldData.getId()) {
+                    /*if (hotBook.getId() == oldData.getId()) {
+                        return mDao.update(hotBook);
+                    }*/
+                    if (hotBook.equals(oldData)) {
                         return mDao.update(hotBook);
                     }
                 }

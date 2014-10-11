@@ -1,14 +1,19 @@
 package com.lza.pad.ui.fragment.preference;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
+import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.lza.pad.R;
 import com.lza.pad.core.db.dao.NavigationInfoDao;
-import com.lza.pad.core.db.model.NavigationInfo;
-import com.lza.pad.core.utils.Consts;
+import com.lza.pad.core.utils.ToastUtilsSimplify;
 
 /**
  * Say something about this class
@@ -16,27 +21,23 @@ import com.lza.pad.core.utils.Consts;
  * @author xiads
  * @Date 14-9-15.
  */
-public class ModuleMoreSettings extends AbstractPreferenceFragment implements Consts {
+public class ModuleMoreSettings extends AbstractPreferenceActivity {
 
-    private NavigationInfo mNav;
     private static final String PREF_ROW_NUMBER = "pref_mod_shelves_row_number";
     private static final String PREF_COL_NUMBER = "pref_mod_shelves_col_number";
     private static final String PREF_PREVIEW = "pref_mod_shelves_preview";
     private static final String PREF_API = "pref_mod_more_api";
+    private static final String PREF_IMG_SCALING = "pref_mod_shelves_img_scaling";
 
     private EditTextPreference mRowPref;
     private EditTextPreference mColPref;
-    private PreferenceScreen mApiPref;
-
+    private PreferenceScreen mApiPref, mImgScalingPref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_module_more);
-        Bundle arg = getArguments();
-        if (arg != null) {
-            mNav = arg.getParcelable(KEY_NAVIGATION_INFO);
-        }
+        //Bundle arg = getArguments();
     }
 
     @Override
@@ -46,12 +47,16 @@ public class ModuleMoreSettings extends AbstractPreferenceFragment implements Co
         mRowPref = (EditTextPreference) getPreferenceScreen().findPreference(PREF_ROW_NUMBER);
         mColPref = (EditTextPreference) getPreferenceScreen().findPreference(PREF_COL_NUMBER);
         mApiPref = (PreferenceScreen) getPreferenceScreen().findPreference(PREF_API);
+        mImgScalingPref = (PreferenceScreen) getPreferenceScreen().findPreference(PREF_IMG_SCALING);
 
         if (mNav != null) {
             int rowNumber = mNav.getDataRowNumber();
             int colNumber = mNav.getDataColumnNumber();
+            float imgScaling = mNav.getImgScaling();
+            int imgScalingInHundred = (int) (imgScaling * 100);
             updateRowTitle(rowNumber);
             updateColTitle(colNumber);
+            updateImgScalingTitle(imgScalingInHundred);
         }
 
         mRowPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -93,11 +98,68 @@ public class ModuleMoreSettings extends AbstractPreferenceFragment implements Co
         mApiPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                ModuleApiSettings apiSettings = new ModuleApiSettings();
+                /*ModuleApiSettings apiSettings = new ModuleApiSettings();
                 apiSettings.setArguments(getArguments());
                 getFragmentManager().beginTransaction()
                         .replace(R.id.pref_container, apiSettings)
-                        .commit();
+                        .commit();*/
+                Intent intent = new Intent(ModuleMoreSettings.this, ModuleApiSettings.class);
+                intent.putExtra(KEY_NAVIGATION_INFO, mNav);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        mImgScalingPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                View view = getLayoutInflater().inflate(R.layout.pref_module_more_img_scaling, null);
+                final SeekBar sebProgress = (SeekBar) view.findViewById(R.id.pref_module_more_img_scaling_seb);
+                final TextView txtProgress = (TextView) view.findViewById(R.id.pref_module_more_img_scaling_progress);
+                float imgScaling = mNav.getImgScaling();
+                int imgScalingInHundred = (int) (imgScaling * 100);
+                txtProgress.setText(imgScalingInHundred + "%");
+                sebProgress.setProgress(imgScalingInHundred);
+                sebProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        txtProgress.setText(progress + "%");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+                new AlertDialog.Builder(ModuleMoreSettings.this)
+                        .setTitle(R.string.pref_glb_api_update_title)
+                        .setView(view)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                int progress = sebProgress.getProgress();
+                                float imgScalingChanged = (float) progress / 100;
+                                if (imgScalingChanged <= 0) {
+                                    ToastUtilsSimplify.show("更新失败！封面图片比例必须大于0！");
+                                } else {
+                                    mNav.setImgScaling(imgScalingChanged);
+                                    NavigationInfoDao.getInstance().updateData(mNav);
+                                    updateImgScalingTitle(progress);
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
                 return true;
             }
         });
@@ -116,10 +178,9 @@ public class ModuleMoreSettings extends AbstractPreferenceFragment implements Co
         mColPref.setTitle(colTitle);
     }
 
-    @Override
-    public void onBack(Object tag) {
-        ModulePreference fragment = new ModulePreference();
-        /*getFragmentManager().beginTransaction()
-                .replace(R.id.pref_container, fragment).commit();*/
+    private void updateImgScalingTitle(int imgScaling) {
+        String imgScalingTitle = String.format(getString
+                (R.string.pref_mod_more_img_scaling_title), imgScaling);
+        mImgScalingPref.setTitle(imgScalingTitle);
     }
 }

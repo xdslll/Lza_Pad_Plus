@@ -1,27 +1,30 @@
 package com.lza.pad.ui.fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.lza.pad.R;
 import com.lza.pad.core.db.loader.EbookLoader;
 import com.lza.pad.core.db.model.Ebook;
+import com.lza.pad.core.db.model.EbookRequest;
+import com.lza.pad.core.db.model.NavigationInfo;
+import com.lza.pad.core.db.strategy.EbookCountStrategy;
+import com.lza.pad.core.request.EbookUrlRequest;
+import com.lza.pad.core.utils.Consts;
 import com.lza.pad.ui.adapter.EbookAdapter;
-import com.lza.pad.ui.drawable.FastBitmapDrawable;
 import com.lza.pad.ui.widget.ShelvesView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -31,45 +34,52 @@ import java.util.List;
  * @Date 14-9-14.
  */
 public class EbookShelvesFragment extends AbstractFragment
-        implements LoaderManager.LoaderCallbacks<List<Ebook>>{
+        implements LoaderManager.LoaderCallbacks<List<Ebook>>, Consts {
 
-    //private ViewSwitcher mViewSwitcher;
     private ShelvesView mGrid;
-    private FastBitmapDrawable mDefaultCover;
     private int mCurrentPage = 0;
     private int mTotalPage = 0;
     private Button mBtnPrev, mBtnNext;
     private final int LOADER_ID = 0;
     private EbookAdapter mAdapter;
+    private int mRowNumber, mColNumber, mVerticalOffset;
+    private float mImgScaling;
+    private List<Ebook> mEbooks = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mImgScaling = mNavInfo.getImgScaling();
+        if (mImgScaling == 0) {
+            mImgScaling = NavigationInfo.DEFAULT_IMG_SCALING;
+        }
+        mRowNumber = mNavInfo.getDataRowNumber();
+        mColNumber = mNavInfo.getDataColumnNumber();
+        mVerticalOffset = mNavInfo.getVerticalOffset();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ebook_shelves, container, false);
         mGrid = (ShelvesView) view.findViewById(R.id.ebook_list_grid_shelves);
+        mGrid.setNumColumns(mColNumber);
+        mGrid.setRowNumber(mRowNumber);
+        mGrid.setVerticalOffset(mVerticalOffset);
+
         mBtnPrev = (Button) view.findViewById(R.id.ebook_list_page_prev);
         mBtnNext = (Button) view.findViewById(R.id.ebook_list_page_next);
 
-        //初始化当前页数
-        mCurrentPage = mNavInfo.getApiPagePar();
-        if (mCurrentPage - 1 <= 0) {
-            mBtnPrev.setVisibility(View.GONE);
-        }
         mBtnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCurrentPage--;
-                if (mCurrentPage - 1 > 0) {
-                    mBtnPrev.setVisibility(View.GONE);
-                    mCurrentPage++;
-                } else {
+                if (mCurrentPage >= 1) {
                     mNavInfo.setApiPagePar(mCurrentPage);
-                    getLoaderManager().restartLoader(LOADER_ID, null, EbookShelvesFragment.this);
-                    mBtnNext.setVisibility(View.VISIBLE);
+                    if (mNavInfo.getRunningMode() == 0) {
+                        getLoaderManager().restartLoader(LOADER_ID, null, EbookShelvesFragment.this);
+                    } else {
+                        loadFromNetwork();
+                    }
                 }
             }
         });
@@ -79,17 +89,13 @@ public class EbookShelvesFragment extends AbstractFragment
             public void onClick(View v) {
                 mCurrentPage++;
                 mNavInfo.setApiPagePar(mCurrentPage);
-                getLoaderManager().restartLoader(LOADER_ID, null, EbookShelvesFragment.this);
+                if (mNavInfo.getRunningMode() == 0) {
+                    getLoaderManager().restartLoader(LOADER_ID, null, EbookShelvesFragment.this);
+                } else {
+                    loadFromNetwork();
+                }
             }
         });
-
-        /*mViewSwitcher = (ViewSwitcher) view.findViewById(R.id.ebook_list_switcher);
-        mViewSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                return getActivity().getLayoutInflater().inflate(R.layout.ebook_shelves_adapter, null);
-            }
-        });*/
         return view;
     }
 
@@ -101,114 +107,94 @@ public class EbookShelvesFragment extends AbstractFragment
     @Override
     public void onResume() {
         super.onResume();
-        getLoaderManager().initLoader(LOADER_ID, null, this);
+        //初始化当前页数
+        mCurrentPage = mNavInfo.getApiPagePar();
+        if (mCurrentPage == 1) {
+            mBtnPrev.setVisibility(View.GONE);
+        } else {
+            mBtnPrev.setVisibility(View.VISIBLE);
+        }
+        if (mNavInfo.getRunningMode() == 0) {
+            getLoaderManager().initLoader(LOADER_ID, null, this);
+        } else {
+            loadFromNetwork();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mGrid = null;
-        mDefaultCover = null;
     }
-
-    private FastBitmapDrawable getDefaultCover() {
-        return mDefaultCover;
-    }
-
-    private List<Ebook> mData = null;
 
     private void setupViews(List<Ebook> data) {
 
-        //mGrid = (ShelvesView) mViewSwitcher.getNextView();
-        mGrid.setNumColumns(4);
-        int width = mGrid.getWidth();
-        int height = mGrid.getHeight();
+        if (mGrid != null) {
+            int width = mGrid.getWidth();
+            int height = mGrid.getHeight();
+            int maxW = width / mColNumber;
+            int maxH = height / mRowNumber;
 
-        if (data != null) {
-            for (Ebook ebook : data) {
-                setCache(ebook.getImgPath());
-            }
-        }
-        if (mAdapter == null) {
-            mData = data;
-            mAdapter = new EbookAdapter(getActivity(), mData, width, height);
-            mDefaultCover = mAdapter.getDefaultCover();
-            mGrid.setAdapter(mAdapter);
-        } else {
-            if (mData != null) {
-                mData.clear();
-                for (int i = 0; i < data.size(); i++) {
-                    mData.add(data.get(i));
-                }
-                mAdapter.notifyDataSetChanged();
-                mBtnPrev.setVisibility(View.VISIBLE);
+            if (mAdapter == null) {
+                mEbooks = data;
+                mAdapter = new EbookAdapter(getActivity(), mEbooks, mNavInfo, width, height);
+                mGrid.setAdapter(mAdapter);
             } else {
-                mBtnNext.setVisibility(View.GONE);
+                if (mEbooks != null) {
+                    mEbooks.clear();
+                    for (int i = 0; i < data.size(); i++) {
+                        mEbooks.add(data.get(i));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
             }
-        }
 
-        /*final ShelvesView grid = mGrid;
-        grid.setTextFilterEnabled(true);
-        grid.setAdapter(adapter);
-        grid.setOnScrollListener(new ShelvesScrollManager());
-        grid.setOnTouchListener(new FingerTracker());
-        grid.setOnItemSelectedListener(new SelectionTracker());
-        grid.setOnItemClickListener(new BookViewer());
+            mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (mEbooks != null && mEbooks.size() > 0) {
+                        Ebook ebook = mEbooks.get(position);
+                        EbookContentFragment fragment = new EbookContentFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(KEY_NAVIGATION_INFO, mNavInfo);
+                        bundle.putParcelable(KEY_EBOOK_INFO, ebook);
 
-        registerForContextMenu(grid);*/
+                        fragment.setArguments(bundle);
 
-        /*mGridPosition = getLayoutInflater().inflate(R.layout.grid_position, null);
-        mGridPositionText = (TextView) mGridPosition.findViewById(R.id.text);*/
-    }
-
-    public static void setCache(String filePath) {
-        //BitmapFactory.Options opts = new BitmapFactory.Options();
-        //opts.inJustDecodeBounds = true;
-        //Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-        //int w = opts.outWidth;
-        //int h = opts.outHeight;
-        //Matrix m = new Matrix();
-        //m.postScale(1.0f, 1.0f);
-        //bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
-        //setCache(filePath, bitmap);
-
-        BitmapFactory.Options bfOptions = new BitmapFactory.Options();
-        bfOptions.inDither = false;
-        bfOptions.inPurgeable = true;
-        bfOptions.inTempStorage = new byte[24 * 1024];
-        // bfOptions.inJustDecodeBounds = true;
-        File file = new File(filePath);
-        FileInputStream fs = null;
-        try {
-            fs = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Bitmap bmp = null;
-        if(fs != null)
-            try {
-                bmp = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
-                setCache(filePath, bmp);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }finally{
-                if(fs!=null) {
-                    try {
-                        fs.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        Fragment oldFrt = fm.findFragmentByTag(EbookContentFragment.EBOOK_CONTENT_TAG);
+                        if (oldFrt != null) {
+                            ft.remove(oldFrt);
+                        }
+                        ft.add(R.id.home_container, fragment, EbookContentFragment.EBOOK_CONTENT_TAG).commit();
                     }
                 }
-            }
-    }
-    public static void setCache(String key, Bitmap value) {
-        sCache.put(key, value);
-    }
-    public static Bitmap getCache(String key) {
-        return sCache.get(key);
+            });
+            caclTotalPages();
+        }
     }
 
-    public static LruCache<String, Bitmap> sCache = new LruCache<String, Bitmap>(100);
+    private void caclTotalPages() {
+        if (mTotalPage == 0) {
+            EbookCountStrategy countStrategy = new EbookCountStrategy(mNavInfo);
+            long dataAmount = countStrategy.operation();
+            long pageSize = mNavInfo.getApiPageSizePar();
+            float _maxPage = (float) dataAmount / pageSize;
+            mTotalPage = (int) Math.ceil(_maxPage);
+        } else {
+            mCurrentPage = mNavInfo.getApiPagePar();
+            if (mCurrentPage == 1) {
+                mBtnPrev.setVisibility(View.GONE);
+            } else {
+                if (mCurrentPage < mTotalPage) {
+                    mBtnPrev.setVisibility(View.VISIBLE);
+                    mBtnNext.setVisibility(View.VISIBLE);
+                } else {
+                    mBtnNext.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
 
     @Override
     public Loader<List<Ebook>> onCreateLoader(int id, Bundle args) {
@@ -223,5 +209,30 @@ public class EbookShelvesFragment extends AbstractFragment
     @Override
     public void onLoaderReset(Loader<List<Ebook>> loader) {
         loader.forceLoad();
+    }
+
+    private void loadFromNetwork() {
+        EbookUrlRequest request = new EbookUrlRequest<EbookRequest>(mNavInfo,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                },
+                new Response.Listener<EbookRequest>() {
+
+                    @Override
+                    public void onResponse(EbookRequest ebookRequest) {
+                        if (ebookRequest != null) {
+                            mEbooks = ebookRequest.getContents();
+                            if (mEbooks != null) {
+                                setupViews(mEbooks);
+                            }
+                            mTotalPage = ebookRequest.getYe();
+                        }
+                    }
+                },
+                EbookRequest.class);
+        request.send();
     }
 }

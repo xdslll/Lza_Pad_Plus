@@ -1,7 +1,6 @@
 package com.lza.pad.ui.fragment.preference;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,11 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lza.pad.R;
-import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.db.dao.EbookDao;
 import com.lza.pad.core.db.dao.NavigationInfoDao;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.request.EbookRequestTask;
+import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.lib.support.utils.UniversalUtility;
 
@@ -183,14 +182,14 @@ public class ModulePreferenceItem extends Preference implements Consts {
             mBtnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ModuleMoreSettings preference = new ModuleMoreSettings();
+                    /*ModuleMoreSettings preference = new ModuleMoreSettings();
                     if (mNav != null) {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(Consts.KEY_NAVIGATION_INFO, mNav);
                         preference.setArguments(bundle);
                     }
                     FragmentTransaction ft = mActivity.getFragmentManager().beginTransaction();
-                    ft.replace(R.id.pref_container, preference).commit();
+                    ft.replace(R.id.pref_container, preference).commit();*/
                 }
             });
             mBtnCache.setOnClickListener(new View.OnClickListener() {

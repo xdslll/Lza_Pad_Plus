@@ -9,14 +9,14 @@
             android:key="pref_mod_more_api"
             />
     </PreferenceCategory>
-    <PreferenceCategory
+    <!--<PreferenceCategory
         android:title="模板设置">
         <PreferenceScreen
             android:title="模板设置"
             android:summary="设置电子图书模块模板"
             android:key="pref_mod_more_template"
             />
-    </PreferenceCategory>
+    </PreferenceCategory>-->
     <PreferenceCategory
         android:title="书架设置">
         <EditTextPreference
@@ -28,6 +28,11 @@
             android:title="书架的列设置"
             android:summary="@string/pref_mod_more_col_summary"
             android:key="pref_mod_shelves_col_number"
+            />
+        <PreferenceScreen
+            android:title="封面图片显示比例"
+            android:summary="@string/pref_mod_more_img_scaling"
+            android:key="pref_mod_shelves_img_scaling"
             />
     </PreferenceCategory>
 

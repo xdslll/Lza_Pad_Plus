@@ -223,6 +223,12 @@ public class Ebook implements Parcelable {
 
     private String Img3;
 
+    /**
+     * 所属页数
+     */
+    //@DatabaseField
+    //private String pageNumber;
+
 
     public Ebook() {}
 
@@ -934,4 +940,20 @@ public class Ebook implements Parcelable {
             return new Ebook[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        boolean flag = false;
+        if (o != null && o instanceof Ebook) {
+            int ebookId = ((Ebook) o).getBookId();
+            String ebookImgUrl = ((Ebook) o).getImgUrl();
+            String ebookName = ((Ebook) o).getName();
+            if (ebookId == bookId &&
+                    ebookImgUrl.equals(imgUrl) &&
+                    ebookName.equals(name)) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
 }

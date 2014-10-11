@@ -49,21 +49,21 @@
             android:launchMode="singleTask"
             />
         <activity
-            android:name=".ui.fragment.preference.MainPreferenceActivity"
+            android:name=".ui.fragment.preference.old.MainPreferenceActivity"
             android:enabled="true"
             android:launchMode="singleTask"
             android:theme="@style/PreferenceTheme"
             android:uiOptions="splitActionBarWhenNarrow"
             />
         <activity
-            android:name=".ui.fragment.preference.GlobalPreferenceActivity"
+            android:name=".ui.fragment.preference.old.GlobalPreferenceActivity"
             android:enabled="true"
             android:launchMode="singleTask"
             android:theme="@style/PreferenceTheme"
             android:uiOptions="splitActionBarWhenNarrow"
             />
         <activity
-            android:name=".ui.fragment.preference.ModulePreferenceActivity"
+            android:name=".ui.fragment.preference.old.ModulePreferenceActivity"
             android:enabled="true"
             android:launchMode="singleTask"
             android:theme="@style/PreferenceTheme"
@@ -80,6 +80,12 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".ui.activity.main.NewHomeActivity"/>
         <activity android:name=".ui.activity.TestActivity"/>
+        <activity android:name=".ui.fragment.preference.ModuleMoreSettings"
+            android:theme="@style/PreferenceTheme"
+            />
+        <activity android:name=".ui.fragment.preference.ModuleApiSettings"
+            android:theme="@style/PreferenceTheme"
+            />
 
         <service android:name=".ui.service.CacheDataService"
             android:process=":cache"

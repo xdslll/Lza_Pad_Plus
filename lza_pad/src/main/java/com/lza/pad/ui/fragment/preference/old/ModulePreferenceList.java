@@ -1,4 +1,4 @@
-package com.lza.pad.ui.fragment.preference;
+package com.lza.pad.ui.fragment.preference.old;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +23,7 @@ import java.util.List;
  * @author xiads
  * @Date 14-9-15.
  */
+@Deprecated
 public class ModulePreferenceList extends Preference implements Consts {
 
     private Activity mActivity;

@@ -57,12 +57,16 @@ public class RequestTask extends AsyncTask<Void, Void, Void> implements Consts {
                                    NewsDao.getInstance().createOrUpdateNews(ebook);
                                 }
                                 if (mHandler != null) {
-                                    mHandler.sendEmptyMessage(TASK_OVER);
+                                    mHandler.sendEmptyMessage(TASK_OVER_WITH_NO_DATA);
                                 }
-                            }else {
+                            } else {
                                 String endTag = response.getEndTag();
                                 if (!TextUtils.isEmpty(endTag) && endTag.equals(EbookRequest.END_TAG_NOT_FINISH)) {
                                     ArrayList<Ebook> ebooks = (ArrayList<Ebook>) response.getContents();
+                                    if (ebooks == null && mHandler != null) {
+                                        mHandler.sendEmptyMessage(TASK_OVER_WITH_NO_DATA);
+                                        return;
+                                    }
                                     Message msg = new Message();
                                     msg.what = TASK_FINISH;
                                     Bundle bundle = new Bundle();
@@ -78,8 +82,8 @@ public class RequestTask extends AsyncTask<Void, Void, Void> implements Consts {
                                     }
                                 }
                             }
-                        }else {
-                            mHandler.sendEmptyMessage(TASK_OVER);
+                        } else {
+                            mHandler.sendEmptyMessage(TASK_OVER_WITH_NO_DATA);
                         }
                     }
                 },

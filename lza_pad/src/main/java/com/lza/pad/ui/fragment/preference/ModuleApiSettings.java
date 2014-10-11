@@ -8,7 +8,6 @@ import android.preference.PreferenceCategory;
 import com.lza.pad.R;
 import com.lza.pad.core.db.dao.NavigationInfoDao;
 import com.lza.pad.core.db.model.NavigationInfo;
-import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.RuntimeUtility;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 
@@ -18,7 +17,7 @@ import com.lza.pad.core.utils.ToastUtilsSimplify;
  * @author xiads
  * @Date 14-9-23.
  */
-public class ModuleApiSettings extends AbstractPreferenceFragment {
+public class ModuleApiSettings extends AbstractPreferenceActivity {
 
     private static final String PREF_CATEGORY = "global_api_settings";
     private static final String PREF_API_URL = "global_api_url";
@@ -38,14 +37,14 @@ public class ModuleApiSettings extends AbstractPreferenceFragment {
     private PreferenceCategory mPrefCategory;
     private EditTextPreference mPrefApiUrl, mPrefCityCode, mPrefSchoolId, mPrefDeviceCode, mPrefControl, mPrefAction;
 
-    private NavigationInfo mNav;
+    //private NavigationInfo mNav;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_module_more_api);
-        Bundle arg = getArguments();
-        mNav = arg.getParcelable(Consts.KEY_NAVIGATION_INFO);
+        //Bundle arg = getArguments();
+        //mNav = arg.getParcelable(Consts.KEY_NAVIGATION_INFO);
     }
 
     @Override
@@ -152,12 +151,12 @@ public class ModuleApiSettings extends AbstractPreferenceFragment {
     }
 
 
-    @Override
+    /*@Override
     public void onBack(Object tag) {
         ModuleMoreSettings moreSettings = new ModuleMoreSettings();
         moreSettings.setArguments(getArguments());
         getFragmentManager().beginTransaction()
                 .replace(R.id.pref_container, moreSettings)
                 .commit();
-    }
+    }*/
 }

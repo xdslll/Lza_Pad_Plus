@@ -1,12 +1,13 @@
-package com.lza.pad.ui.fragment.preference;
+package com.lza.pad.ui.fragment.preference.old;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.lza.pad.R;
 import com.lza.pad.core.utils.GlobalContext;
@@ -19,7 +20,8 @@ import java.util.List;
 /**
  * Created by xiads on 14-9-8.
  */
-public class BasePreferenceActivity extends SherlockFragmentActivity
+@Deprecated
+public class AbstractPreferenceActivity extends SherlockPreferenceActivity
         implements ActionBar.TabListener {
 
     private List<String> mData = new ArrayList<String>();
@@ -38,6 +40,10 @@ public class BasePreferenceActivity extends SherlockFragmentActivity
         GlobalContext.getInstance().setCurrentRunningActivity(this);
         //启动当前Activity的友盟统计
         MobclickAgent.onResume(this);
+
+        /*if (theme != SettingUtility.getAppTheme()) {
+            reload();
+        }*/
     }
 
     @Override
@@ -131,7 +137,6 @@ public class BasePreferenceActivity extends SherlockFragmentActivity
                     .setTabListener(this)
                     .setTag(mTags.get(i)));
         }
-        setContentView(R.layout.pref_home_layout);
     }
 
     @Override
@@ -145,17 +150,7 @@ public class BasePreferenceActivity extends SherlockFragmentActivity
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        if (tab.getTag().equals(TAB_GLOBAL_TAG)) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.pref_container, new GlobalPreferenceFragment())
-                    .commit();
-        } else if (tab.getTag().equals(TAB_MODULE_TAG)) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.pref_container, new ModulePreferenceFragment())
-                    .commit();
-        }
+
     }
 
     @Override
@@ -165,6 +160,10 @@ public class BasePreferenceActivity extends SherlockFragmentActivity
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
+        if (tab.getTag().equals(TAB_GLOBAL_TAG)) {
+            startActivity(new Intent(this, GlobalPreferenceActivity.class));
+        } else if (tab.getTag().equals(TAB_MODULE_TAG)) {
+            startActivity(new Intent(this, ModulePreferenceActivity.class));
+        }
     }
 }

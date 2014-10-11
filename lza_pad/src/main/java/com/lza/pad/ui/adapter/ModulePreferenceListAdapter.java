@@ -1,9 +1,8 @@
 package com.lza.pad.ui.adapter;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,10 +17,10 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.lza.pad.R;
-import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.db.dao.NavigationInfoDao;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.db.strategy.EbookCountStrategy;
+import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.lib.support.utils.UniversalUtility;
 import com.lza.pad.ui.fragment.preference.CacheDataFragment;
@@ -119,14 +118,19 @@ public class ModulePreferenceListAdapter extends BaseAdapter implements Consts {
             viewHolder.mBtnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ModuleMoreSettings preference = new ModuleMoreSettings();
+                    /*ModuleMoreSettings preference = new ModuleMoreSettings();
                     if (nav != null) {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(Consts.KEY_NAVIGATION_INFO, nav);
                         preference.setArguments(bundle);
                     }
                     FragmentTransaction ft = ((Activity) mContext).getFragmentManager().beginTransaction();
-                    ft.replace(R.id.pref_container, preference).commit();
+                    ft.replace(R.id.pref_container, preference).commit();*/
+                    Intent intent = new Intent(mContext, ModuleMoreSettings.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Consts.KEY_NAVIGATION_INFO, nav);
+                    intent.putExtras(bundle);
+                    mContext.startActivity(intent);
                 }
             });
             viewHolder.mBtnCache.setOnClickListener(new View.OnClickListener() {

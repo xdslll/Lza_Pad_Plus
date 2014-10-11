@@ -104,6 +104,10 @@ public class ApiUrlFactory implements Consts.Weather, Consts.Request, Consts {
 
     public static final String PAR_GET_TAG = "getTag";
 
+    public static final String PAR_RETURN_TYPE = "returnType";
+
+    public static final String PAR_CITY_ID = "cityId";
+
     /**
      * 获取天气API,已废弃,将替换为学校提供的API,本方法仅供测试
      *
@@ -120,6 +124,28 @@ public class ApiUrlFactory implements Consts.Weather, Consts.Request, Consts {
         return apiUrl.getUrl();
     }
 
+    public static String createWeatherApiUrl(Context context, NavigationInfo nav) {
+        String url = nav.getApiUrl();
+        Map<String, String> pars = new HashMap<String, String>();
+        pars.put(PAR_CONTROL, "padMessage");
+        pars.put(PAR_ACTION, "getWeatherMessage");
+        pars.put(PAR_RETURN_TYPE, "html");
+        pars.put(PAR_CITY_ID, String.valueOf(nav.getApiCityCode()));
+        pars.put(PAR_SCHOOL_ID, String.valueOf(nav.getApiSchoolIdPar()));
+
+        appendDeviceInfo(context, pars);
+        BaseApiUrl apiUrl = new BaseApiUrl(url, pars);
+        return apiUrl.getUrl();
+    }
+
+    public static void appendDeviceInfo(Context context, Map<String, String> pars) {
+        String versionName = UniversalUtility.getVersionName(context);
+        String deviceId = UniversalUtility.getDeviceId(context);
+        String networkType = UniversalUtility.getNetworkType(context);
+        pars.put(PAR_VERSION_NAME, versionName);
+        pars.put(PAR_DEVICE_ID, deviceId);
+        pars.put(PAR_NETWORK_TYPE, networkType);
+    }
     /**
      * 获取电子图书的接口地址
      *

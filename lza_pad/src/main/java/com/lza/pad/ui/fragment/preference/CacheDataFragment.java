@@ -1,5 +1,7 @@
 package com.lza.pad.ui.fragment.preference;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,16 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.lza.pad.R;
-import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.core.db.model.EbookRequest;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.request.task.EbookTask;
 import com.lza.pad.core.request.task.RequestTask;
+import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.lib.support.network.VolleySingleton;
 import com.lza.pad.lib.support.utils.UniversalUtility;
@@ -36,8 +39,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author xiads
  * @Date 14-9-17.
  */
-public class CacheDataFragment extends AbstractListFragment
-        implements Consts, MainPreferenceActivity.OnBackClickListener {
+public class CacheDataFragment extends AbstractListFragment implements Consts {
 
     private NavigationInfo mNav;
     private Lock mLock = new ReentrantLock();
@@ -56,10 +58,15 @@ public class CacheDataFragment extends AbstractListFragment
 
     private SimpleAdapter mAdapter;
 
-    private Button mBtnStartCache, mBtnBack;
-    private TextView mTxtPrompt;
+    private Button mBtnStartCache, mBtnBack, mBtnEditPage;
+    private TextView mTxtPrompt, mTxtPagePropmt;
 
     private ArrayList<Ebook> mEbooks;
+
+    private int mInitPage = 1;
+    private int mFinalPage = -1;
+    private int mCurrentPage = 0;
+    private int mMaxPage = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,26 +75,26 @@ public class CacheDataFragment extends AbstractListFragment
         if (arg != null) {
             mNav = arg.getParcelable(KEY_NAVIGATION_INFO);
         }
-        /*MainPreferenceActivity pa = (MainPreferenceActivity) getActivity();
-        if (pa != null) {
-            pa.setOnBackClickListener(this);
-        }*/
     }
 
     private boolean mIsCache = false;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.cache_data, container, false);
         mBtnStartCache = (Button) view.findViewById(R.id.cache_data_start);
         mBtnBack = (Button) view.findViewById(R.id.cache_data_back);
+        mBtnEditPage = (Button) view.findViewById(R.id.cache_data_edit_page);
         mTxtPrompt = (TextView) view.findViewById(R.id.cache_data_prompt);
+        mTxtPagePropmt = (TextView) view.findViewById(R.id.cache_data_page_propmt);
+
         mBtnStartCache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mIsCache) {
                     mHandler.sendEmptyMessage(TASK_INIT);
                     v.setEnabled(false);
+                    mBtnEditPage.setEnabled(false);
                 }
             }
         });
@@ -95,8 +102,59 @@ public class CacheDataFragment extends AbstractListFragment
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.pref_container, new ModulePreference())
+                        .replace(R.id.pref_container, new ModulePreferenceFragment())
                         .commit();
+            }
+        });
+        mBtnEditPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View editPageView = inflater.inflate(R.layout.pref_cache_set_pages, null);
+                final EditText edtInitPage = (EditText) editPageView.findViewById(R.id.cache_data_init_page);
+                final EditText edtFinalPage = (EditText) editPageView.findViewById(R.id.cache_data_final_page);
+                edtInitPage.setText(String.valueOf(mInitPage));
+                edtFinalPage.setText(String.valueOf(mFinalPage));
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.cache_edit_page)
+                        .setView(editPageView)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    int initPage = Integer.valueOf(edtInitPage.getText().toString());
+                                    int finalPage = Integer.valueOf(edtFinalPage.getText().toString());
+                                    if (initPage > 0) {
+                                        StringBuilder propmt = new StringBuilder();
+                                        mInitPage = initPage;
+                                        propmt.append("第").append(mInitPage).append("页 - ");
+                                        if (finalPage == -1) {
+                                            mFinalPage = finalPage;
+                                            propmt.append("全部");
+                                            mTxtPagePropmt.setText(propmt);
+                                            ToastUtilsSimplify.show("更新成功！");
+                                        } else if (finalPage > 0 && finalPage >= initPage) {
+                                            mFinalPage = finalPage;
+                                            propmt.append("第").append(mFinalPage).append("页");
+                                            mTxtPagePropmt.setText(propmt);
+                                            ToastUtilsSimplify.show("更新成功！");
+                                        } else {
+                                            ToastUtilsSimplify.show("更新失败！结尾页必须大于起始页！");
+                                        }
+                                    } else {
+                                        ToastUtilsSimplify.show("更新失败！起始页必须大于0！");
+                                    }
+                                } catch (Exception e) {
+                                    ToastUtilsSimplify.show("更新失败！");
+                                }
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
             }
         });
         mAdapter = new SimpleAdapter(
@@ -145,14 +203,16 @@ public class CacheDataFragment extends AbstractListFragment
         mTaskCount++;
         RequestTask task = new RequestTask(mNav, mHandler);
         mTaskArray.add(task);
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("status", "等待下载");
-        map.put("count", mNav.getName() + " 第" + mTaskCount + "页");
+        if (mNav.getApiPagePar() <= mFinalPage || mFinalPage == -1) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("status", "等待下载");
+            map.put("count", mNav.getName() + " 第" + mNav.getApiPagePar() + "页");
+            mTaskMsg.add(map);
+        }
         /*map.put("count", "任务"  + mTaskCount +
                 "：[control=" + mNav.getApiControlPar() +
                 ",action=" + mNav.getApiActionPar() +
                 ",page=" + mNav.getApiPagePar()+"]");*/
-        mTaskMsg.add(map);
         mHandler.sendEmptyMessage(TASK_BEGIN);
 
     }
@@ -221,30 +281,51 @@ public class CacheDataFragment extends AbstractListFragment
                 case TASK_INIT:
                     ToastUtilsSimplify.show("开始缓存...");
                     mLock.lock();
+                    //指定起始页
+                    mNav.setApiPagePar(mInitPage);
+                    //创建请求
                     createNewEbookRequest();
                     mLock.unlock();
                     notifyListView();
                     break;
                 case TASK_BEGIN:
                     mLock.lock();
-                    if (mTaskArray.size() <= mTaskCount &&
-                            mTaskArray.size() > mTaskFinishedCount) {
-                        mTaskArray.get(mTaskFinishedCount).execute();
-                        mTaskMsg.get(mTaskFinishedCount).put("status", "下载中...");
-                    }else {
+                    int currentPage = mNav.getApiPagePar();
+                    if (mFinalPage == -1 && mMaxPage != -1 && currentPage > mMaxPage) {
                         ToastUtilsSimplify.show("任务执行完毕！");
                         mIsCache = false;
                         mBtnStartCache.setEnabled(true);
+                        mBtnEditPage.setEnabled(true);
+                    } else if (mFinalPage != -1 && currentPage > mFinalPage) {
+                        ToastUtilsSimplify.show("任务执行完毕！");
+                        mIsCache = false;
+                        mBtnStartCache.setEnabled(true);
+                        mBtnEditPage.setEnabled(true);
+                    } else if (mTaskArray.size() <= mTaskCount &&
+                        mTaskArray.size() > mTaskFinishedCount) {
+                        mTaskArray.get(mTaskFinishedCount).execute();
+                        mTaskMsg.get(mTaskFinishedCount).put("status", "下载中...");
+                    } else {
+                        ToastUtilsSimplify.show("任务执行完毕！");
+                        mIsCache = false;
+                        mBtnStartCache.setEnabled(true);
+                        mBtnEditPage.setEnabled(true);
                     }
                     mLock.unlock();
                     notifyListView();
                     break;
                 case TASK_NEXT:
                     mLock.lock();
+                    //判断当前页数是否超过指定的最终页
                     int page = mNav.getApiPagePar();
-                    mNav.setApiPagePar(page + 1);
-                    createNewEbookRequest();
-
+                    page++;
+                    mNav.setApiPagePar(page);
+                    //createNewEbookRequest();
+                    if (mFinalPage == -1 || page <= mFinalPage) {
+                        createNewEbookRequest();
+                    } else {
+                        sendEmptyMessage(TASK_BEGIN);
+                    }
                     mTaskMsg.get(mTaskFinishedCount - 1).put("status", "缓存成功");
                     mTaskMsg.get(mTaskFinishedCount - 1).put("ebook", "");
 
@@ -260,13 +341,21 @@ public class CacheDataFragment extends AbstractListFragment
                     if (TextUtils.isEmpty(mTxtPrompt.getText())) {
                         EbookRequest ebookRequest = bundle.getParcelable(KEY_EBOOK_REQUEST_INFO);
                         if (ebookRequest!= null) {
+                            int totalPage = 0;
+                            mMaxPage = ebookRequest.getYe();
+                            if (mFinalPage == -1) {
+                                totalPage = mMaxPage - mInitPage + 1;
+                            } else {
+                                totalPage = mFinalPage - mInitPage + 1;
+                            }
                             StringBuilder builder = new StringBuilder();
                             builder.append("正在缓存").append(mNav.getName())
                                     .append("，共")//.append(ebookRequest.getPagenum()).append("条数据，")
-                                    .append(ebookRequest.getYe()).append("页，")
+                                    .append(totalPage).append("页，")
                                     .append("每页").append(ebookRequest.getPagesize()).append("条数据");
                             mTxtPrompt.setText(builder);
                             mTxtPrompt.setVisibility(View.VISIBLE);
+
                         }
                     }
 
@@ -341,16 +430,19 @@ public class CacheDataFragment extends AbstractListFragment
                     mLock.unlock();
                     notifyListView();
                     break;
+
+                case TASK_OVER_WITH_NO_DATA:
+                    mLock.lock();
+                    if (mTaskArray.size() >= mTaskFinishedCount) {
+                        mTaskMsg.get(mTaskFinishedCount).put("status", "没有数据");
+                        mTaskFinishedCount++;
+                        mHandler.sendEmptyMessage(TASK_BEGIN);
+                    }
+                    mLock.unlock();
+                    notifyListView();
+                    break;
                 default:
             }
         }
     };
-
-    @Override
-    public void onBack(Object tag) {
-        ModulePreference fragment = new ModulePreference();
-        getFragmentManager().beginTransaction()
-                .replace(R.id.pref_container, fragment)
-                .commit();
-    }
 }

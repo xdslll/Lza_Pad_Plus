@@ -47,12 +47,12 @@ public class DigitalClock extends FrameLayout {
      * 每分钟更新一次时间
      */
     public void updateTimePerMinute() {
-        Runnable task = new Runnable() {
+        /*Runnable task = new Runnable() {
             @Override
             public void run() {
                 mHandler.sendEmptyMessage(UPDATE_HOUR);
             }
-        };
+        };*/
         //ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         //service.scheduleWithFixedDelay(task, 0, 1, TimeUnit.MINUTES);
         //service.scheduleWithFixedDelay(task, 1, 1, TimeUnit.SECONDS);
@@ -60,17 +60,9 @@ public class DigitalClock extends FrameLayout {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (mCurrentHour < 12 && mCurrentHour >= 0) {
-                    mCurrentHour++;
-                    Message msg = new Message();
-                    msg.obj = mCurrentHour;
-                    msg.what = UPDATE_HOUR;
-                    mHandler.sendMessage(msg);
-                } else {
-                    mCurrentHour = 0;
-                }
+                mHandler.sendEmptyMessage(UPDATE_HOUR);
             }
-        }, 10000);
+        }, 1000, 10000);
     }
 
     /**

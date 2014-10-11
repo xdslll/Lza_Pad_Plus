@@ -37,10 +37,6 @@ public class ShelvesView extends GridView {
     private int mShelfWidth;
     private int mShelfHeight;
 
-    /*private Bitmap mWebLeft;
-    private Bitmap mWebRight;
-    private int mWebRightWidth;*/
-
     public ShelvesView(Context context) {
         super(context);
         init(context);
@@ -100,32 +96,37 @@ public class ShelvesView extends GridView {
         setDrawSelectorOnTop(false);
     }
 
+    private int mRowNumber = 0;
+    private int mVerticalOffset = 0;
+    public void setRowNumber(int rowNumber) {
+        this.mRowNumber = rowNumber;
+    }
+
+    public void setVerticalOffset(int verticalOffset) {
+        this.mVerticalOffset = verticalOffset;
+    }
+
     @Override
     protected void dispatchDraw(Canvas canvas) {
         final int count = getChildCount();
         //final int top = count > 0 ? getChildAt(0).getTop() : 0;
         final int shelfWidth = mShelfWidth;
-        final int shelfHeight = mShelfHeight;
+        //final int shelfHeight = mShelfHeight;
         final int width = getWidth();
         final int height = getHeight();
         final Bitmap background = mShelfBackground;
 
-        final int rowCount = 4;
-        final int eachHeight = height / rowCount;
+        //int verticalOffset = getResources().getDimensionPixelOffset(R.dimen.shelves_view_bg_vertical_offset);
+        final int verticalOffset = mVerticalOffset;
 
-        for (int x = 0; x < width; x += shelfWidth) {
-            for (int y = eachHeight - 80; y < height; y += eachHeight) {
-                canvas.drawBitmap(background, x, y, null);
-                //AppLogger.e("x=" + x + ",y=" + y);
+        if (mRowNumber > 0) {
+            final int eachHeight = height / mRowNumber;
+            for (int x = 0; x < width; x += shelfWidth) {
+                for (int y = eachHeight - verticalOffset; y < height; y += eachHeight) {
+                    canvas.drawBitmap(background, x, y, null);
+                }
             }
         }
-
-
-        /*if (count == 0) {
-            canvas.drawBitmap(mWebLeft, 0.0f, top + 1, null);
-            canvas.drawBitmap(mWebRight, width - mWebRightWidth, top + shelfHeight + 1, null);
-        }*/
-
         super.dispatchDraw(canvas);
     }
 
