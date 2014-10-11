@@ -34,6 +34,14 @@
             android:summary="@string/pref_mod_more_img_scaling"
             android:key="pref_mod_shelves_img_scaling"
             />
+        <ListPreference
+            android:title="运行模式"
+            android:summary="@string/pref_mod_more_running_mode"
+            android:key="pref_mod_shelves_running_mode"
+            android:entries="@array/pref_mod_more_running_mode_key"
+            android:entryValues="@array/pref_mod_more_running_mode_value"
+            android:dialogTitle="@string/pref_mod_more_running_mode_dialog_title"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>

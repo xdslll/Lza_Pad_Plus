@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.view.View;
@@ -28,10 +29,12 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
     private static final String PREF_PREVIEW = "pref_mod_shelves_preview";
     private static final String PREF_API = "pref_mod_more_api";
     private static final String PREF_IMG_SCALING = "pref_mod_shelves_img_scaling";
+    private static final String PREF_RUNNING_MODE = "pref_mod_shelves_running_mode";
 
     private EditTextPreference mRowPref;
     private EditTextPreference mColPref;
     private PreferenceScreen mApiPref, mImgScalingPref;
+    private ListPreference mRunningModePref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,15 +51,18 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
         mColPref = (EditTextPreference) getPreferenceScreen().findPreference(PREF_COL_NUMBER);
         mApiPref = (PreferenceScreen) getPreferenceScreen().findPreference(PREF_API);
         mImgScalingPref = (PreferenceScreen) getPreferenceScreen().findPreference(PREF_IMG_SCALING);
+        mRunningModePref = (ListPreference) getPreferenceScreen().findPreference(PREF_RUNNING_MODE);
 
         if (mNav != null) {
             int rowNumber = mNav.getDataRowNumber();
             int colNumber = mNav.getDataColumnNumber();
             float imgScaling = mNav.getImgScaling();
             int imgScalingInHundred = (int) (imgScaling * 100);
+            int runningMode = mNav.getRunningMode();
             updateRowTitle(rowNumber);
             updateColTitle(colNumber);
             updateImgScalingTitle(imgScalingInHundred);
+            updateRunningModeTitle(runningMode);
         }
 
         mRowPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -64,16 +70,21 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 String value = newValue.toString();
                 Integer finalValue = Integer.valueOf(value);
-                mNav.setDataRowNumber(finalValue);
+                if (finalValue > 10) {
+                    ToastUtilsSimplify.show("更新失败！数值不能大于10！");
+                    return false;
+                } else {
+                    mNav.setDataRowNumber(finalValue);
 
-                int colNumber = mNav.getDataColumnNumber();
-                int pageSize = finalValue * colNumber;
-                mNav.setApiPageSizePar(pageSize);
+                    int colNumber = mNav.getDataColumnNumber();
+                    int pageSize = finalValue * colNumber;
+                    mNav.setApiPageSizePar(pageSize);
 
-                NavigationInfoDao.getInstance().updateData(mNav);
+                    NavigationInfoDao.getInstance().updateData(mNav);
 
-                updateRowTitle(finalValue);
-                return true;
+                    updateRowTitle(finalValue);
+                    return true;
+                }
             }
         });
 
@@ -82,16 +93,21 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 String value = newValue.toString();
                 Integer finalValue = Integer.valueOf(value);
-                mNav.setDataColumnNumber(finalValue);
+                if (finalValue > 10) {
+                    ToastUtilsSimplify.show("更新失败！数值不能大于10！");
+                    return false;
+                } else {
+                    mNav.setDataColumnNumber(finalValue);
 
-                int rowNumber = mNav.getDataRowNumber();
-                int pageSize = finalValue * rowNumber;
-                mNav.setApiPageSizePar(pageSize);
+                    int rowNumber = mNav.getDataRowNumber();
+                    int pageSize = finalValue * rowNumber;
+                    mNav.setApiPageSizePar(pageSize);
 
-                NavigationInfoDao.getInstance().updateData(mNav);
+                    NavigationInfoDao.getInstance().updateData(mNav);
 
-                updateColTitle(finalValue);
-                return true;
+                    updateColTitle(finalValue);
+                    return true;
+                }
             }
         });
 
@@ -163,6 +179,19 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
                 return true;
             }
         });
+
+        mRunningModePref.setDefaultValue(mNav.getRunningMode());
+        mRunningModePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                String value = newValue.toString();
+                Integer finalValue = Integer.valueOf(value);
+                mNav.setRunningMode(finalValue);
+                NavigationInfoDao.getInstance().updateData(mNav);
+                updateRunningModeTitle(finalValue);
+                return true;
+            }
+        });
     }
 
     private void updateRowTitle(int rowNumber) {
@@ -182,5 +211,17 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
         String imgScalingTitle = String.format(getString
                 (R.string.pref_mod_more_img_scaling_title), imgScaling);
         mImgScalingPref.setTitle(imgScalingTitle);
+    }
+
+    private void updateRunningModeTitle(int runningMode) {
+        String title = "";
+        if (runningMode == 0) {
+            title = "数据库模式";
+        } else if (runningMode == 1) {
+            title = "网络模式";
+        }
+        String runnngModeTitle = String.format(getString
+                (R.string.pref_mod_more_running_mode_title), title);
+        mRunningModePref.setTitle(runnngModeTitle);
     }
 }

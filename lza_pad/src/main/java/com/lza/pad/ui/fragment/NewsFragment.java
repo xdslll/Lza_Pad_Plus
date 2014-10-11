@@ -7,11 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.aphidmobile.flip.FlipViewController;
+import com.lza.pad.core.db.adapter.NewsAdapter;
 import com.lza.pad.core.db.loader.NewsLoader;
+import com.lza.pad.core.db.model.Ebook;
+import com.lza.pad.core.db.model.EbookRequest;
 import com.lza.pad.core.db.model.News;
+import com.lza.pad.core.request.EbookUrlRequest;
 import com.lza.pad.ui.adapter.NewsFlipAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +47,11 @@ public class NewsFragment extends AbstractFragment
         if (mFlipView != null) {
             mFlipView.onResume();
         }
-        getLoaderManager().initLoader(0, null, this);
+        if (mNavInfo.getRunningMode() == 0) {
+            getLoaderManager().initLoader(0, null, this);
+        } else {
+            loadFromNetwork();
+        }
     }
 
     @Override
@@ -59,8 +70,7 @@ public class NewsFragment extends AbstractFragment
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> data) {
-        mAdapter = new NewsFlipAdapter(getActivity(), mNavInfo, data);
-        mFlipView.setAdapter(mAdapter);
+        setupViews(data);
     }
 
     @Override
@@ -68,8 +78,38 @@ public class NewsFragment extends AbstractFragment
         loader.forceLoad();
     }
 
+    private void loadFromNetwork() {
+        EbookUrlRequest request = new EbookUrlRequest<EbookRequest>(mNavInfo,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
 
+                    }
+                },
+                new Response.Listener<EbookRequest>() {
 
+                    @Override
+                    public void onResponse(EbookRequest ebookRequest) {
+                        if (ebookRequest != null) {
+                            List<Ebook> ebooks = ebookRequest.getContents();
+                            if (ebooks != null) {
+                                List<News> news = new ArrayList<News>();
+                                for (Ebook ebook : ebooks) {
+                                    NewsAdapter adapter = new NewsAdapter();
+                                    news.add(adapter.apdater(ebook));
+                                }
+                                setupViews(news);
+                            }
+                        }
+                    }
+                },
+                EbookRequest.class);
+        request.send();
+    }
 
+    private void setupViews(List<News> data) {
+        mAdapter = new NewsFlipAdapter(getActivity(), mNavInfo, data);
+        mFlipView.setAdapter(mAdapter);
+    }
 
 }

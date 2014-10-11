@@ -16,11 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lza.pad.R;
-import com.lza.pad.core.db.strategy.Create2DCodeStrategy;
-import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.db.loader.EbookContentLoader;
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.core.db.model.EbookContent;
+import com.lza.pad.core.db.strategy.CacheEbookContentStrategy;
+import com.lza.pad.core.db.strategy.Create2DCodeStrategy;
+import com.lza.pad.core.request.OnResponseListener;
+import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.RuntimeUtility;
 import com.lza.pad.lib.support.debug.AppLogger;
 import com.lza.pad.ui.adapter.EbookContentAdapterStrategy;
@@ -43,7 +45,6 @@ public class EbookContentFragment extends AbstractListFragment
 
     private Ebook mEbook;
     private List<EbookContent> mEbookContents;
-    public static final String EBOOK_CONTENT_TAG = "ebook_content_tag";
 
     private BaseAdapter mAdapter = null;
 
@@ -166,7 +167,11 @@ public class EbookContentFragment extends AbstractListFragment
         if (list != null) {
             list.setDivider(null);
         }
-        getLoaderManager().initLoader(0, null, this);
+        if (mNavInfo.getRunningMode() == 0) {
+            getLoaderManager().initLoader(0, null, this);
+        } else {
+            loadFromNetwork();
+        }
     }
 
     public void clear() {
@@ -183,6 +188,15 @@ public class EbookContentFragment extends AbstractListFragment
 
     @Override
     public void onLoadFinished(Loader<List<EbookContent>> loader, List<EbookContent> data) {
+        setupViews(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<EbookContent>> loader) {
+        loader.forceLoad();
+    }
+
+    private void setupViews(List<EbookContent> data) {
         if (data != null) {
             mEbookContents = data;
         }
@@ -203,8 +217,20 @@ public class EbookContentFragment extends AbstractListFragment
         }
     }
 
-    @Override
-    public void onLoaderReset(Loader<List<EbookContent>> loader) {
+    private void loadFromNetwork() {
+        CacheEbookContentStrategy contentStrategy = new CacheEbookContentStrategy(
+                mEbook, mNavInfo,
+                new OnResponseListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        getLoaderManager().initLoader(0, null, EbookContentFragment.this);
+                    }
 
+                    @Override
+                    public void onError(Exception error) {
+
+                    }
+                });
+        contentStrategy.operation();
     }
 }

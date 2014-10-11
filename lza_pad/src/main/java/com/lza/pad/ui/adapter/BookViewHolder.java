@@ -31,5 +31,6 @@ class BookViewHolder {
     boolean queryCover;
     String sortTitle;
     ImageView imgView;
+    ImageView imgView2;
     LinearLayout container;
 }

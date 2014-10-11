@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.support.v4.util.LruCache;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,12 +134,23 @@ public class EbookAdapter extends BaseAdapter implements Consts {
                 bH = mItemMaxH * mImgScaling;
                 bW = (double) mItemMaxW / mItemMaxH * bH;
             }
-            holder.imgView.setLayoutParams(new LinearLayout.LayoutParams((int) bW, (int) bH));
-            holder.imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
             String url = RuntimeUtility.getEbookImageUrl(ebook);
-            ((NetworkImageView) holder.imgView).setDefaultImageResId(R.drawable.ebook_list_item_no_cover);
-            ((NetworkImageView) holder.imgView).setErrorImageResId(R.drawable.ebook_list_item_no_cover);
-            ((NetworkImageView) holder.imgView).setImageUrl(url, VolleySingleton.getInstance(mContext).getImageLoader());
+            //AppLogger.e("url --> " + url);
+            if (TextUtils.isEmpty(url)) {
+                holder.imgView2 = (ImageView) convertView.findViewById(R.id.title2);
+                holder.imgView2.setLayoutParams(new LinearLayout.LayoutParams((int) bW, (int) bH));
+                holder.imgView2.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                holder.imgView.setVisibility(View.GONE);
+                holder.imgView2.setVisibility(View.VISIBLE);
+                holder.imgView2.setImageResource(R.drawable.ebook_list_item_no_cover);
+            } else {
+                holder.imgView.setLayoutParams(new LinearLayout.LayoutParams((int) bW, (int) bH));
+                holder.imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                ((NetworkImageView) holder.imgView).setDefaultImageResId(R.drawable.ebook_list_item_no_cover);
+                ((NetworkImageView) holder.imgView).setErrorImageResId(R.drawable.ebook_list_item_no_cover);
+                ((NetworkImageView) holder.imgView).setImageUrl(url, VolleySingleton.getInstance(mContext).getImageLoader());
+            }
         }
         return convertView;
     }

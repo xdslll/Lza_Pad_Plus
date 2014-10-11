@@ -2,6 +2,8 @@ package com.lza.pad.ui.fragment.preference;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 
@@ -9,6 +11,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.lza.pad.R;
+import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.GlobalContext;
 import com.lza.pad.lib.support.debug.AppLogger;
 import com.umeng.analytics.MobclickAgent;
@@ -20,7 +23,7 @@ import java.util.List;
  * Created by xiads on 14-9-8.
  */
 public class BasePreferenceActivity extends SherlockFragmentActivity
-        implements ActionBar.TabListener {
+        implements ActionBar.TabListener, Consts {
 
     private List<String> mData = new ArrayList<String>();
     private List<String> mTags = new ArrayList<String>();
@@ -138,6 +141,13 @@ public class BasePreferenceActivity extends SherlockFragmentActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment fragment = fm.findFragmentByTag(EBOOK_CONTENT_TAG);
+            if (fragment != null) {
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.remove(fragment);
+            }
+
             return true;
         }
         return super.onOptionsItemSelected(item);
