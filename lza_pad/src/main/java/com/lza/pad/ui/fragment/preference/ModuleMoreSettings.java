@@ -54,6 +54,8 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
         mRunningModePref = (ListPreference) getPreferenceScreen().findPreference(PREF_RUNNING_MODE);
 
         if (mNav != null) {
+            //更新到最新数据
+            mNav = NavigationInfoDao.getInstance().queryForId(mNav.getId());
             int rowNumber = mNav.getDataRowNumber();
             int colNumber = mNav.getDataColumnNumber();
             float imgScaling = mNav.getImgScaling();

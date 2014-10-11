@@ -1,5 +1,6 @@
 package com.lza.pad.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -33,6 +34,13 @@ public class NewsFragment extends AbstractFragment
     private FlipViewController mFlipView;
     private NewsFlipAdapter mAdapter;
     private NewsLoader mLoader;
+    private Context mContext;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,7 +116,7 @@ public class NewsFragment extends AbstractFragment
     }
 
     private void setupViews(List<News> data) {
-        mAdapter = new NewsFlipAdapter(getActivity(), mNavInfo, data);
+        mAdapter = new NewsFlipAdapter(mContext, mNavInfo, data);
         mFlipView.setAdapter(mAdapter);
     }
 

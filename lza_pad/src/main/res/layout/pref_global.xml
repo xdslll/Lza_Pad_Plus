@@ -32,4 +32,11 @@
         android:paddingBottom="10dp"
         android:id="@android:id/list"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="检查更新"
+        android:textColor="@color/black"
+        android:id="@+id/pref_global_check_update"
+        />
 </LinearLayout>

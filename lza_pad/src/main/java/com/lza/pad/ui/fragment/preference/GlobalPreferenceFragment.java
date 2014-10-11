@@ -1,6 +1,7 @@
 package com.lza.pad.ui.fragment.preference;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
@@ -21,6 +23,7 @@ import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.utils.RuntimeUtility;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.ui.fragment.AbstractListFragment;
+import com.lza.pad.utils.UmengUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -37,15 +40,25 @@ public class GlobalPreferenceFragment extends AbstractListFragment
     private SimpleAdapter mAdapter;
     private List<Map<String, String>> mData;
     private final int LOADER_ID = 0;
+    private Button mBtnCheckUpdate;
+    private Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pref_global, container, false);
+        mBtnCheckUpdate = (Button) view.findViewById(R.id.pref_global_check_update);
+        mBtnCheckUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UmengUtils.checkUpdate(mContext);
+            }
+        });
         return view;
     }
 

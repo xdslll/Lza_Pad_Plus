@@ -6,7 +6,6 @@ import android.os.Handler;
 
 import com.lza.pad.R;
 import com.lza.pad.ui.activity.base.AbstractActivity;
-import com.lza.pad.utils.UmengUtils;
 
 /**
  * APP的载入页面，主要用途：
@@ -24,7 +23,7 @@ public class SplashActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //检查更新
-        UmengUtils.checkUpdate(this);
+        //UmengUtils.checkUpdate(this);
         setContentView(R.layout.splash);
         new Handler().postDelayed(mRunnable, DELAY);
     }
