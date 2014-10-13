@@ -96,5 +96,14 @@
 
     <string name="ebook_content_loading">正在加载数据，请稍候...</string>
 
+    <!-- 管理员密码 -->
+    <string name="admin_password_title">请输入管理员密码</string>
+    <string name="admin_password_ok">确定</string>
+    <string name="admin_password_cancel">取消</string>
+    <string name="admin_password_hint">请输入管理员密码</string>
+    <string name="admin_password_empty">密码不能为空!</string>
+    <string name="admin_password_error">密码不正确，请重新输入!</string>
+    <string name="admin_list_title">请选择</string>
+
 
 </resources>

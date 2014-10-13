@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Display;
 import android.view.Gravity;
@@ -27,7 +28,7 @@ import java.util.List;
  * @author Sam
  * @Date 14-9-11
  */
-public class FooterNavigationFragment extends Fragment {
+public class FooterNavigationFragment extends Fragment implements Consts {
 
     private RadioGroup mNavigationGroup;
     private NavigationInfoDao mNavigationInfoDao = NavigationInfoDao.getInstance();
@@ -99,14 +100,34 @@ public class FooterNavigationFragment extends Fragment {
                     try {
                         String activityPath = sNavigationInfos.get(checkedId).getActivityPath();
                         Class intentClass = Class.forName(activityPath);
-
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
                         Fragment fragment = (Fragment) intentClass.newInstance();
 
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+
+                        /*Fragment frt = fm.findFragmentByTag(EBOOK_CONTENT_TAG);
+                        if (frt != null) {
+                            ft.remove(frt);
+                        }*/
                         //传递参数
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable(Consts.KEY_NAVIGATION_INFO, sNavigationInfos.get(checkedId));
+                        NavigationInfo nav = sNavigationInfos.get(checkedId);
+
+                        String control = nav.getApiControlPar();
+                        if (control.equals(REQUEST_CONTROL_TYPE_EBOOK)
+                                || control.equals(REQUEST_CONTROL_TYPE_EBOOK_JC)) {
+                            nav.setApiActionPar(EBOOK_ACTION_LIST);
+                        } else if (control.equals(REQUEST_CONTROL_TYPE_QK_MESSAGE)) {
+                            nav.setApiActionPar(JOURNALS_ACTION_LIST);
+                        } else if (control.equals(REQUEST_CONTROL_TYPE_HOT_BOOK)
+                                || control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)) {
+                            nav.setApiActionPar(HOT_BOOK_ACTION_LIST);
+                        }
+
+                        bundle.putParcelable(Consts.KEY_NAVIGATION_INFO, nav);
+                        //bundle.putParcelable(Consts.KEY_NAVIGATION_INFO, sNavigationInfos.get(checkedId));
                         fragment.setArguments(bundle);
+
                         ft.replace(R.id.home_container, fragment, HomeActivity.CONTAINER_FRAGMENT_TAG);
                         ft.commit();
                     } catch (ClassNotFoundException e) {

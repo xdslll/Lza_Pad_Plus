@@ -80,6 +80,7 @@ public class NavigationInfoDao extends BaseDao<NavigationInfo, Integer> {
             ni.setImgScaling(Float.valueOf(navImgScaling[i]));
             ni.setRunningMode(navRunningMode[i]);
             ni.setVerticalOffset(navVerticalOffset[i]);
+            ni.setApiCityCode(1);
 
             navigationInfos.add(ni);
         }

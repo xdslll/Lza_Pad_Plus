@@ -40,6 +40,7 @@ public class NewsFragment extends AbstractFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
+        showProgressDialog();
     }
 
     @Override
@@ -118,6 +119,7 @@ public class NewsFragment extends AbstractFragment
     private void setupViews(List<News> data) {
         mAdapter = new NewsFlipAdapter(mContext, mNavInfo, data);
         mFlipView.setAdapter(mAdapter);
+        dismissProgressDialog();
     }
 
 }

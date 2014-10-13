@@ -72,11 +72,11 @@
         <item>0</item>
     </integer-array>
     <integer-array name="navigation_init_has_title_button">
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>
@@ -213,16 +213,16 @@
     </string-array>
     <integer-array name="navigation_init_is_activate">
         <item>1</item>
+        <item>0</item>
         <item>1</item>
         <item>1</item>
         <item>1</item>
+        <item>0</item>
         <item>1</item>
         <item>1</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
         <item>1</item>
     </integer-array>
     <integer-array name="navigation_init_is_closed">
@@ -254,32 +254,32 @@
         <item>0.8</item>
     </string-array>
     <integer-array name="navigation_init_running_mode">
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
     </integer-array>
     <integer-array name="navigation_init_vertical_offset">
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
-        <item>100</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
+        <item>60</item>
     </integer-array>
 
     <integer-array name="api_par_nav_id">

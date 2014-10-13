@@ -1,10 +1,16 @@
 package com.lza.pad.ui.fragment.preference;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.RemoteException;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +30,7 @@ import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.lib.support.network.VolleySingleton;
 import com.lza.pad.lib.support.utils.UniversalUtility;
+import com.lza.pad.service.ICacheData;
 import com.lza.pad.ui.fragment.AbstractListFragment;
 
 import java.util.ArrayList;
@@ -67,6 +74,9 @@ public class CacheDataFragment extends AbstractListFragment implements Consts {
     private int mFinalPage = -1;
     private int mCurrentPage = 0;
     private int mMaxPage = -1;
+
+    //测试IPC
+    private Button mBtnTest;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -168,8 +178,38 @@ public class CacheDataFragment extends AbstractListFragment implements Consts {
                         R.id.cache_data_item_content_info}
         );
         setListAdapter(mAdapter);
+
+        mBtnTest = (Button) view.findViewById(R.id.cache_data_test);
+        mBtnTest.setVisibility(View.GONE);
+        mBtnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent serviceIntent = new Intent("com.lza.pad.cache.DATA");
+                getActivity().bindService(serviceIntent, mConnection, Context.BIND_AUTO_CREATE);
+            }
+        });
+
         return view;
     }
+
+    ICacheData mCache = null;
+    ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mCache = ICacheData.Stub.asInterface(service);
+            try {
+                mCache.requestEbook(mNavInfo);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mConnection = null;
+            mCache = null;
+        }
+    };
 
     @Override
     public void onResume() {
@@ -188,6 +228,16 @@ public class CacheDataFragment extends AbstractListFragment implements Consts {
         }
         mAdapter = null;
         mLock.unlock();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCache != null && mConnection != null) {
+            if (getActivity() != null) {
+                getActivity().unbindService(mConnection);
+            }
+        }
     }
 
     private void notifyListView() {

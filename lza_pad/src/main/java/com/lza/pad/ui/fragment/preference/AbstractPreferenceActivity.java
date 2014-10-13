@@ -9,6 +9,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.lza.pad.R;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.utils.Consts;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by xiads on 14-9-8.
@@ -20,6 +21,15 @@ public class AbstractPreferenceActivity extends SherlockPreferenceActivity imple
     @Override
     protected void onResume() {
         super.onResume();
+        //启动当前Activity的友盟统计
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //关闭当前Activity的友盟统计
+        MobclickAgent.onPause(this);
     }
 
     @Override

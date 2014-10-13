@@ -61,6 +61,7 @@ import com.lza.pad.lib.support.utils.UniversalUtility;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -68,6 +69,9 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -813,6 +817,37 @@ public final class RuntimeUtility implements Consts {
             }
         }
         return null;
+    }
+
+    public static String getSingatureInfo(Context c) {
+        try {
+            PackageManager manager= c.getPackageManager();
+            PackageInfo packageInfo=manager.getPackageInfo(c.getPackageName(), PackageManager.GET_SIGNATURES);
+            Signature[] signs = packageInfo.signatures;
+            Signature sign = signs[0];
+            return parseSignature(sign.toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String parseSignature(byte[] signature) {
+        try {
+            CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+            X509Certificate cert = (X509Certificate) certFactory.generateCertificate(
+                    new ByteArrayInputStream(signature));
+            String pubKey = cert.getPublicKey().toString();
+            String signNumber = cert.getSerialNumber().toString();
+            System.out.println("signName:" + cert.getSigAlgName());
+            System.out.println("pubKey:" + pubKey);
+            System.out.println("signNumber:" + signNumber);
+            System.out.println("subjectDN:"+ cert.getSubjectDN().toString());
+            return pubKey;
+        } catch (CertificateException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 

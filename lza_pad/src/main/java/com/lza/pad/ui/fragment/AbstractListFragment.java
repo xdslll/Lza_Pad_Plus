@@ -3,8 +3,10 @@ package com.lza.pad.ui.fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.lza.pad.R;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.utils.Consts;
 
@@ -19,8 +21,23 @@ public class AbstractListFragment extends SherlockListFragment implements Consts
     protected Bundle mArguments;
     protected NavigationInfo mNavInfo;
 
-    protected ProgressDialog mProgressDialog = null;
-    protected Handler mHandler = new Handler();
+    protected static ProgressDialog mProgressDialog = null;
+    private static final int SHOW_PROGRESS_DIALOG = 0x001;
+    private static final int DISMISS_PROGRESS_DIALOG = 0x002;
+    protected Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SHOW_PROGRESS_DIALOG :
+                    _showProgressDialog();
+                    break;
+                case DISMISS_PROGRESS_DIALOG:
+                    _dismissProgressDialog();
+                    break;
+                default:
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,31 +52,41 @@ public class AbstractListFragment extends SherlockListFragment implements Consts
     @Override
     public void onStart() {
         super.onStart();
-        /*mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(getResources().getString(R.string.ebook_content_loading));
-        mProgressDialog.show();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mProgressDialog != null) {
-                    mProgressDialog.dismiss();
-                }
-            }
-        }, DISMISS_PROGRESS_DIALOG_DELAY);*/
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        /*if (mProgressDialog != null) {
+    }
+
+    private void _showProgressDialog() {
+        if (mNavInfo != null && mNavInfo.getRunningMode() == 1) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage(getResources().getString(R.string.ebook_content_loading));
+            mProgressDialog.show();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mProgressDialog != null) {
+                        mProgressDialog.dismiss();
+                    }
+                }
+            }, DISMISS_PROGRESS_DIALOG_DELAY);
+        }
+    }
+
+    private void _dismissProgressDialog() {
+        if (mNavInfo.getRunningMode() == 1 && mProgressDialog != null) {
             mProgressDialog.dismiss();
-        }*/
+        }
+    }
+
+    protected void showProgressDialog() {
+        mHandler.sendEmptyMessage(SHOW_PROGRESS_DIALOG);
     }
 
     protected void dismissProgressDialog() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+        mHandler.sendEmptyMessage(DISMISS_PROGRESS_DIALOG);
     }
 }

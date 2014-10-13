@@ -1,13 +1,19 @@
 package com.lza.pad.ui.fragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.android.volley.Request;
@@ -45,13 +51,16 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
     private TextView mTxtWeatherTemp, mTxtWeatherInfo, mTxtWeatherCity;
 
     private NavigationInfo mNav;
-
     private static final int GET_PREFERENCE = 0x001;
+    private Context mContext;
+    //弹出Menu的密码
+    private static final String MENU_PASSWORD = "njlza";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNav = NavigationInfoDao.getInstance().queryNotClosedBySortId(1);
+        mContext = getActivity();
     }
 
     @Override
@@ -60,15 +69,40 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
         mClock = (DigitalClock) view.findViewById(R.id.header_digital_clock);
         //mWeatherPanel = (WeatherPanel) view.findViewById(R.id.header_weather_panel);
         mTxtDate = (TextView) view.findViewById(R.id.header_date);
-        mClock.setOnClickListener(new View.OnClickListener() {
+        mClock.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                //intent.setClass(getActivity(), MainPreferenceActivity.class);
-                //intent.setClass(getActivity(), GlobalPreferenceActivity.class);
-                intent.setClass(getActivity(), BasePreferenceActivity.class);
-                //startActivityForResult(intent, GET_PREFERENCE);
-                startActivity(intent);
+            public boolean onLongClick(View v) {
+                //输入管理员密码
+                LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+                final View view = layoutInflater.inflate(R.layout.authenticate_panel, null);
+                new AlertDialog.Builder(mContext)
+                        .setTitle(R.string.admin_password_title)
+                        .setView(view)
+                        .setPositiveButton(R.string.admin_password_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                EditText edtPassowrd = (EditText) view.findViewById(R.id.admin_password);
+                                String password = edtPassowrd.getText().toString();
+                                if (TextUtils.isEmpty(password)) {
+                                    Toast.makeText(mContext, R.string.admin_password_empty, Toast.LENGTH_SHORT).show();
+                                } else if (password.equals(MENU_PASSWORD)) {
+                                    Intent intent = new Intent();
+                                    intent.setClass(getActivity(), BasePreferenceActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(mContext, R.string.admin_password_error, Toast.LENGTH_SHORT).show();
+                                }
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(R.string.admin_password_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+                return true;
             }
         });
         //天气相关的控件

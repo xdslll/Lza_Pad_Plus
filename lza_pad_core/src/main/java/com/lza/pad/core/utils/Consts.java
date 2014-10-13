@@ -61,7 +61,7 @@ public interface Consts {
     /**
      * 自动关闭进度条对话框的时间
      */
-    public final int DISMISS_PROGRESS_DIALOG_DELAY = 20 * 1000;
+    public final int DISMISS_PROGRESS_DIALOG_DELAY = 8 * 1000;
 
     public interface Weather {
 

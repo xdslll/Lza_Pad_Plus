@@ -60,6 +60,8 @@ public class EbookShelvesFragment extends AbstractFragment
         mColNumber = mNavInfo.getDataColumnNumber();
         mVerticalOffset = mNavInfo.getVerticalOffset();
         mCurrentPage = mNavInfo.getApiPagePar();
+
+        showProgressDialog();
     }
 
     @Override
@@ -85,6 +87,7 @@ public class EbookShelvesFragment extends AbstractFragment
                         loadFromNetwork();
                     }
                     mBtnPrev.setEnabled(false);
+                    showProgressDialog();
                 }
             }
         });
@@ -100,6 +103,7 @@ public class EbookShelvesFragment extends AbstractFragment
                     loadFromNetwork();
                 }
                 mBtnNext.setEnabled(false);
+                showProgressDialog();
             }
         });
         return view;
@@ -177,6 +181,7 @@ public class EbookShelvesFragment extends AbstractFragment
                 }
             });
             caclTotalPages();
+            dismissProgressDialog();
         }
     }
 

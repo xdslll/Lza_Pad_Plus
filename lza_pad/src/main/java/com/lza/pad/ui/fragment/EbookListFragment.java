@@ -32,6 +32,7 @@ import java.util.List;
  * @author Sam
  * @Date 14-9-12
  */
+@Deprecated
 public class EbookListFragment extends AbstractFragment implements
         BookShelfItem.OnBookClickListener,
         LoaderManager.LoaderCallbacks<List<Ebook>> {

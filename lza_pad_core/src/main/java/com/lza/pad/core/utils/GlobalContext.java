@@ -68,6 +68,7 @@ public class GlobalContext extends Application {
         super.onCreate();
         sGlobalContext = this;
         AppLogger.DEBUG = BuildConfig.DEBUG;
+        RuntimeUtility.getSingatureInfo(this);
     }
 
     @Override

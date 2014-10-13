@@ -55,6 +55,7 @@ public class EbookContentFragment extends AbstractListFragment
         if (mArguments != null) {
             mEbook = mArguments.getParcelable(KEY_EBOOK_INFO);
         }
+        showProgressDialog();
     }
 
     @Override
@@ -212,9 +213,7 @@ public class EbookContentFragment extends AbstractListFragment
                 getListView().setFastScrollEnabled(true);
             }
         }
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+        dismissProgressDialog();
     }
 
     private void loadFromNetwork() {
