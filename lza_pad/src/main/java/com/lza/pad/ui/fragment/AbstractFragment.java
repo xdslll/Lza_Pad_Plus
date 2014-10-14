@@ -26,7 +26,7 @@ public class AbstractFragment extends SherlockFragment implements Consts {
     protected TitleBar mTitleBar;
     protected NavigationInfo mNavInfo;
 
-    protected static ProgressDialog mProgressDialog = null;
+    protected ProgressDialog mProgressDialog = null;
     private static final int SHOW_PROGRESS_DIALOG = 0x001;
     private static final int DISMISS_PROGRESS_DIALOG = 0x002;
     protected Handler mHandler = new Handler() {
@@ -75,18 +75,20 @@ public class AbstractFragment extends SherlockFragment implements Consts {
 
     private void _showProgressDialog() {
         if (mNavInfo != null && mNavInfo.getRunningMode() == 1) {
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage(getResources().getString(R.string.ebook_content_loading));
-            mProgressDialog.show();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mProgressDialog != null) {
-                        mProgressDialog.dismiss();
+            if (getActivity() != null) {
+                mProgressDialog = new ProgressDialog(getActivity());
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setMessage(getResources().getString(R.string.ebook_content_loading));
+                mProgressDialog.show();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mProgressDialog != null) {
+                            mProgressDialog.dismiss();
+                        }
                     }
-                }
-            }, DISMISS_PROGRESS_DIALOG_DELAY);
+                }, DISMISS_PROGRESS_DIALOG_DELAY);
+            }
         }
     }
 

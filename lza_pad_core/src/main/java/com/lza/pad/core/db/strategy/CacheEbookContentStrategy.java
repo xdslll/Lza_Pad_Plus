@@ -18,6 +18,7 @@ import com.lza.pad.core.request.EbookUrlRequest;
 import com.lza.pad.core.request.OnResponseListener;
 import com.lza.pad.core.url.ApiUrlFactory;
 import com.lza.pad.core.utils.GlobalContext;
+import com.lza.pad.lib.support.debug.AppLogger;
 import com.lza.pad.lib.support.network.VolleySingleton;
 
 import java.util.List;
@@ -73,6 +74,7 @@ public class CacheEbookContentStrategy extends BaseStrategy<Void> {
             mNav.setApiActPar("1");
 
             String url = ApiUrlFactory.createApiUrl(mNav);
+            AppLogger.e("url --> " + url);
 
             Response.Listener<String> successListener = new Response.Listener<String>() {
                 @Override
@@ -229,7 +231,8 @@ public class CacheEbookContentStrategy extends BaseStrategy<Void> {
                                             content.setBookId(ebook1.getBookId());
                                             content.setName(ebook1.getName());
                                             content.setPage(ebook1.getPage());
-                                            EbookContentDao.getInstance().createNewData(content);
+                                            //EbookContentDao.getInstance().createNewData(content);
+                                            EbookContentDao.getInstance().createOrUpdateEbookContent(content);
                                         }
                                     }
                                 }

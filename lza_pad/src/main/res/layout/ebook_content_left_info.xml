@@ -5,6 +5,15 @@
     android:gravity="center_horizontal"
     android:padding="20dp">
 
+    <com.android.volley.toolbox.NetworkImageView
+        android:layout_width="140dp"
+        android:layout_height="205dp"
+        android:id="@+id/ebook_content_img_cover_net"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_launcher"
+        android:background="@drawable/ebook_content_cover_bg"
+        android:visibility="gone"
+        />
     <ImageView
         android:layout_width="140dp"
         android:layout_height="205dp"

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.lza.pad.R;
 import com.lza.pad.core.db.loader.EbookContentLoader;
 import com.lza.pad.core.db.model.Ebook;
@@ -25,6 +26,7 @@ import com.lza.pad.core.request.OnResponseListener;
 import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.RuntimeUtility;
 import com.lza.pad.lib.support.debug.AppLogger;
+import com.lza.pad.lib.support.network.VolleySingleton;
 import com.lza.pad.ui.adapter.EbookContentAdapterStrategy;
 
 import java.util.List;
@@ -42,6 +44,7 @@ public class EbookContentFragment extends AbstractListFragment
     private TextView mTxtBookName, mTxtBookAuthor, mTxtBookPress, mTxtBookPubdate, mTxtBookIsbn;
     private ImageButton mImgBtnBack;
     private ImageView mImgBookCover, mImg2DCode;
+    private NetworkImageView mImgBookCoverFromNet;
 
     private Ebook mEbook;
     private List<EbookContent> mEbookContents;
@@ -72,6 +75,8 @@ public class EbookContentFragment extends AbstractListFragment
 
         mImg2DCode = (ImageView) view.findViewById(R.id.ebook_content_two_dimensional_code);
         mImgBookCover = (ImageView) view.findViewById(R.id.ebook_content_img_cover);
+
+        mImgBookCoverFromNet = (NetworkImageView) view.findViewById(R.id.ebook_content_img_cover_net);
 
         //更新书的信息
         String bookName = mEbook.getName();
@@ -112,21 +117,38 @@ public class EbookContentFragment extends AbstractListFragment
         }
 
         //更新封面
-        if (mEbook != null) {
-            //String imgPath = mEbook.getImgPath();
-            String imgPath = RuntimeUtility.getEbookImageFilePath(mEbook);
-            if (!TextUtils.isEmpty(imgPath)) {
-                BitmapDrawable drawable = new BitmapDrawable(getResources(), imgPath);
-                if (drawable != null) {
-                    mImgBookCover.setImageDrawable(drawable);
-                }else {
+        if (mNavInfo.getRunningMode() == 0) {
+            if (mEbook != null) {
+                //String imgPath = mEbook.getImgPath();
+                String imgPath = RuntimeUtility.getEbookImageFilePath(mEbook);
+                if (!TextUtils.isEmpty(imgPath)) {
+                    BitmapDrawable drawable = new BitmapDrawable(getResources(), imgPath);
+                    if (drawable != null) {
+                        mImgBookCover.setImageDrawable(drawable);
+                    } else {
+                        mImgBookCover.setImageResource(R.drawable.ebook_list_item_no_cover);
+                    }
+                } else {
                     mImgBookCover.setImageResource(R.drawable.ebook_list_item_no_cover);
                 }
-            }else {
+            } else {
                 mImgBookCover.setImageResource(R.drawable.ebook_list_item_no_cover);
             }
-        }else {
-            mImgBookCover.setImageResource(R.drawable.ebook_list_item_no_cover);
+        } else {
+            if (mEbook != null) {
+                String imgUrl = RuntimeUtility.getEbookImageUrl(mEbook);
+                if (!TextUtils.isEmpty(imgUrl)) {
+                    mImgBookCover.setVisibility(View.GONE);
+                    mImgBookCoverFromNet.setVisibility(View.VISIBLE);
+                    mImgBookCoverFromNet.setDefaultImageResId(R.drawable.ebook_list_item_no_cover);
+                    mImgBookCoverFromNet.setErrorImageResId(R.drawable.ebook_list_item_no_cover);
+                    mImgBookCoverFromNet.setImageUrl(imgUrl, VolleySingleton.getInstance(getActivity()).getImageLoader());
+                } else {
+                    mImgBookCover.setImageResource(R.drawable.ebook_list_item_no_cover);
+                }
+            } else {
+                mImgBookCover.setImageResource(R.drawable.ebook_list_item_no_cover);
+            }
         }
 
         //生成二维码图片
@@ -172,6 +194,14 @@ public class EbookContentFragment extends AbstractListFragment
             getLoaderManager().initLoader(0, null, this);
         } else {
             loadFromNetwork();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mNavInfo != null) {
+            mNavInfo = null;
         }
     }
 
@@ -222,12 +252,14 @@ public class EbookContentFragment extends AbstractListFragment
                 new OnResponseListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        getLoaderManager().initLoader(0, null, EbookContentFragment.this);
+                        if (getActivity() != null) {
+                            getLoaderManager().initLoader(0, null, EbookContentFragment.this);
+                        }
                     }
 
                     @Override
                     public void onError(Exception error) {
-
+                        error.printStackTrace();
                     }
                 });
         contentStrategy.operation();

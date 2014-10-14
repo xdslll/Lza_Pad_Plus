@@ -1,19 +1,15 @@
 package com.lza.pad.ui.widget;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.lza.pad.R;
 import com.lza.pad.core.db.model.NavigationInfo;
-import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.lib.support.utils.UniversalUtility;
 
 /**
@@ -25,7 +21,7 @@ import com.lza.pad.lib.support.utils.UniversalUtility;
 public class TitleBar extends FrameLayout {
 
     Context mContext;
-    TextView mTxtTitle, mTxtSubject;
+    TextView mTxtTitle;//, mTxtSubject;
 
     public TitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,7 +30,7 @@ public class TitleBar extends FrameLayout {
         inflater.inflate(R.layout.ctr_title_bar, this);
 
         mTxtTitle = (TextView) findViewById(R.id.title_bar_title);
-        mTxtSubject = (TextView) findViewById(R.id.title_bar_subject);
+        //mTxtSubject = (TextView) findViewById(R.id.title_bar_subject);
 
         TypedArray typedArray = mContext.obtainStyledAttributes(attrs, R.styleable.title_bar);
         String strTitle = typedArray.getString(R.styleable.title_bar_titleText);
@@ -42,10 +38,10 @@ public class TitleBar extends FrameLayout {
         boolean isSubjectVisible = typedArray.getBoolean(R.styleable.title_bar_subjectVisiblity, false);
         setTitle(strTitle);
         UniversalUtility.setViewVisbility(mTxtTitle, isTitleVisble);
-        UniversalUtility.setViewVisbility(mTxtSubject, isSubjectVisible);
+        //UniversalUtility.setViewVisbility(mTxtSubject, isSubjectVisible);
         typedArray.recycle();
 
-        setOnSujectClickListener();
+        //setOnSujectClickListener();
     }
 
     /**
@@ -59,7 +55,7 @@ public class TitleBar extends FrameLayout {
         if (hasTitleBar == 1) {
             int hasTitleButton = ni.getHasTitleButton();
             String title = ni.getName();
-            setTitleButtonVisibility(hasTitleButton);
+            //setTitleButtonVisibility(hasTitleButton);
             setTitle(title);
         }
     }
@@ -69,12 +65,12 @@ public class TitleBar extends FrameLayout {
             mTxtTitle.setText(strTitle);
     }
 
-    public void setOnSujectClickListener(OnClickListener listener) {
-        mTxtSubject.setOnClickListener(listener);
-    }
-
     public void setTitleBarVisibility(int isVisble) {
         UniversalUtility.setViewVisibility(this, isVisble);
+    }
+
+    /*public void setOnSujectClickListener(OnClickListener listener) {
+        mTxtSubject.setOnClickListener(listener);
     }
 
     public void setTitleButtonVisibility(int isVisble) {
@@ -97,5 +93,5 @@ public class TitleBar extends FrameLayout {
                         .show();
             }
         });
-    }
+    }*/
 }

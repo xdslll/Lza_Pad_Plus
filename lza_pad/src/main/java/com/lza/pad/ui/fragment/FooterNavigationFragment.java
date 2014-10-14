@@ -112,18 +112,6 @@ public class FooterNavigationFragment extends Fragment implements Consts {
                         //传递参数
                         Bundle bundle = new Bundle();
                         NavigationInfo nav = sNavigationInfos.get(checkedId);
-
-                        String control = nav.getApiControlPar();
-                        if (control.equals(REQUEST_CONTROL_TYPE_EBOOK)
-                                || control.equals(REQUEST_CONTROL_TYPE_EBOOK_JC)) {
-                            nav.setApiActionPar(EBOOK_ACTION_LIST);
-                        } else if (control.equals(REQUEST_CONTROL_TYPE_QK_MESSAGE)) {
-                            nav.setApiActionPar(JOURNALS_ACTION_LIST);
-                        } else if (control.equals(REQUEST_CONTROL_TYPE_HOT_BOOK)
-                                || control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)) {
-                            nav.setApiActionPar(HOT_BOOK_ACTION_LIST);
-                        }
-
                         bundle.putParcelable(Consts.KEY_NAVIGATION_INFO, nav);
                         //bundle.putParcelable(Consts.KEY_NAVIGATION_INFO, sNavigationInfos.get(checkedId));
                         fragment.setArguments(bundle);

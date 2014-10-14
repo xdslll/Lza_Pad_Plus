@@ -380,4 +380,21 @@ public class EbookContent implements Parcelable {
                 ", page=" + page +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean flag = false;
+        if (o != null && o instanceof EbookContent) {
+            int ebookId = ((EbookContent) o).getBookId();
+            String ebookName = ((EbookContent) o).getName();
+            int page = ((EbookContent) o).getPage();
+            if (ebookId == bookId &&
+                    ebookName.equals(name) &&
+                    page == page) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
 }

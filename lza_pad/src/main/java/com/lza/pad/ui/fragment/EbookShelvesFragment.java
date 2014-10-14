@@ -146,8 +146,10 @@ public class EbookShelvesFragment extends AbstractFragment
 
             if (mAdapter == null) {
                 mEbooks = data;
-                mAdapter = new EbookAdapter(mContext, mEbooks, mNavInfo, width, height);
-                mGrid.setAdapter(mAdapter);
+                if (width > 0 && height > 0) {
+                    mAdapter = new EbookAdapter(mContext, mEbooks, mNavInfo, width, height);
+                    mGrid.setAdapter(mAdapter);
+                }
             } else {
                 if (mEbooks != null) {
                     mEbooks.clear();
@@ -165,7 +167,9 @@ public class EbookShelvesFragment extends AbstractFragment
                         Ebook ebook = mEbooks.get(position);
                         EbookContentFragment fragment = new EbookContentFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable(KEY_NAVIGATION_INFO, mNavInfo);
+                        NavigationInfo nav = mNavInfo.clone();
+                        bundle.putParcelable(KEY_NAVIGATION_INFO, nav);
+                        //bundle.putParcelable(KEY_NAVIGATION_INFO, mNavInfo);
                         bundle.putParcelable(KEY_EBOOK_INFO, ebook);
 
                         fragment.setArguments(bundle);
@@ -194,30 +198,35 @@ public class EbookShelvesFragment extends AbstractFragment
             mTotalPage = (int) Math.ceil(_maxPage);
         }
         mCurrentPage = mNavInfo.getApiPagePar();
-        /*if (mCurrentPage == 1) {
-            mBtnPrev.setVisibility(View.GONE);
-            mBtnNext.setVisibility(View.VISIBLE);
-        } else {
-            mBtnPrev.setVisibility(View.VISIBLE);
-            if (mTotalPage == 0) {
-                mBtnNext.setVisibility(View.VISIBLE);
-            } else if (mCurrentPage < mTotalPage) {
-                mBtnNext.setVisibility(View.VISIBLE);
-            } else {
-                mBtnNext.setVisibility(View.GONE);
-            }
-        }*/
+
         mBtnPrev.setEnabled(true);
         mBtnNext.setEnabled(true);
-        if (mCurrentPage == 1) {
-            mBtnPrev.setVisibility(View.GONE);
-            mBtnNext.setVisibility(View.VISIBLE);
-        } else if (mCurrentPage == mTotalPage) {
-            mBtnPrev.setVisibility(View.VISIBLE);
-            mBtnNext.setVisibility(View.GONE);
+        if (mNavInfo.getRunningMode() == 0) {
+            if (mCurrentPage <= 1) {
+                mBtnPrev.setVisibility(View.GONE);
+                if (mTotalPage <= 1) {
+                    mBtnNext.setVisibility(View.GONE);
+                } else {
+                    mBtnNext.setVisibility(View.VISIBLE);
+                }
+            } else if (mCurrentPage == mTotalPage) {
+                mBtnPrev.setVisibility(View.VISIBLE);
+                mBtnNext.setVisibility(View.GONE);
+            } else {
+                mBtnPrev.setVisibility(View.VISIBLE);
+                mBtnNext.setVisibility(View.VISIBLE);
+            }
         } else {
-            mBtnPrev.setVisibility(View.VISIBLE);
-            mBtnNext.setVisibility(View.VISIBLE);
+            if (mCurrentPage <= 1) {
+                mBtnPrev.setVisibility(View.GONE);
+                mBtnNext.setVisibility(View.VISIBLE);
+            } else if (mCurrentPage == mTotalPage) {
+                mBtnPrev.setVisibility(View.VISIBLE);
+                mBtnNext.setVisibility(View.GONE);
+            } else {
+                mBtnPrev.setVisibility(View.VISIBLE);
+                mBtnNext.setVisibility(View.VISIBLE);
+            }
         }
     }
 

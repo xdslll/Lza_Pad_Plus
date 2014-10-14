@@ -4,20 +4,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.aphidmobile.flip.FlipViewController;
+import com.lza.pad.R;
 import com.lza.pad.core.db.adapter.NewsAdapter;
 import com.lza.pad.core.db.loader.NewsLoader;
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.core.db.model.EbookRequest;
 import com.lza.pad.core.db.model.News;
 import com.lza.pad.core.request.EbookUrlRequest;
-import com.lza.pad.ui.adapter.NewsFlipAdapter;
+import com.lza.pad.ui.adapter.NewsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +29,14 @@ import java.util.List;
  * @author xiads
  * @Date 14-9-21.
  */
-public class NewsFragment extends AbstractFragment
+public class NewsViewPagerFragment extends AbstractFragment
         implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    private FlipViewController mFlipView;
-    private NewsFlipAdapter mAdapter;
+    private ViewPager mViewPager;
+    private NewsPagerAdapter mAdapter;
     private NewsLoader mLoader;
     private Context mContext;
+    private ArrayList<View> mViews = new ArrayList<View>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,17 +47,14 @@ public class NewsFragment extends AbstractFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mFlipView = new FlipViewController(getActivity());
-        return mFlipView;
+        mViewPager = new ViewPager(getActivity());
+        return mViewPager;
     }
 
     @Override
     public void onResume() {
         super.onResume();
         dismissProgressDialog();
-        if (mFlipView != null) {
-            mFlipView.onResume();
-        }
         if (mNavInfo.getRunningMode() == 0) {
             getLoaderManager().initLoader(0, null, this);
         } else {
@@ -66,9 +65,6 @@ public class NewsFragment extends AbstractFragment
     @Override
     public void onPause() {
         super.onPause();
-        if (mFlipView != null) {
-            mFlipView.onPause();
-        }
     }
 
     @Override
@@ -117,8 +113,18 @@ public class NewsFragment extends AbstractFragment
     }
 
     private void setupViews(List<News> data) {
-        mAdapter = new NewsFlipAdapter(mContext, mNavInfo, data);
-        mFlipView.setAdapter(mAdapter);
+        Context context = getActivity();
+        if (context != null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            for (int i = 0; i < data.size(); i++) {
+                View view = inflater.inflate(R.layout.news_item, null);
+                mViews.add(view);
+            }
+            mAdapter = new NewsPagerAdapter(context, mNavInfo, data, mViews);
+            mViewPager.setAdapter(mAdapter);
+            mViewPager.setCurrentItem(0);
+        }
+
         dismissProgressDialog();
     }
 

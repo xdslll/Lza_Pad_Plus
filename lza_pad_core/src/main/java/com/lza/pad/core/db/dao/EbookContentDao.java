@@ -37,4 +37,19 @@ public class EbookContentDao extends BaseDao<EbookContent, Integer> {
         }
         return null;
     }
+
+    public void createOrUpdateEbookContent(EbookContent data) {
+        createQueryAndWhere();
+        try {
+            mWhere.eq(EbookContent._ID, data.getId());
+            EbookContent oldData = queryForFirst();
+            if (oldData != null && oldData.equals(data)) {
+                updateData(data);
+            } else {
+                createNewData(data);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

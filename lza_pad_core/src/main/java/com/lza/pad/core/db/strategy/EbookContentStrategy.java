@@ -50,7 +50,8 @@ public class EbookContentStrategy extends BaseStrategy<List<EbookContent>> {
                 return newContents;
             }
         } else if (control.equals(REQUEST_CONTROL_TYPE_HOT_BOOK)
-                || control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)) {
+                || control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)
+                || control.equals(HOT_BOOK_CONTROL_CONTENT)) {
             if (mEbook != null) {
                 String marcNo = mEbook.getUrl();
                 List<EbookContent> newContents = new ArrayList<EbookContent>();

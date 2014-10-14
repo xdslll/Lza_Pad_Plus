@@ -38,7 +38,8 @@ public class EbookContentAdapterStrategy extends BaseStrategy<BaseAdapter> {
         } else if (control.equals(REQUEST_CONTROL_TYPE_QK_MESSAGE)) {
             return new JournalsContentAdapter(mContext, mEbook, mEbookContents);
         } else if (control.equals(REQUEST_CONTROL_TYPE_HOT_BOOK)
-                || control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)) {
+                || control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)
+                || control.equals(HOT_BOOK_CONTROL_CONTENT)) {
             return new HotBookContentAdapter(mContext, mEbook, mEbookContents);
         }
         return null;

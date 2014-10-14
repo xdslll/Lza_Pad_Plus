@@ -25,6 +25,7 @@ import com.lza.pad.core.db.model.EbookRequest;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.request.OnResponseListener;
 import com.lza.pad.core.url.ApiUrlFactory;
+import com.lza.pad.core.utils.GlobalContext;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.lib.support.debug.AppLogger;
 import com.lza.pad.lib.support.network.GsonRequest;
@@ -69,6 +70,16 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
         mClock = (DigitalClock) view.findViewById(R.id.header_digital_clock);
         //mWeatherPanel = (WeatherPanel) view.findViewById(R.id.header_weather_panel);
         mTxtDate = (TextView) view.findViewById(R.id.header_date);
+        if (GlobalContext.DEBUG) {
+            mClock.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), BasePreferenceActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
         mClock.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

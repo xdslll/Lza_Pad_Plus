@@ -839,10 +839,10 @@ public final class RuntimeUtility implements Consts {
                     new ByteArrayInputStream(signature));
             String pubKey = cert.getPublicKey().toString();
             String signNumber = cert.getSerialNumber().toString();
-            System.out.println("signName:" + cert.getSigAlgName());
-            System.out.println("pubKey:" + pubKey);
-            System.out.println("signNumber:" + signNumber);
-            System.out.println("subjectDN:"+ cert.getSubjectDN().toString());
+            AppLogger.e("signName:" + cert.getSigAlgName());
+            AppLogger.e("pubKey:" + pubKey);
+            AppLogger.e("signNumber:" + signNumber);
+            AppLogger.e("subjectDN:"+ cert.getSubjectDN().toString());
             return pubKey;
         } catch (CertificateException e) {
             e.printStackTrace();

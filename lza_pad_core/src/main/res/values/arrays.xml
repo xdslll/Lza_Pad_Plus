@@ -50,9 +50,9 @@
         <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
         <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
         <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
-        <item>com.lza.pad.ui.fragment.NewsFragment</item>
-        <item>com.lza.pad.ui.fragment.NewsFragment</item>
-        <item>com.lza.pad.ui.fragment.NewsFragment</item>
+        <item>com.lza.pad.ui.fragment.NewsViewPagerFragment</item>
+        <item>com.lza.pad.ui.fragment.NewsViewPagerFragment</item>
+        <item>com.lza.pad.ui.fragment.NewsViewPagerFragment</item>
         <item>com.lza.pad.ui.fragment.VideoPlayFragment</item>
         <item>com.lza.pad.ui.fragment.EbookShelvesFragment</item>
         <item>com.lza.pad.ui.fragment.HelpFragment</item>

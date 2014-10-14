@@ -48,7 +48,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical">
-        <TextView
+        <!--<TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="40dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:id="@+id/news_item_content"
+            />-->
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="20dp"

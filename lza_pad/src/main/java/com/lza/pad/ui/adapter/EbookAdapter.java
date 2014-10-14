@@ -188,7 +188,7 @@ public class EbookAdapter extends BaseAdapter implements Consts {
                 newBmpH = maxH * imgScaling;
                 newBmpW = (double) bmpW / bmpH * newBmpH;
             }
-            if (bmpW > 0 && bmpH >0) {
+            if (bmpW > 0 && bmpH > 0) {
                 float sx = (float) newBmpW / bmpW;
                 float sy = (float) newBmpH / bmpH;
                 Matrix matrix = new Matrix();

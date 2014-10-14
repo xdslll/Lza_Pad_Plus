@@ -26,6 +26,10 @@ public class HelpFragment extends AbstractFragment implements Consts {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ImageView helpImg = new ImageView(getActivity());
+        helpImg.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        ));
         File imgFileDir = RuntimeUtility.createImgCacheDir(mNavInfo);
         if (!imgFileDir.exists()) {
             imgFileDir.mkdirs();
