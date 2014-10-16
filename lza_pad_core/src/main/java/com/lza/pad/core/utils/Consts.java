@@ -10,7 +10,8 @@ import android.app.Activity;
  */
 public interface Consts {
 
-    public static final String EBOOK_CONTENT_TAG = "ebook_content_tag";
+    public static final String TAG_SEARCH_BOOK_LIST = "search_book_list_tag";
+    public static final String TAG_EBOOK_CONTENT = "ebook_content_tag";
 
     public static final String KEY_CACHE_UNKNOWN_COVER = "unknown_cover";
 

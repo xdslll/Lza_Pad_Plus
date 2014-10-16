@@ -25,6 +25,7 @@ public class NewsAdapter implements DataAdapter<Ebook, News> {
         news.setImg1(oldData.getImg1());
         news.setImg2(oldData.getImg2());
         news.setImg3(oldData.getImg3());
+        news.setTitle(oldData.getTitle());
 
         return news;
     }

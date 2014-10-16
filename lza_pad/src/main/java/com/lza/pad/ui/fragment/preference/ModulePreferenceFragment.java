@@ -11,22 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.lza.pad.R;
-import com.lza.pad.core.db.dao.EbookContentDao;
-import com.lza.pad.core.db.dao.EbookDao;
-import com.lza.pad.core.db.dao.EbookRequestDao;
-import com.lza.pad.core.db.dao.HotBookContentDao;
-import com.lza.pad.core.db.dao.HotBookDao;
-import com.lza.pad.core.db.dao.JournalsContentDao;
-import com.lza.pad.core.db.dao.JournalsDao;
 import com.lza.pad.core.db.dao.NavigationInfoDao;
 import com.lza.pad.core.db.loader.NavigationLoader;
-import com.lza.pad.core.db.model.Ebook;
-import com.lza.pad.core.db.model.EbookContent;
-import com.lza.pad.core.db.model.EbookRequest;
-import com.lza.pad.core.db.model.HotBook;
-import com.lza.pad.core.db.model.HotBookContent;
-import com.lza.pad.core.db.model.Journals;
-import com.lza.pad.core.db.model.JournalsContent;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.lib.support.utils.UniversalUtility;
 import com.lza.pad.ui.adapter.ModulePreferenceListAdapter;
@@ -130,13 +116,13 @@ public class ModulePreferenceFragment extends AbstractListFragment
         NavigationInfoDao.getInstance().initNavigationData(getActivity());
 
         //清空所有电子书数据
-        EbookRequestDao.getInstance().clearByRaw(EbookRequest.TABLE_NAME);
+        /*EbookRequestDao.getInstance().clearByRaw(EbookRequest.TABLE_NAME);
         EbookDao.getInstance().clearByRaw(Ebook.TABLE_NAME);
         EbookContentDao.getInstance().clearByRaw(EbookContent.TABLE_NAME);
         JournalsDao.getInstance().clearByRaw(Journals.TABLE_NAME);
         JournalsContentDao.getInstance().clearByRaw(JournalsContent.TABLE_NAME);
         HotBookDao.getInstance().clearByRaw(HotBook.TABLE_NAME);
-        HotBookContentDao.getInstance().clearByRaw(HotBookContent.TABLE_NAME);
+        HotBookContentDao.getInstance().clearByRaw(HotBookContent.TABLE_NAME);*/
 
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }

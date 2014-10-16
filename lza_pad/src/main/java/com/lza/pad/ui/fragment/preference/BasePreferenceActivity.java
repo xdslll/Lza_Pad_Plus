@@ -142,7 +142,7 @@ public class BasePreferenceActivity extends SherlockFragmentActivity
         if (item.getItemId() == android.R.id.home) {
             finish();
             FragmentManager fm = getSupportFragmentManager();
-            Fragment fragment = fm.findFragmentByTag(EBOOK_CONTENT_TAG);
+            Fragment fragment = fm.findFragmentByTag(TAG_EBOOK_CONTENT);
             if (fragment != null) {
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.remove(fragment);

@@ -105,5 +105,10 @@
     <string name="admin_password_error">密码不正确，请重新输入!</string>
     <string name="admin_list_title">请选择</string>
 
+    <!-- 搜索图书 -->
+    <string name="ebook_search_title">书刊检索</string>
+    <string name="ebook_search_keyword_hint">请输入搜索关键字</string>
+    <string name="ebook_search_keyword_dialog_title">提醒</string>
+    <string name="ebook_search_keyword_dialog_message">关键字不能为空，请输入关键字！</string>
 
 </resources>

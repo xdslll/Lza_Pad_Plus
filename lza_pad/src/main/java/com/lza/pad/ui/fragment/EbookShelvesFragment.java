@@ -176,11 +176,11 @@ public class EbookShelvesFragment extends AbstractFragment
 
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
-                        Fragment oldFrt = fm.findFragmentByTag(EbookContentFragment.EBOOK_CONTENT_TAG);
+                        Fragment oldFrt = fm.findFragmentByTag(EbookContentFragment.TAG_EBOOK_CONTENT);
                         if (oldFrt != null) {
                             ft.remove(oldFrt);
                         }
-                        ft.add(R.id.home_container, fragment, EbookContentFragment.EBOOK_CONTENT_TAG).commit();
+                        ft.add(R.id.home_container, fragment, EbookContentFragment.TAG_EBOOK_CONTENT).commit();
                     }
                 }
             });

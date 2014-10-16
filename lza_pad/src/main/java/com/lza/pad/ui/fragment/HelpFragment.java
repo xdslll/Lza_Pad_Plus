@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.lza.pad.R;
 import com.lza.pad.core.utils.Consts;
@@ -25,11 +26,18 @@ public class HelpFragment extends AbstractFragment implements Consts {
     private final String mFileName = "help.jpg";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        ));
         ImageView helpImg = new ImageView(getActivity());
         helpImg.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
+        helpImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
         File imgFileDir = RuntimeUtility.createImgCacheDir(mNavInfo);
         if (!imgFileDir.exists()) {
             imgFileDir.mkdirs();
@@ -39,8 +47,11 @@ public class HelpFragment extends AbstractFragment implements Consts {
         if (bitmap != null) {
             helpImg.setImageBitmap(bitmap);
         } else {
-            helpImg.setBackgroundResource(R.drawable.help2);
+            helpImg.setImageResource(R.drawable.help2);
         }
-        return helpImg;
+
+        linearLayout.setBackgroundResource(R.drawable.ebook_list_bg);
+        linearLayout.addView(helpImg);
+        return linearLayout;
     }
 }

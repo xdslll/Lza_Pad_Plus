@@ -210,7 +210,7 @@ public class EbookListFragment extends AbstractFragment implements
 
             fragment.setArguments(bundle);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.add(R.id.home_container, fragment, EbookContentFragment.EBOOK_CONTENT_TAG).commit();
+            ft.add(R.id.home_container, fragment, EbookContentFragment.TAG_EBOOK_CONTENT).commit();
         }
     }
 

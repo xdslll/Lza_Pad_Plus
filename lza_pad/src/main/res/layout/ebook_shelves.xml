@@ -9,7 +9,6 @@
         android:layout_alignParentTop="true"
         android:id="@+id/ebook_list_title_bar"
         />
-
     <com.lza.pad.ui.widget.ShelvesView
         style="@style/UniversalMatchParent"
         android:cacheColorHint="#00000000"

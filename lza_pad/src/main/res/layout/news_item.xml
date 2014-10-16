@@ -39,15 +39,35 @@
             android:id="@+id/news_item_publish_date"
             />
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:padding="15dp"
+        android:visibility="gone"
+        android:id="@+id/news_item_title"
+        />
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="40dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:id="@+id/news_item_content"
+        />
     <!--<WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/news_item_content"
         />-->
-    <ScrollView
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical">-->
         <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -58,15 +78,5 @@
             android:textSize="18sp"
             android:id="@+id/news_item_content"
             />-->
-        <WebView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="40dp"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:id="@+id/news_item_content"
-            />
-    </ScrollView>
+    <!--</ScrollView>-->
 </LinearLayout>

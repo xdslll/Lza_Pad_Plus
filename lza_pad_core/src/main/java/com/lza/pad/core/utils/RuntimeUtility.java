@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -42,7 +43,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ShareActionProvider;
@@ -848,6 +851,81 @@ public final class RuntimeUtility implements Consts {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 隐藏键盘
+     */
+    public static void hideKeyBoard(Context _context, EditText searchText) {
+        InputMethodManager immDefault = (InputMethodManager) _context
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        immDefault.hideSoftInputFromWindow(searchText.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    /**
+     * 隐藏键盘
+     * @param _context
+     */
+    public static void hideKeyBoard(Activity _context) {
+        View view = _context.getWindow().getDecorView();
+        InputMethodManager immDefault = (InputMethodManager) _context
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        immDefault.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    /**
+     * 判断软键盘是否显示
+     */
+    public static boolean isShow(Context _context) {
+        InputMethodManager immDefault = (InputMethodManager) _context
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        return immDefault.isActive();
+    }
+    /**
+     * 设置标准
+     */
+    public static void flagShow(Context _context){
+        InputMethodManager imm = (InputMethodManager) _context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    /**
+     * 显示键盘
+     */
+    public static void startKeyBoard(Context _context, EditText searchText) {
+        InputMethodManager immDefault = (InputMethodManager) _context
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        immDefault.showSoftInputFromInputMethod(searchText.getWindowToken(), 0);
+    }
+
+    /**
+     * FunName: checkAuthority()
+     *
+     * @Description : 传入想要图片的高和宽，返回要求大小的图片
+     * @param：
+     * @return Bitmap
+     * @Author: gufeilong
+     * @Create Date: 2012-07-19
+     */
+    public static Bitmap compressIamge(int height, int width, Bitmap bitmap) {
+
+        // 获得图片的宽高
+        int oldWidth = bitmap.getWidth();
+        int oldHeight = bitmap.getHeight();
+        // 设置想要的大小
+        int newWidth = width;
+        int newHeight = height;
+        // 计算缩放比例
+        float scaleWidth = ((float) newWidth) / oldWidth;
+        float scaleHeight = ((float) newHeight) / oldHeight;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        // 得到新的图片
+        Bitmap newbm = Bitmap.createBitmap(bitmap, 0, 0, oldWidth, oldHeight,
+                matrix, true);
+        return newbm;
     }
 }
 

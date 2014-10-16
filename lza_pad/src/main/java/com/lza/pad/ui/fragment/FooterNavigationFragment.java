@@ -105,7 +105,7 @@ public class FooterNavigationFragment extends Fragment implements Consts {
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
 
-                        /*Fragment frt = fm.findFragmentByTag(EBOOK_CONTENT_TAG);
+                        /*Fragment frt = fm.findFragmentByTag(TAG_EBOOK_CONTENT);
                         if (frt != null) {
                             ft.remove(frt);
                         }*/

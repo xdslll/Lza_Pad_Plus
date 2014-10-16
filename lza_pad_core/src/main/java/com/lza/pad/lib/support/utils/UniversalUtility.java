@@ -360,6 +360,19 @@ public class UniversalUtility {
                 .show();
     }
 
+    public static void showDialog(Context context, int title, int message) {
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
     public static int getIntHalfUp(float f) {
         BigDecimal bd = new BigDecimal(f).setScale(BigDecimal.ROUND_HALF_UP);
         return bd.intValue();
