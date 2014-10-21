@@ -10,6 +10,7 @@ import com.lza.pad.core.db.model.EbookContent;
 import com.lza.pad.core.db.model.HotBookContent;
 import com.lza.pad.core.db.model.JournalsContent;
 import com.lza.pad.core.db.model.NavigationInfo;
+import com.lza.pad.core.utils.RuntimeUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +54,9 @@ public class EbookContentStrategy extends BaseStrategy<List<EbookContent>> {
                 || control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)
                 || control.equals(HOT_BOOK_CONTROL_CONTENT)) {
             if (mEbook != null) {
-                String marcNo = mEbook.getUrl();
-                List<EbookContent> newContents = new ArrayList<EbookContent>();
+                //String marcNo = mEbook.getUrl();
+                String marcNo = RuntimeUtility.getMarNoFromEbook(mEbook);
+                        List<EbookContent> newContents = new ArrayList<EbookContent>();
                 HotBookContent orgContent = HotBookContentDao.getInstance().queryByHotbookMarcNo(marcNo);
                 if (orgContent != null) {
                     HotbookToEbookContentAdapter adapter = new HotbookToEbookContentAdapter();

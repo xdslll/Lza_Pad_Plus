@@ -6,7 +6,8 @@
     android:background="@drawable/ebook_list_bg">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/whitesmoke">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,33 +26,31 @@
             android:layout_centerVertical="true"
             android:id="@+id/ebook_search_list_back"
             />
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dark_gray"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/ebook_search_list_back"
-            />
     </RelativeLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#00000000"
+        android:background="@color/white"
+        android:dividerHeight="0dp"
         android:id="@android:id/list"
         />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/whitesmoke">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="第4页，共10页"
+            android:text="第0页，共0页"
             android:textSize="25sp"
             android:textColor="@color/dark_gray"
             android:gravity="center"
             android:padding="10dp"
             android:layout_centerInParent="true"
-            android:id="@+id/ebook_search_list_pages"
+            android:id="@+id/ebook_search_list_page_info"
             />
         <ImageButton
             android:layout_width="wrap_content"
@@ -59,6 +58,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:src="@drawable/abc_ic_prev"
+            android:visibility="gone"
             android:id="@+id/ebook_search_list_prev_pages"
             />
         <ImageButton
@@ -67,6 +67,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:src="@drawable/abc_ic_go"
+            android:visibility="gone"
             android:id="@+id/ebook_search_list_next_pages"
             />
     </RelativeLayout>

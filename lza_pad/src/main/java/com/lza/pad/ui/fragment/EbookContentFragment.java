@@ -81,10 +81,13 @@ public class EbookContentFragment extends AbstractListFragment
         //更新书的信息
         String bookName = mEbook.getName();
         String qkName = mEbook.getTitle_c();
+        String bookTitle = mEbook.getTitle();
         if (!TextUtils.isEmpty(bookName)) {
             mTxtBookName.setText(bookName.trim());
-        }else if (!TextUtils.isEmpty(qkName)){
+        } else if (!TextUtils.isEmpty(qkName)){
             mTxtBookName.setText(qkName.trim());
+        } else if (!TextUtils.isEmpty(bookTitle)) {
+            mTxtBookName.setText(bookTitle.trim());
         }
 
         String bookAuthor = mEbook.getAuthor();

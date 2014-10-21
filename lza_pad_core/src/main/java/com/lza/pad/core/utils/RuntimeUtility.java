@@ -927,5 +927,15 @@ public final class RuntimeUtility implements Consts {
                 matrix, true);
         return newbm;
     }
+
+    public static String getMarNoFromEbook(Ebook ebook) {
+        String marNo = null;
+        marNo = ebook.getUrl();
+        if (TextUtils.isEmpty(marNo)) {
+            marNo = ebook.getMarc_no();
+        }
+        return marNo;
+    }
+
 }
 

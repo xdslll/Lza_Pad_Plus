@@ -224,6 +224,19 @@ public class Ebook implements Parcelable {
     private String Img3;
 
     /**
+     * 搜索参数
+     */
+    private String marc_no;
+
+    private String hao;
+
+    private String fb1;
+
+    private String fb2;
+
+    private int xh;
+
+    /**
      * 所属页数
      */
     //@DatabaseField
@@ -808,6 +821,46 @@ public class Ebook implements Parcelable {
         Img3 = img3;
     }
 
+    public String getMarc_no() {
+        return marc_no;
+    }
+
+    public void setMarc_no(String marc_no) {
+        this.marc_no = marc_no;
+    }
+
+    public String getHao() {
+        return hao;
+    }
+
+    public void setHao(String hao) {
+        this.hao = hao;
+    }
+
+    public String getFb1() {
+        return fb1;
+    }
+
+    public void setFb1(String fb1) {
+        this.fb1 = fb1;
+    }
+
+    public String getFb2() {
+        return fb2;
+    }
+
+    public void setFb2(String fb2) {
+        this.fb2 = fb2;
+    }
+
+    public int getXh() {
+        return xh;
+    }
+
+    public void setXh(int xh) {
+        this.xh = xh;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -870,6 +923,12 @@ public class Ebook implements Parcelable {
         dest.writeString(Img1);
         dest.writeString(Img2);
         dest.writeString(Img3);
+
+        dest.writeString(marc_no);
+        dest.writeString(hao);
+        dest.writeString(fb1);
+        dest.writeString(fb2);
+        dest.writeInt(xh);
     }
 
     public static final Creator<Ebook> CREATOR = new Creator<Ebook>() {
@@ -931,6 +990,12 @@ public class Ebook implements Parcelable {
             ebook.Img1 = source.readString();
             ebook.Img2 = source.readString();
             ebook.Img3 = source.readString();
+
+            ebook.marc_no = source.readString();
+            ebook.hao = source.readString();
+            ebook.fb1 = source.readString();
+            ebook.fb2 = source.readString();
+            ebook.xh = source.readInt();
 
             return ebook;
         }

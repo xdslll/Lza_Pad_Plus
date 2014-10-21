@@ -200,6 +200,19 @@ public class NavigationInfo implements Parcelable, Cloneable {
     @DatabaseField(columnName = "navigation_vertical_offset", defaultValue = "100")
     private int verticalOffset;
 
+    /**
+     * 搜索关键字
+     */
+    private String searchKeyWord;
+    /**
+     * 搜索类型
+     */
+    private int searchType;
+    /**
+     * 关键字类型
+     */
+    private int sourceType;
+
     public NavigationInfo() {}
 
     public int getId() {
@@ -434,6 +447,30 @@ public class NavigationInfo implements Parcelable, Cloneable {
         this.verticalOffset = verticalOffset;
     }
 
+    public String getSearchKeyWord() {
+        return searchKeyWord;
+    }
+
+    public void setSearchKeyWord(String searchKeyWord) {
+        this.searchKeyWord = searchKeyWord;
+    }
+
+    public int getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(int searchType) {
+        this.searchType = searchType;
+    }
+
+    public int getSourceType() {
+        return sourceType;
+    }
+
+    public void setSourceType(int sourceType) {
+        this.sourceType = sourceType;
+    }
+
     @Override
     public NavigationInfo clone() {
         NavigationInfo o = null;
@@ -481,6 +518,9 @@ public class NavigationInfo implements Parcelable, Cloneable {
         dest.writeFloat(imgScaling);
         dest.writeInt(runningMode);
         dest.writeInt(verticalOffset);
+        dest.writeString(searchKeyWord);
+        dest.writeInt(searchType);
+        dest.writeInt(sourceType);
     }
 
     public static final Creator<NavigationInfo> CREATOR =
@@ -517,6 +557,9 @@ public class NavigationInfo implements Parcelable, Cloneable {
                     navInfo.imgScaling = source.readFloat();
                     navInfo.runningMode = source.readInt();
                     navInfo.verticalOffset = source.readInt();
+                    navInfo.searchKeyWord = source.readString();
+                    navInfo.searchType = source.readInt();
+                    navInfo.sourceType = source.readInt();
 
                     return navInfo;
                 }

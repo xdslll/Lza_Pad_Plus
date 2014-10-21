@@ -108,6 +108,10 @@ public class ApiUrlFactory implements Consts.Weather, Consts.Request, Consts {
 
     public static final String PAR_CITY_ID = "cityId";
 
+    public static final String PAR_SEARCH_TYPE = "searchtype";
+
+    public static final String PAR_SOURCE_TYPE = "sourceType";
+
     /**
      * 获取天气API,已废弃,将替换为学校提供的API,本方法仅供测试
      *
@@ -206,6 +210,10 @@ public class ApiUrlFactory implements Consts.Weather, Consts.Request, Consts {
                 this.setBookId(String.valueOf(ni.getApiBookId()));
             } else if (ni.getApiActionPar().equals(JOURNALS_ACTION_CONTENT)){
                 this.setQkId(String.valueOf(ni.getApiBookId()));
+            } else if (ni.getApiControlPar().equals(REQUEST_CONTROL_TYPE_SEARCH)) {
+                this.setK(ni.getSearchKeyWord());
+                this.setSearchType(String.valueOf(ni.getSearchType()));
+                this.setSourceType(String.valueOf(ni.getSourceType()));
             } else if (ni.getApiActionPar().equals(HOT_BOOK_ACTION_CONTENT)) {
                 this.setAct(ni.getApiActPar());
                 this.setMarcNo(ni.getApiMarcNoPar());
@@ -299,6 +307,16 @@ public class ApiUrlFactory implements Consts.Weather, Consts.Request, Consts {
 
         public UrlParamsBuilder setGetTag(String s) {
             mParams.put(PAR_GET_TAG, s);
+            return this;
+        }
+
+        public UrlParamsBuilder setSearchType(String s) {
+            mParams.put(PAR_SEARCH_TYPE, s);
+            return this;
+        }
+
+        public UrlParamsBuilder setSourceType(String s) {
+            mParams.put(PAR_SOURCE_TYPE, s);
             return this;
         }
 

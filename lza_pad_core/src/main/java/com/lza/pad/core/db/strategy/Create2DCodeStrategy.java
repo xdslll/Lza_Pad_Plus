@@ -1,5 +1,7 @@
 package com.lza.pad.core.db.strategy;
 
+import android.text.TextUtils;
+
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.core.db.model.NavigationInfo;
 
@@ -37,17 +39,42 @@ public class Create2DCodeStrategy extends BaseStrategy<String> {
                         + "---" + mNav.getApiSchoolIdPar()
                         + "---" + mNav.getApiUrl();
             } else if (control.equals(REQUEST_CONTROL_TYPE_HOT_BOOK)) {
-                twoDimCodeString = mEbook.getTitle()
-                        + "---04---" + mEbook.getUrl()
-                        + "---下载移动图书馆"
-                        + "---" + mNav.getApiSchoolIdPar()
-                        + "---" + mNav.getApiUrl();
+                String url = mNav.getApiUrl();
+                String marcNo = mEbook.getUrl();
+                if (!TextUtils.isEmpty(url)) {
+                    if (!TextUtils.isEmpty(marcNo)) {
+                        twoDimCodeString = mEbook.getTitle()
+                                + "---04---" + mEbook.getUrl()
+                                + "---下载移动图书馆"
+                                + "---" + mNav.getApiSchoolIdPar()
+                                + "---" + mNav.getApiUrl();
+                    } else {
+                        marcNo = mEbook.getMarc_no();
+                        if (!TextUtils.isEmpty(marcNo)) {
+                            twoDimCodeString = mEbook.getTitle()
+                                    + "---05---" + marcNo
+                                    + "---下载移动图书馆"
+                                    + "---" + mNav.getApiSchoolIdPar()
+                                    + "---" + url;
+                        }
+                    }
+                }
             } else if (control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)) {
                 twoDimCodeString = mEbook.getTitle()
                         + "---03---" + mEbook.getUrl()
                         + "---下载移动图书馆"
                         + "---" + mNav.getApiSchoolIdPar()
                         + "---" + mNav.getApiUrl();
+            } else if (control.equals(REQUEST_CONTROL_TYPE_SEARCH)) {
+                String url = mNav.getApiUrl();
+                String marcNo = mEbook.getMarc_no();
+                if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(marcNo)) {
+                    twoDimCodeString = mEbook.getTitle()
+                            + "---05---" + marcNo
+                            + "---下载移动图书馆"
+                            + "---" + mNav.getApiSchoolIdPar()
+                            + "---" + url;
+                }
             }
         }
         return twoDimCodeString;

@@ -21,6 +21,7 @@ public interface Consts {
     public static final String REQUEST_CONTROL_TYPE_NEW_BOOK = "schoolNewBook";
     public static final String REQUEST_CONTROL_TYPE_HOT_BOOK = "schoolHotBook";
     public static final String REQUEST_CONTROL_TYPE_LIB_NEWS = "News";
+    public static final String REQUEST_CONTROL_TYPE_SEARCH = "opac";
 
     public static final String EBOOK_ACTION_LIST = "getMessage";
     public static final String EBOOK_ACTION_CONTENT = "getMrMessage";

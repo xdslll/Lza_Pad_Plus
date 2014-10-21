@@ -38,9 +38,18 @@ public class BookSearchFragment extends AbstractFragment {
                             R.string.ebook_search_keyword_dialog_title,
                             R.string.ebook_search_keyword_dialog_message);
                 } else {
+                    mNavInfo.setSearchKeyWord(keyword);
+                    mNavInfo.setSearchType(0);
+                    mNavInfo.setSourceType(0);
+                    mNavInfo.setApiControlPar(REQUEST_CONTROL_TYPE_SEARCH);
+                    mNavInfo.setApiActionPar(HOT_BOOK_ACTION_CONTENT);
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.add(R.id.home_container, new BookSearchListFragment(), TAG_SEARCH_BOOK_LIST);
+                    BookSearchListFragment fragment = new BookSearchListFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(KEY_NAVIGATION_INFO, mNavInfo);
+                    fragment.setArguments(bundle);
+                    ft.add(R.id.home_container, fragment, TAG_SEARCH_BOOK_LIST);
                     ft.commit();
                 }
             }

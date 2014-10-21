@@ -18,6 +18,7 @@ import com.lza.pad.core.request.EbookUrlRequest;
 import com.lza.pad.core.request.OnResponseListener;
 import com.lza.pad.core.url.ApiUrlFactory;
 import com.lza.pad.core.utils.GlobalContext;
+import com.lza.pad.core.utils.RuntimeUtility;
 import com.lza.pad.lib.support.debug.AppLogger;
 import com.lza.pad.lib.support.network.VolleySingleton;
 
@@ -53,6 +54,8 @@ public class CacheEbookContentStrategy extends BaseStrategy<Void> {
             cacheHotBookContent();
         } else if (control.equals(REQUEST_CONTROL_TYPE_NEW_BOOK)) {
             cacheHotBookContent();
+        } else if (control.equals(REQUEST_CONTROL_TYPE_SEARCH)) {
+            cacheHotBookContent();
         } else{
             if (mListener != null) {
                 mListener.onError(new IllegalStateException());
@@ -67,7 +70,8 @@ public class CacheEbookContentStrategy extends BaseStrategy<Void> {
      */
     private void cacheHotBookContent() {
         if (mNav != null && mEbook != null) {
-            final String marcNo = mEbook.getUrl();
+            //final String marcNo = mEbook.getUrl();
+            final String marcNo = RuntimeUtility.getMarNoFromEbook(mEbook);
             mNav.setApiControlPar(HOT_BOOK_CONTROL_CONTENT);
             mNav.setApiActionPar(HOT_BOOK_ACTION_CONTENT);
             mNav.setApiMarcNoPar(marcNo);

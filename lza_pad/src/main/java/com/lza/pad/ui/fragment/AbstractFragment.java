@@ -29,6 +29,8 @@ public class AbstractFragment extends SherlockFragment implements Consts {
     protected ProgressDialog mProgressDialog = null;
     private static final int SHOW_PROGRESS_DIALOG = 0x001;
     private static final int DISMISS_PROGRESS_DIALOG = 0x002;
+    private static final int SHOW_PROGRESS_DIALOG_ANYWAY = 0x003;
+    private static final int DISMISS_PROGRESS_DIALOG_ANYWAY = 0x004;
     protected Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -38,6 +40,12 @@ public class AbstractFragment extends SherlockFragment implements Consts {
                     break;
                 case DISMISS_PROGRESS_DIALOG:
                     _dismissProgressDialog();
+                    break;
+                case SHOW_PROGRESS_DIALOG_ANYWAY:
+                    _showProgressDialogAnyway();
+                    break;
+                case DISMISS_PROGRESS_DIALOG_ANYWAY:
+                    _dismissProgressDialogAnyway();
                     break;
                 default:
             }
@@ -98,11 +106,42 @@ public class AbstractFragment extends SherlockFragment implements Consts {
         }
     }
 
+    private void _showProgressDialogAnyway() {
+        if (getActivity() != null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage(getResources().getString(R.string.ebook_content_loading));
+            mProgressDialog.show();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mProgressDialog != null) {
+                        mProgressDialog.dismiss();
+                    }
+                }
+            }, DISMISS_PROGRESS_DIALOG_DELAY);
+        }
+    }
+
+    private void _dismissProgressDialogAnyway() {
+        if(mProgressDialog != null && getActivity() != null) {
+            mProgressDialog.dismiss();
+        }
+    }
+
     protected void showProgressDialog() {
         mHandler.sendEmptyMessage(SHOW_PROGRESS_DIALOG);
     }
 
     protected void dismissProgressDialog() {
         mHandler.sendEmptyMessage(DISMISS_PROGRESS_DIALOG);
+    }
+
+    protected void showProgressDialogAnyway() {
+        mHandler.sendEmptyMessage(SHOW_PROGRESS_DIALOG_ANYWAY);
+    }
+
+    protected void dismissProgressDialogAnyway() {
+        mHandler.sendEmptyMessage(DISMISS_PROGRESS_DIALOG_ANYWAY);
     }
 }
