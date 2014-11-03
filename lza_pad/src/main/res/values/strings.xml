@@ -84,7 +84,8 @@
     <string name="pref_mod_more_running_mode_dialog_title">请选择</string>
 
     <!-- ebook_content.xml -->
-    <string name="ebook_content_take_photo">用“移动图书馆” \n拍我，下载电子图书</string>
+    <string name="ebook_content_take_photo_get_ebook">已有Pad+客户端 \n拍我，下载电子图书</string>
+    <string name="ebook_content_take_photo_get_apk">没有Pad+客户端？ \n拍我，下载Pad+客户端</string>
     <string name="ebook_content_download_library">下载移动图书馆</string>
     <integer name="two_dim_code_width">220</integer>
     <integer name="two_dim_code_height">220</integer>
@@ -110,5 +111,7 @@
     <string name="ebook_search_keyword_hint">请输入搜索关键字</string>
     <string name="ebook_search_keyword_dialog_title">提醒</string>
     <string name="ebook_search_keyword_dialog_message">关键字不能为空，请输入关键字！</string>
+
+    <string name="ebook_content_copyright">版权声明：本电子书版权归属“中国移动手机阅读基地”</string>
 
 </resources>

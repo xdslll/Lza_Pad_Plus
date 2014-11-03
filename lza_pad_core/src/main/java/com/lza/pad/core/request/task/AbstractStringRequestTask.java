@@ -1,5 +1,6 @@
 package com.lza.pad.core.request.task;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -27,7 +28,7 @@ public class AbstractStringRequestTask implements Consts {
 
     public interface OnStringRequestResponse {
         void onSuccess(String data);
-        void onError();
+        void onError(VolleyError error);
     }
 
     public AbstractStringRequestTask(NavigationInfo nav) {
@@ -50,10 +51,11 @@ public class AbstractStringRequestTask implements Consts {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (mOnRequestResponse != null) {
-                            mOnRequestResponse.onError();
+                            mOnRequestResponse.onError(error);
                         }
                     }
                 });
+        request.setRetryPolicy(new DefaultRetryPolicy(60 * 1000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstance(GlobalContext.getInstance()).addToRequestQueue(request);
     }
 }

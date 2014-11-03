@@ -3,7 +3,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:padding="20dp">
+    android:padding="10dp">
+
+    <ImageButton
+        android:id="@+id/ebook_content_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ebook_content_btn_back"
+        android:layout_marginTop="30dp"
+        />
 
     <com.android.volley.toolbox.NetworkImageView
         android:layout_width="140dp"
@@ -28,7 +36,8 @@
         android:layout_height="wrap_content"
         android:maxWidth="250dp"
         android:gravity="center"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="5dip"
+        android:visibility="gone"
         android:textColor="@color/black"
         />
     <TextView
@@ -37,7 +46,8 @@
         android:layout_height="wrap_content"
         android:maxWidth="250dp"
         android:gravity="center"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="5dip"
+        android:visibility="gone"
         android:textColor="@color/black"
         />
     <TextView
@@ -46,7 +56,8 @@
         android:layout_height="wrap_content"
         android:maxWidth="250dp"
         android:gravity="center"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="5dip"
+        android:visibility="gone"
         android:textColor="@color/black"
         />
 
@@ -57,6 +68,7 @@
         android:maxWidth="250dp"
         android:gravity="center"
         android:layout_marginTop="10dip"
+        android:visibility="gone"
         android:textColor="@color/black"
         />
 
@@ -67,6 +79,7 @@
         android:maxWidth="250dp"
         android:gravity="center"
         android:layout_marginTop="10dip"
+        android:visibility="gone"
         android:textColor="@color/black"
         />
 
@@ -82,9 +95,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ebook_content_photo_bg"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
         <ImageView
-            android:id="@+id/ebook_content_two_dimensional_code"
+            android:id="@+id/ebook_content_2dc_get_ebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher"
@@ -96,7 +110,7 @@
             android:layout_marginBottom="10dp"
             android:maxWidth="250dp"
             android:gravity="center"
-            android:text="@string/ebook_content_take_photo"
+            android:text="@string/ebook_content_take_photo_get_ebook"
             />
     </LinearLayout>
 
@@ -105,11 +119,36 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ebook_content_bottom_seperate"
         />
-    <ImageButton
-        android:id="@+id/ebook_content_btn_back"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ebook_content_btn_back"
-        android:layout_marginTop="30dp"
+        android:background="@drawable/ebook_content_photo_bg"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <ImageView
+            android:id="@+id/ebook_content_2dc_get_apk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:maxWidth="250dp"
+            android:gravity="center"
+            android:text="@string/ebook_content_take_photo_get_apk"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ebook_content_bottom_seperate"
         />
+
 </LinearLayout>

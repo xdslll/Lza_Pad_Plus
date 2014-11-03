@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/ebook_content_bg">
-        <include layout="@layout/ebook_content_left_info"/>
-    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1.0">
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/ebook_content_bg">
+            <include layout="@layout/ebook_content_left_info"/>
+        </ScrollView>
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:id="@android:id/list"
-        android:background="@android:color/white"
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@android:id/list"
+            android:background="@android:color/white"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ebook_content_copyright"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:background="@color/whitesmoke"
         />
 <!--<ScrollView
     android:layout_width="wrap_content"

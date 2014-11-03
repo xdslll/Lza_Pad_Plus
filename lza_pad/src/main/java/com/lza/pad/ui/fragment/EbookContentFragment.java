@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.lza.pad.R;
+import com.lza.pad.core.db.dao.NavigationInfoDao;
 import com.lza.pad.core.db.loader.EbookContentLoader;
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.core.db.model.EbookContent;
@@ -43,7 +44,7 @@ public class EbookContentFragment extends AbstractListFragment
 
     private TextView mTxtBookName, mTxtBookAuthor, mTxtBookPress, mTxtBookPubdate, mTxtBookIsbn;
     private ImageButton mImgBtnBack;
-    private ImageView mImgBookCover, mImg2DCode;
+    private ImageView mImgBookCover, mImg2DCodeGetEbook, mImg2DCodeGetApk;
     private NetworkImageView mImgBookCoverFromNet;
 
     private Ebook mEbook;
@@ -73,7 +74,9 @@ public class EbookContentFragment extends AbstractListFragment
 
         mImgBtnBack = (ImageButton) view.findViewById(R.id.ebook_content_btn_back);
 
-        mImg2DCode = (ImageView) view.findViewById(R.id.ebook_content_two_dimensional_code);
+        mImg2DCodeGetEbook = (ImageView) view.findViewById(R.id.ebook_content_2dc_get_ebook);
+        mImg2DCodeGetApk = (ImageView) view.findViewById(R.id.ebook_content_2dc_get_apk);
+
         mImgBookCover = (ImageView) view.findViewById(R.id.ebook_content_img_cover);
 
         mImgBookCoverFromNet = (NetworkImageView) view.findViewById(R.id.ebook_content_img_cover_net);
@@ -84,39 +87,49 @@ public class EbookContentFragment extends AbstractListFragment
         String bookTitle = mEbook.getTitle();
         if (!TextUtils.isEmpty(bookName)) {
             mTxtBookName.setText(bookName.trim());
+            mTxtBookName.setVisibility(View.VISIBLE);
         } else if (!TextUtils.isEmpty(qkName)){
             mTxtBookName.setText(qkName.trim());
+            mTxtBookName.setVisibility(View.VISIBLE);
         } else if (!TextUtils.isEmpty(bookTitle)) {
             mTxtBookName.setText(bookTitle.trim());
+            mTxtBookName.setVisibility(View.VISIBLE);
         }
 
         String bookAuthor = mEbook.getAuthor();
         String qkCompany = mEbook.getCompany();
         if (!TextUtils.isEmpty(bookAuthor)) {
             mTxtBookAuthor.setText(bookAuthor.trim());
+            mTxtBookAuthor.setVisibility(View.VISIBLE);
         }else if (!TextUtils.isEmpty(qkCompany)) {
             mTxtBookAuthor.setText(qkCompany.trim());
+            mTxtBookAuthor.setVisibility(View.VISIBLE);
         }
 
         String bookPress = mEbook.getPress();
         if (!TextUtils.isEmpty(bookPress)) {
             mTxtBookPress.setText(bookPress.trim());
+            mTxtBookPress.setVisibility(View.VISIBLE);
         }
 
         String bookPubdate = mEbook.getPubdate();
         String qkPubdate = mEbook.getCreat_pubdate();
         if (!TextUtils.isEmpty(bookPubdate)) {
             mTxtBookPubdate.setText(bookPubdate.trim());
+            mTxtBookPubdate.setVisibility(View.VISIBLE);
         }else if (!TextUtils.isEmpty(qkPubdate)) {
             mTxtBookPubdate.setText(qkPubdate);
+            mTxtBookPubdate.setVisibility(View.VISIBLE);
         }
 
         String bookIsbn = mEbook.getIsbn();
         String qkIssn = mEbook.getIssn();
         if (!TextUtils.isEmpty(bookIsbn)) {
             mTxtBookIsbn.setText(bookIsbn.trim());
+            mTxtBookIsbn.setVisibility(View.VISIBLE);
         }else if (!TextUtils.isEmpty(bookIsbn)) {
             mTxtBookIsbn.setText(qkIssn);
+            mTxtBookIsbn.setVisibility(View.VISIBLE);
         }
 
         //更新封面
@@ -164,15 +177,23 @@ public class EbookContentFragment extends AbstractListFragment
             Create2DCodeStrategy strategy = new Create2DCodeStrategy(mNavInfo, mEbook);
             String twoDimCodeString = strategy.operation();
 
+            int width2DCode = getResources().getInteger(R.integer.two_dim_code_width);
+            int height2DCode = getResources().getInteger(R.integer.two_dim_code_height);
+
             if (!TextUtils.isEmpty(twoDimCodeString)) {
 
                 AppLogger.e("twoDimCodeString-->" + twoDimCodeString);
-
-                int width2DCode = getResources().getInteger(R.integer.two_dim_code_width);
-                int height2DCode = getResources().getInteger(R.integer.two_dim_code_height);
-                Bitmap bmp2DCode = RuntimeUtility.Create2DCode(twoDimCodeString, width2DCode, height2DCode);
-                mImg2DCode.setImageBitmap(bmp2DCode);
+                Bitmap bmp2DCodeGetEbook = RuntimeUtility.Create2DCode(twoDimCodeString, width2DCode, height2DCode);
+                mImg2DCodeGetEbook.setImageBitmap(bmp2DCodeGetEbook);
             }
+
+            String schoolUrl = NavigationInfoDao.getInstance().queryNotClosedBySortId(1).getApiUrl();
+            int lastSep = schoolUrl.lastIndexOf("/");
+            String schoolUrlPrefix = schoolUrl.substring(0, lastSep);
+            String getApk2DCString = schoolUrlPrefix + "/pad_client.apk";
+
+            Bitmap bmp2DCodeGetApk = RuntimeUtility.Create2DCode(getApk2DCString, width2DCode, height2DCode);
+            mImg2DCodeGetApk.setImageBitmap(bmp2DCodeGetApk);
         }
 
         //返回按钮事件

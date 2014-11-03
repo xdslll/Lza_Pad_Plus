@@ -11,11 +11,13 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.lza.pad.R;
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.core.db.model.EbookRequest;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.request.task.AbstractStringRequestTask;
+import com.lza.pad.lib.support.utils.ToastUtils;
 import com.lza.pad.ui.adapter.EbookSearchAdapter;
 
 import org.json.JSONArray;
@@ -156,7 +158,8 @@ public class BookSearchListFragment extends AbstractListFragment
     }
 
     @Override
-    public void onError() {
+    public void onError(VolleyError error) {
+        ToastUtils.showShort(getActivity(), "请求出错！错误原因：" + error.getMessage());
         dismissProgressDialogAnyway();
     }
 

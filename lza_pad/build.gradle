@@ -15,15 +15,15 @@ android {
         applicationId 'com.lza.pad'
         minSdkVersion 8
         targetSdkVersion 15
-        versionCode 3
-        versionName '1.1.1'
+        versionCode 4
+        versionName '1.1.2'
         signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
+            debuggable false
         }
     }
     productFlavors {

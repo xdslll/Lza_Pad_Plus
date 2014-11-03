@@ -219,7 +219,11 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
                 R.drawable.weather_sand_storm,
                 R.drawable.weather_sand_storm,
                 R.drawable.weather_sand_storm };
-        mImgWeather.setImageResource(imags[imageNumber]);
+        if (imageNumber > imags.length) {
+            mImgWeather.setImageResource(imags[imageNumber]);
+        } else {
+            mImgWeather.setImageResource(imags[0]);
+        }
 
     }
 
