@@ -2,6 +2,8 @@ package com.lza.pad.core.db.dao;
 
 import android.text.TextUtils;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.utils.RuntimeUtility;
@@ -32,6 +34,23 @@ public class EbookDao extends BaseDao<Ebook, Integer> {
             sEbookDao = new EbookDao();
         }
         return sEbookDao;
+    }
+
+    public void clearByType(String type) {
+        /*String sql = "DELETE FROM " + table_name + " WHERE " + Ebook._TYPE + "='" + type + "'";
+        try {
+            mDao.queryRawValue(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
+        DeleteBuilder<Ebook, Integer> delete = mDao.deleteBuilder();
+        Where<Ebook, Integer> where = delete.where();
+        try {
+            where.eq(Ebook._TYPE, type);
+            delete.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public long countOfByType(NavigationInfo ni) {
@@ -74,10 +93,27 @@ public class EbookDao extends BaseDao<Ebook, Integer> {
         long page = ni.getApiPagePar();
         long offset = (page - 1) * pagesize;
         String type = ni.getApiControlPar();
+        String xk = ni.getApiXkPar();
+
         try {
-            mWhere.eq(Ebook._TYPE, type);
-            mQuery.offset(offset).limit(pagesize)
-                    .orderBy(Ebook._PX, true).orderBy(Ebook._ID, true);
+            if (!TextUtils.isEmpty(xk)) {
+                mWhere.eq(Ebook._ZTF, xk).and().eq(Ebook._TYPE, type);;
+            } else {
+                mWhere.eq(Ebook._TYPE, type);
+            }
+            mQuery.offset(offset).limit(pagesize);
+            int sort = ni.getSort();
+            switch (sort) {
+                case NavigationInfo.SORT_BY_ID:
+                    mQuery.orderBy(Ebook._ID, true);
+                    break;
+                case NavigationInfo.SORT_BY_BOOK_ID:
+                    mQuery.orderBy(Ebook._BOOK_ID, true);
+                    break;
+                case NavigationInfo.SORT_BY_INNER_ID:
+                    mQuery.orderBy(Ebook._INNER_ID, true);
+                    break;
+            }
             return queryForCondition();
         } catch (SQLException e) {
             e.printStackTrace();

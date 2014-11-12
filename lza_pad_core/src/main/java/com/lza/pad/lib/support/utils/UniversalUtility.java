@@ -360,6 +360,15 @@ public class UniversalUtility {
                 .show();
     }
 
+    public static void showDialog(Context context, String title, String message, DialogInterface.OnClickListener okListener, DialogInterface.OnClickListener cancelListener) {
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("确定", okListener)
+                .setNegativeButton("取消", cancelListener)
+                .show();
+    }
+
     public static void showDialog(Context context, int title, int message) {
         new AlertDialog.Builder(context)
                 .setTitle(title)

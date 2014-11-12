@@ -13,8 +13,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.lza.pad.R;
+import com.lza.pad.core.db.dao.EbookDao;
+import com.lza.pad.core.db.dao.HotBookDao;
+import com.lza.pad.core.db.dao.JournalsContentDao;
+import com.lza.pad.core.db.dao.JournalsDao;
 import com.lza.pad.core.db.dao.NavigationInfoDao;
+import com.lza.pad.core.db.model.Journals;
+import com.lza.pad.core.db.model.JournalsContent;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
+import com.lza.pad.lib.support.utils.UniversalUtility;
 
 /**
  * Say something about this class
@@ -30,11 +37,13 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
     private static final String PREF_API = "pref_mod_more_api";
     private static final String PREF_IMG_SCALING = "pref_mod_shelves_img_scaling";
     private static final String PREF_RUNNING_MODE = "pref_mod_shelves_running_mode";
+    private static final String PREF_SUBJECT_MODE = "pref_mod_shelves_subject_mode";
+    private static final String PREF_CLEAR = "pref_mod_shelves_clear";
 
     private EditTextPreference mRowPref;
     private EditTextPreference mColPref;
-    private PreferenceScreen mApiPref, mImgScalingPref;
-    private ListPreference mRunningModePref;
+    private PreferenceScreen mApiPref, mImgScalingPref, mClearPref;
+    private ListPreference mRunningModePref, mSubjectModePref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +61,8 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
         mApiPref = (PreferenceScreen) getPreferenceScreen().findPreference(PREF_API);
         mImgScalingPref = (PreferenceScreen) getPreferenceScreen().findPreference(PREF_IMG_SCALING);
         mRunningModePref = (ListPreference) getPreferenceScreen().findPreference(PREF_RUNNING_MODE);
+        mSubjectModePref = (ListPreference) getPreferenceScreen().findPreference(PREF_SUBJECT_MODE);
+        mClearPref = (PreferenceScreen) getPreferenceScreen().findPreference(PREF_CLEAR);
 
         if (mNav != null) {
             //更新到最新数据
@@ -66,6 +77,39 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
             updateImgScalingTitle(imgScalingInHundred);
             updateRunningModeTitle(runningMode);
         }
+
+        mClearPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                //ToastUtils.showShort(ModuleMoreSettings.this, mNav.getApiControlPar());
+                UniversalUtility.showDialog(ModuleMoreSettings.this,
+                        "请确认", "是否删除所有缓存数据？",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String control = mNav.getApiControlPar();
+                                if (control.equals("ebook") || control.equals("ebook_jc")) {
+                                    EbookDao.getInstance().clearByType(control);
+                                    //EbookContentDao.getInstance().clearByRaw(EbookContent.TABLE_NAME);
+                                } else if (control.equals("qk_message")){
+                                    JournalsDao.getInstance().clearByRaw(Journals.TABLE_NAME);
+                                    JournalsContentDao.getInstance().clearByRaw(JournalsContent.TABLE_NAME);
+                                } else if (control.equals("schoolNewBook") || control.equals("schoolHotBook")) {
+                                    HotBookDao.getInstance().clearByType(control);
+                                    //HotBookContentDao.getInstance().clearByRaw(HotBookContent.TABLE_NAME);
+                                }
+                            }
+                        },
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                return true;
+            }
+        });
 
         mRowPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -194,6 +238,19 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
                 return true;
             }
         });
+
+        mSubjectModePref.setDefaultValue(mNav.getHasTitleButton());
+        mSubjectModePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                String value = newValue.toString();
+                Integer finalValue = Integer.valueOf(value);
+                mNav.setHasTitleButton(finalValue);
+                NavigationInfoDao.getInstance().updateData(mNav);
+                updateSubjectModeTitle(finalValue);
+                return true;
+            }
+        });
     }
 
     private void updateRowTitle(int rowNumber) {
@@ -225,5 +282,17 @@ public class ModuleMoreSettings extends AbstractPreferenceActivity {
         String runnngModeTitle = String.format(getString
                 (R.string.pref_mod_more_running_mode_title), title);
         mRunningModePref.setTitle(runnngModeTitle);
+    }
+
+    private void updateSubjectModeTitle(int mode) {
+        String title = "";
+        if (mode == 0) {
+            title = "不显示";
+        } else if (mode == 1) {
+            title = "显示";
+        }
+        String runnngModeTitle = String.format(getString
+                (R.string.pref_mod_more_subject_mode_title), title);
+        mSubjectModePref.setTitle(runnngModeTitle);
     }
 }

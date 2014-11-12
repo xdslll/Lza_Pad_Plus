@@ -3,6 +3,7 @@ package com.lza.pad.ui.fragment.preference;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -76,11 +77,82 @@ public class GlobalPreferenceFragment extends AbstractListFragment
                     showSeekBarDialog(position, MODE_VERTICAL_OFFSET);
                 } else if (map.get("col").equals(NavigationInfo._API_RUNNING_MODE)) {
                     showListDialog(position);
+                } else if (map.get("col").equals(NavigationInfo._SORT)) {
+                    showSortListDialog(position);
+                } else if (map.get("col").equals(NavigationInfo._SCREEN_SAVER_TIME)) {
+                    showScreenSaverListDialog(position);
+                } else if (map.get("col").equals("subject")) {
+                    showSubjectDialog();
+                } else if (map.get("col").equals("default_subject")) {
+                    showDefaultSubjectDialog();
                 } else {
                     showEditTextDialog(position);
                 }
             }
         });
+    }
+
+    private void showDefaultSubjectDialog() {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), DefaultSubjectPreference.class);
+        startActivity(intent);
+    }
+
+    private void showSubjectDialog() {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), SubjectPreference.class);
+        startActivity(intent);
+    }
+
+    private void showScreenSaverListDialog(final int position) {
+        final Map<String, String> map = mData.get(position);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(map.get("key"))
+                .setItems(new String[]{"1分钟", "2分钟", "5分钟", "10分钟"},
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                int newValue;
+                                switch (which) {
+                                    case 0:
+                                        newValue = 60;
+                                        break;
+                                    case 1:
+                                        newValue = 60 * 2;
+                                        break;
+                                    case 2:
+                                        newValue = 60 * 5;
+                                        break;
+                                    case 3:
+                                        newValue = 60 * 10;
+                                        break;
+                                    default:
+                                        newValue = 60;
+                                }
+                                map.put("value", String.valueOf(newValue));
+                                updateData(map);
+                                mData.set(position, map);
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        })
+                .show();
+    }
+
+    private void showSortListDialog(final int position) {
+        final Map<String, String> map = mData.get(position);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(map.get("key"))
+                .setItems(new String[]{"通过InnerId", "通过Id", "通过BookId"},
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                map.put("value", String.valueOf(which));
+                                updateData(map);
+                                mData.set(position, map);
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        })
+                .show();
     }
 
     private void showListDialog(final int position) {

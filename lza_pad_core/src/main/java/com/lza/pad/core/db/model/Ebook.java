@@ -39,13 +39,13 @@ public class Ebook implements Parcelable {
     public static final String _CLICK_COUNT = "book_click_count";
     public static final String _TYPE = "book_type";
 
-    @DatabaseField(columnName = "inner_id")
+    @DatabaseField(columnName = "inner_id", generatedId = true, index = true)
     private int innerId;
 
     @DatabaseField(index = true)
     private int id;
 
-    @DatabaseField(columnName = "book_id", id = true, index = true)
+    @DatabaseField(columnName = "book_id", index = true)
     private int bookId;
 
     @DatabaseField(columnName = "book_name")
@@ -242,6 +242,12 @@ public class Ebook implements Parcelable {
     //@DatabaseField
     //private String pageNumber;
 
+    /**
+     * 所属学科
+     */
+    private String value;
+    private String schoolId;
+    private String xk_type;
 
     public Ebook() {}
 
@@ -859,6 +865,30 @@ public class Ebook implements Parcelable {
 
     public void setXh(int xh) {
         this.xh = xh;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(String schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public String getXk_type() {
+        return xk_type;
+    }
+
+    public void setXk_type(String xk_type) {
+        this.xk_type = xk_type;
     }
 
     @Override

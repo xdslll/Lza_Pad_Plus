@@ -2,6 +2,7 @@ package com.lza.pad.ui.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -180,20 +181,31 @@ public class EbookContentFragment extends AbstractListFragment
             int width2DCode = getResources().getInteger(R.integer.two_dim_code_width);
             int height2DCode = getResources().getInteger(R.integer.two_dim_code_height);
 
-            if (!TextUtils.isEmpty(twoDimCodeString)) {
+            //先通过学校编号获取二维码，如果获取不到再进行生成
+            int schoolId = mNavInfo.getApiSchoolIdPar();
+            String resName = "qrcode" + schoolId;
+            String packageName = getActivity().getPackageName();
+            int resId = getResources().getIdentifier(resName, "drawable", packageName);
+            try {
+                Drawable drawable = getResources().getDrawable(resId);
+                if (drawable != null) {
+                    mImg2DCodeGetApk.setImageDrawable(drawable);
+                }
+            } catch(Exception ex) {
+                String schoolUrl = NavigationInfoDao.getInstance().queryNotClosedBySortId(1).getApiUrl();
+                int lastSep = schoolUrl.lastIndexOf("/");
+                String schoolUrlPrefix = schoolUrl.substring(0, lastSep);
+                String getApk2DCString = schoolUrlPrefix + "/pad_client.apk";
 
+                Bitmap bmp2DCodeGetApk = RuntimeUtility.Create2DCode(getApk2DCString, width2DCode, height2DCode);
+                mImg2DCodeGetApk.setImageBitmap(bmp2DCodeGetApk);
+            }
+
+            if (!TextUtils.isEmpty(twoDimCodeString)) {
                 AppLogger.e("twoDimCodeString-->" + twoDimCodeString);
                 Bitmap bmp2DCodeGetEbook = RuntimeUtility.Create2DCode(twoDimCodeString, width2DCode, height2DCode);
                 mImg2DCodeGetEbook.setImageBitmap(bmp2DCodeGetEbook);
             }
-
-            String schoolUrl = NavigationInfoDao.getInstance().queryNotClosedBySortId(1).getApiUrl();
-            int lastSep = schoolUrl.lastIndexOf("/");
-            String schoolUrlPrefix = schoolUrl.substring(0, lastSep);
-            String getApk2DCString = schoolUrlPrefix + "/pad_client.apk";
-
-            Bitmap bmp2DCodeGetApk = RuntimeUtility.Create2DCode(getApk2DCString, width2DCode, height2DCode);
-            mImg2DCodeGetApk.setImageBitmap(bmp2DCodeGetApk);
         }
 
         //返回按钮事件

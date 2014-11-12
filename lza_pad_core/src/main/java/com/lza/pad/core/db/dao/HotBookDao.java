@@ -2,6 +2,8 @@ package com.lza.pad.core.db.dao;
 
 import android.text.TextUtils;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.lza.pad.core.db.adapter.HotbookAdapter;
 import com.lza.pad.core.db.model.Ebook;
 import com.lza.pad.core.db.model.HotBook;
@@ -35,6 +37,23 @@ public class HotBookDao extends BaseDao<HotBook, Integer> {
         return sHotBookDao;
     }
 
+    public void clearByType(String type) {
+        /*String sql = "DELETE FROM " + table_name + " WHERE " + HotBook._TYPE + "='" + type + "'";
+        try {
+            mDao.queryRawValue(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
+        DeleteBuilder<HotBook, Integer> delete = mDao.deleteBuilder();
+        Where<HotBook, Integer> where = delete.where();
+        try {
+            where.eq(HotBook._TYPE, type);
+            delete.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public long countOfByType(NavigationInfo ni) {
         return countOfByType(ni.getApiControlPar());
     }
@@ -56,8 +75,14 @@ public class HotBookDao extends BaseDao<HotBook, Integer> {
         long page = ni.getApiPagePar();
         long offset = (page - 1) * pagesize;
         String type = ni.getApiControlPar();
+        String xk = ni.getApiXkPar();
+
         try {
-            mWhere.eq(HotBook._TYPE, type);
+            if (!TextUtils.isEmpty(xk)) {
+                mWhere.eq(HotBook._XK, xk).and().eq(HotBook._TYPE, type);;
+            } else {
+                mWhere.eq(HotBook._TYPE, type);
+            }
             mQuery.offset(offset).limit(pagesize)
                     .orderBy(HotBook._ID, true);
             return queryForCondition();

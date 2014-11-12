@@ -42,6 +42,22 @@
             android:entryValues="@array/pref_mod_more_running_mode_value"
             android:dialogTitle="@string/pref_mod_more_running_mode_dialog_title"
             />
+        <ListPreference
+            android:title="显示学科筛选"
+            android:summary="@string/pref_mod_more_subject_mode"
+            android:key="pref_mod_shelves_subject_mode"
+            android:entries="@array/pref_mod_more_subject_mode_key"
+            android:entryValues="@array/pref_mod_more_subject_mode_value"
+            android:dialogTitle="@string/pref_mod_more_running_mode_dialog_title"
+            />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="数据设置">
+        <PreferenceScreen
+            android:title="清空数据"
+            android:summary="清空该栏目下所有数据"
+            android:key="pref_mod_shelves_clear"
+            />
+    </PreferenceCategory>
 </PreferenceScreen>

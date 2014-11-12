@@ -25,7 +25,6 @@ import com.lza.pad.core.db.model.EbookRequest;
 import com.lza.pad.core.db.model.NavigationInfo;
 import com.lza.pad.core.request.OnResponseListener;
 import com.lza.pad.core.url.ApiUrlFactory;
-import com.lza.pad.core.utils.GlobalContext;
 import com.lza.pad.core.utils.ToastUtilsSimplify;
 import com.lza.pad.lib.support.debug.AppLogger;
 import com.lza.pad.lib.support.network.GsonRequest;
@@ -56,6 +55,7 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
     private Context mContext;
     //弹出Menu的密码
     private static final String MENU_PASSWORD = "njlza";
+    private static final String MENU_PASSWORD2 = "654321";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
         mClock = (DigitalClock) view.findViewById(R.id.header_digital_clock);
         //mWeatherPanel = (WeatherPanel) view.findViewById(R.id.header_weather_panel);
         mTxtDate = (TextView) view.findViewById(R.id.header_date);
-        if (GlobalContext.DEBUG) {
+        /*if (GlobalContext.DEBUG) {
             mClock.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -79,7 +79,7 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
                     startActivity(intent);
                 }
             });
-        }
+        }*/
         mClock.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -96,9 +96,10 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
                                 String password = edtPassowrd.getText().toString();
                                 if (TextUtils.isEmpty(password)) {
                                     Toast.makeText(mContext, R.string.admin_password_empty, Toast.LENGTH_SHORT).show();
-                                } else if (password.equals(MENU_PASSWORD)) {
+                                } else if (password.equals(MENU_PASSWORD) || password.equals(MENU_PASSWORD2)) {
                                     Intent intent = new Intent();
                                     intent.setClass(getActivity(), BasePreferenceActivity.class);
+                                    intent.putExtra("password", password);
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(mContext, R.string.admin_password_error, Toast.LENGTH_SHORT).show();
@@ -121,8 +122,12 @@ public class HeaderFragment extends Fragment implements OnResponseListener<Ebook
         mTxtWeatherTemp = (TextView) view.findViewById(R.id.weather_temperature);
         mTxtWeatherInfo = (TextView) view.findViewById(R.id.weather_info);
         mTxtWeatherCity = (TextView) view.findViewById(R.id.weather_city);
-
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

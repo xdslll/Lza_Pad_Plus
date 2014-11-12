@@ -3,7 +3,7 @@
 
     <!-- 数据库 -->
     <string name="db_name">lza_pad.db</string>
-    <string name="db_version">1</string>
+    <string name="db_version">2</string>
     <string name="db_init_error">数据库初始化失败!</string>
     <string name="db_create_error">数据库创建失败!</string>
     <string name="db_update_error">数据库更新失败!</string>

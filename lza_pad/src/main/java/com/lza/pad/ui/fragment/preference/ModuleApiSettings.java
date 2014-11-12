@@ -124,7 +124,7 @@ public class ModuleApiSettings extends AbstractPreferenceActivity {
         int ret = 0;
         switch (requestCode) {
             case REQUEST_UPDATE_API_URL:
-                if (strValue.endsWith("?")) {
+                if (!strValue.endsWith("?")) {
                     strValue += "?";
                 }
                 ret = NavigationInfoDao.getInstance().updateById(NavigationInfo._API_URL, strValue, NavigationInfo._ID, id);

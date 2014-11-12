@@ -153,9 +153,10 @@ public class EbookShelvesFragment extends AbstractFragment
             } else {
                 if (mEbooks != null) {
                     mEbooks.clear();
-                    for (int i = 0; i < data.size(); i++) {
+                    /*for (int i = 0; i < data.size(); i++) {
                         mEbooks.add(data.get(i));
-                    }
+                    }*/
+                    mEbooks.addAll(data);
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -184,7 +185,13 @@ public class EbookShelvesFragment extends AbstractFragment
                     }
                 }
             });
-            caclTotalPages();
+
+            if (mEbooks.size() > 0) {
+                caclTotalPages();
+            } else {
+                mBtnPrev.setVisibility(View.GONE);
+                mBtnNext.setVisibility(View.GONE);
+            }
             dismissProgressDialog();
         }
     }
@@ -258,14 +265,30 @@ public class EbookShelvesFragment extends AbstractFragment
                     @Override
                     public void onResponse(EbookRequest ebookRequest) {
                         if (ebookRequest != null) {
+                            mTotalPage = ebookRequest.getYe();
                             List<Ebook> ebooks = ebookRequest.getContents();
                             if (ebooks != null) {
                                 setupViews(ebooks);
+                            } else {
+                                if (mEbooks != null && mAdapter != null) {
+                                    mEbooks.clear();
+                                    mAdapter.notifyDataSetChanged();
+                                }
                             }
                         }
                     }
                 },
                 EbookRequest.class);
         request.send();
+    }
+
+    @Override
+    protected void onSelectSubject(String subValue) {
+        super.onSelectSubject(subValue);
+        if (mNavInfo.getRunningMode() == 0) {
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
+        } else {
+            loadFromNetwork();
+        }
     }
 }

@@ -2,7 +2,8 @@
 
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/UniversalMatchParent"
-    android:background="@drawable/navigation_bg">
+    android:background="@drawable/navigation_bg"
+    android:id="@+id/footer_layout">
     <RadioGroup
         style="@style/UniversalMatchParent"
         android:id="@+id/footer_navigation_group"

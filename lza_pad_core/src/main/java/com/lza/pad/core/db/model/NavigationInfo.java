@@ -17,6 +17,8 @@ public class NavigationInfo implements Parcelable, Cloneable {
 
     public static final String _ID = "id";
     public static final String _SORT_ID = "navigation_sort_id";
+    public static final String _SORT = "sort";
+    public static final String _SCREEN_SAVER_TIME = "screenSaverTime";
     public static final String IS_CLOSED = "navigation_is_closed";
     public static final String IS_ACTIVATED = "navigation_is_activated";
     public static final String _API_URL = "navigation_api_url";
@@ -212,6 +214,25 @@ public class NavigationInfo implements Parcelable, Cloneable {
      * 关键字类型
      */
     private int sourceType;
+
+    /**
+     * 记录书籍排序的字段
+     * 2 - 根据id排序
+     * 1 - 根据bookId排序
+     * 0 - 根据内置id排序
+     */
+    @DatabaseField
+    private int sort;
+    public static final int SORT_BY_ID = 2;
+    public static final int SORT_BY_BOOK_ID = 1;
+    public static final int SORT_BY_INNER_ID = 0;
+
+    /**
+     * 记录屏保时间
+     */
+    @DatabaseField
+    private int screenSaverTime;
+
 
     public NavigationInfo() {}
 
@@ -471,6 +492,22 @@ public class NavigationInfo implements Parcelable, Cloneable {
         this.sourceType = sourceType;
     }
 
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
+
+    public int getScreenSaverTime() {
+        return screenSaverTime;
+    }
+
+    public void setScreenSaverTime(int screenSaverTime) {
+        this.screenSaverTime = screenSaverTime;
+    }
+
     @Override
     public NavigationInfo clone() {
         NavigationInfo o = null;
@@ -521,6 +558,8 @@ public class NavigationInfo implements Parcelable, Cloneable {
         dest.writeString(searchKeyWord);
         dest.writeInt(searchType);
         dest.writeInt(sourceType);
+        dest.writeInt(sort);
+        dest.writeInt(screenSaverTime);
     }
 
     public static final Creator<NavigationInfo> CREATOR =
@@ -560,6 +599,8 @@ public class NavigationInfo implements Parcelable, Cloneable {
                     navInfo.searchKeyWord = source.readString();
                     navInfo.searchType = source.readInt();
                     navInfo.sourceType = source.readInt();
+                    navInfo.sort = source.readInt();
+                    navInfo.screenSaverTime = source.readInt();
 
                     return navInfo;
                 }

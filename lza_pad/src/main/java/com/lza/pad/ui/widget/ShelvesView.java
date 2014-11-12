@@ -39,19 +39,19 @@ public class ShelvesView extends GridView {
 
     public ShelvesView(Context context) {
         super(context);
-        init(context);
+        //init(context);
     }
 
     public ShelvesView(Context context, AttributeSet attrs) {
         super(context, attrs);
         load(context, attrs, 0);
-		init(context);
+		//init(context);
     }
 
     public ShelvesView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         load(context, attrs, defStyle);
-        init(context);
+        //init(context);
     }
 
     private void load(Context context, AttributeSet attrs, int defStyle) {

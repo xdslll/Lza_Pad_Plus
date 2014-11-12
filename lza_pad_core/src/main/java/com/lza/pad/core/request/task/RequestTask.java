@@ -53,8 +53,10 @@ public class RequestTask extends AsyncTask<Void, Void, Void> implements Consts {
 
                             if (mNav.getApiControlPar().equals(REQUEST_CONTROL_TYPE_LIB_NEWS)) {
                                 ArrayList<Ebook> ebooks = (ArrayList<Ebook>) response.getContents();
-                                for (Ebook ebook : ebooks) {
-                                   NewsDao.getInstance().createOrUpdateNews(ebook);
+                                if (ebooks != null) {
+                                    for (Ebook ebook : ebooks) {
+                                        NewsDao.getInstance().createOrUpdateNews(ebook);
+                                    }
                                 }
                                 if (mHandler != null) {
                                     mHandler.sendEmptyMessage(TASK_OVER_WITH_NO_DATA);

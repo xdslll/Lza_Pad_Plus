@@ -8,6 +8,7 @@ import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.lza.pad.R;
 import com.lza.pad.core.db.model.NavigationInfo;
+import com.lza.pad.core.exception.CrashHandler;
 import com.lza.pad.core.utils.Consts;
 import com.umeng.analytics.MobclickAgent;
 
@@ -47,6 +48,7 @@ public class AbstractPreferenceActivity extends SherlockPreferenceActivity imple
         if (arg != null) {
             mNav = arg.getParcelable(KEY_NAVIGATION_INFO);
         }
+        CrashHandler.getInstance(this).init();
     }
 
     @Override

@@ -6,7 +6,6 @@ import android.os.Handler;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.lza.pad.core.db.base.PadDatabaseHelper;
-import com.lza.pad.core.exception.CrashHandler;
 import com.lza.pad.lib.support.debug.AppLogger;
 
 /**
@@ -70,7 +69,6 @@ public class GlobalContext extends Application {
         sGlobalContext = this;
         AppLogger.DEBUG = DEBUG;
         RuntimeUtility.getSingatureInfo(this);
-        CrashHandler.getInstance(this).init();
     }
 
     @Override

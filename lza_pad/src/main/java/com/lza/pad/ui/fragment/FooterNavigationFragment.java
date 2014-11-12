@@ -50,6 +50,11 @@ public class FooterNavigationFragment extends Fragment implements Consts {
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     /**
      * 如果没有导航栏数据，则初始化导航栏数据库
      */
@@ -74,7 +79,7 @@ public class FooterNavigationFragment extends Fragment implements Consts {
      */
     public void initNavigation() {
         initNavigationData();
-        //sNavigationInfos = mNavigationInfoDao.queryAllData();
+        //sNavigationInfos = mNavigationInfoDao.queryForAll();
         sNavigationInfos = mNavigationInfoDao.queryNotClosedAndActivated();
 
         if (sNavigationInfos != null && sNavigationInfos.size() > 0) {

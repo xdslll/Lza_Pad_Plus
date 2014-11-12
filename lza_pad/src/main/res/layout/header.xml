@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:weather="http://schemas.android.com/apk/res-auto"
     style="@style/UniversalMatchParent"
-    android:background="@drawable/header_bg" >
+    android:background="@drawable/header_bg"
+    android:id="@+id/header_layout">
     <LinearLayout
         style="@style/UniversalWrapAndMatch"
         android:orientation="vertical"

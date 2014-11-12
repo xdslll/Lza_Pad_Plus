@@ -35,7 +35,6 @@ public class CacheService extends Service {
             AppLogger.e(nav.getName() + " --> AIDL GET IT!!!!!!!!!!!!!!!!!!!!!!");
             NavigationInfo otherNav = NavigationInfoDao.getInstance().queryNotClosedBySortId(5);
             AppLogger.e(otherNav.getName() + " --> AIDL GET IT!!!!!!!!!!!!!!!!!!!!!!");
-
             return null;
         }
     }

@@ -35,8 +35,8 @@ public abstract class AbstractDatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         AppLogger.e("DatabaseHelper-->onUpgrade");
-        if (newVersion > oldVersion) {
+        /*if (newVersion > oldVersion) {
             DatabaseTools.dropTables(mContext, mResId, connectionSource);
-        }
+        }*/
     }
 }

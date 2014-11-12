@@ -48,7 +48,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Intent intent = new Intent("com.lza.pad.SPLASH");
+            Intent intent = new Intent();
+            intent.setClassName("com.lza.pad", "com.lza.pad.ui.activity.main.SplashActivity");
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             PendingIntent restartIntent = PendingIntent.getActivity(
                     mContext, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);

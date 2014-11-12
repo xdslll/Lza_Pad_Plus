@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.lza.pad.core.exception.CrashHandler;
+import com.lza.pad.core.utils.Consts;
 import com.lza.pad.core.utils.GlobalContext;
 import com.lza.pad.lib.support.debug.AppLogger;
 import com.umeng.analytics.MobclickAgent;
@@ -12,7 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * Created by xiads on 14-9-8.
  */
-public class AbstractActivity extends SherlockFragmentActivity {
+public class AbstractActivity extends SherlockFragmentActivity implements Consts {
 
     protected int theme = 0;
 
@@ -100,6 +102,7 @@ public class AbstractActivity extends SherlockFragmentActivity {
         GlobalContext.getInstance().setActivity(this);
         //设置友盟的DEBUG模式，发布时应关闭
         MobclickAgent.setDebugMode(true);
+        CrashHandler.getInstance(this).init();
     }
 
 }

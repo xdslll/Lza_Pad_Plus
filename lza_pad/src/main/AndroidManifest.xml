@@ -35,7 +35,7 @@
             android:name=".ui.activity.main.SplashActivity"
             android:label="@string/app_name"
             android:enabled="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -104,6 +104,20 @@
             android:theme="@style/PreferenceTheme"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.activity.main.ScreenSaverActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            />
+        <activity android:name=".ui.fragment.preference.SubjectPreference"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@style/PreferenceTheme"
+            />
+        <activity android:name=".ui.fragment.preference.DefaultSubjectPreference"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@style/PreferenceTheme"
+            />
 
         <service android:name=".service.CacheService"
             android:process=":cache"
@@ -121,6 +135,9 @@
             <intent-filter >
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <category android:name="android.intent.category.HOME"/>
+            </intent-filter>
+            <intent-filter >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
         <!-- 友盟自动更新服务 -->

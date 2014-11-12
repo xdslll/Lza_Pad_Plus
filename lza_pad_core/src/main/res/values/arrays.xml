@@ -72,8 +72,8 @@
         <item>0</item>
     </integer-array>
     <integer-array name="navigation_init_has_title_button">
-        <item>0</item>
-        <item>0</item>
+        <item>1</item>
+        <item>1</item>
         <item>0</item>
         <item>0</item>
         <item>0</item>

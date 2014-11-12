@@ -34,33 +34,10 @@ public class GlobalPreferenceLoader extends AbstractLoader<List<Map<String, Stri
             setData("封面图片比例", nav.getImgScaling(), NavigationInfo._API_IMG_SCALING, data);
             setData("书架垂直偏移量", nav.getVerticalOffset(), NavigationInfo._API_VERTICAL_OFFSET, data);
             setData("运行模式", nav.getRunningMode(), NavigationInfo._API_RUNNING_MODE, data);
-
-            /*Map<String, String> map = new HashMap<String, String>();
-            map.put("key", "接口地址");
-            map.put("value", nav.getApiUrl());
-            map.put("col", NavigationInfo._API_URL);
-            data.add(map);
-            Map<String, String> map2 = new HashMap<String, String>();
-            map2.put("key", "城市编号");
-            map2.put("value", String.valueOf(nav.getApiCityCode()));
-            map2.put("col", NavigationInfo._API_CITY_CODE);
-            data.add(map2);
-            Map<String, String> map3 = new HashMap<String, String>();
-            map3.put("key", "学校编号");
-            map3.put("value", String.valueOf(nav.getApiSchoolIdPar()));
-            map3.put("col", NavigationInfo._API_SCHOOL_ID);
-            data.add(map3);
-            Map<String, String> map4 = new HashMap<String, String>();
-            map4.put("key", "设备编号");
-            map4.put("value", String.valueOf(nav.getApiDeviceCode()));
-            map4.put("col", NavigationInfo._API_DEVICE_CODE);
-            data.add(map4);
-            Map<String, String> map5 = new HashMap<String, String>();
-            map4.put("key", "封面图片比例");
-            int imgScaling = (int) (nav.getImgScaling() * 100);
-            map4.put("value", String.valueOf(imgScaling));
-            map4.put("col", NavigationInfo._);
-            data.add(map4);*/
+            setData("排序模式", nav.getSort(), NavigationInfo._SORT, data);
+            setData("屏保时间", nav.getScreenSaverTime(), NavigationInfo._SCREEN_SAVER_TIME, data);
+            setData("学科设置", "学科设置", "subject", data);
+            setData("默认学科", "默认学科", "default_subject", data);
         }
         return data;
     }

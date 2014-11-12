@@ -1,14 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tool="http://schemas.android.com/apk/res-auto"
     style="@style/ModuleBackground">
-    <com.lza.pad.ui.widget.TitleBar
+    <!--<com.lza.pad.ui.widget.TitleBar
         style="@style/UniversalMatchAndWrap"
         tool:title="@string/ebook_list_title"
         tool:titleVisibility="true"
         tool:subjectVisiblity="true"
         android:layout_alignParentTop="true"
         android:id="@+id/ebook_list_title_bar"
-        />
+        />-->
+    <include layout="@layout/ctr_title_bar"/>
     <com.lza.pad.ui.widget.ShelvesView
         style="@style/UniversalMatchParent"
         android:cacheColorHint="#00000000"
@@ -16,7 +17,7 @@
         tool:shelfBackground="@drawable/ebook_list_shelf_bg_short"
         android:stretchMode="columnWidth"
         android:gravity="center"
-        android:layout_below="@id/ebook_list_title_bar"
+        android:layout_below="@+id/title_bar_layout"
         android:id="@+id/ebook_list_grid_shelves"
         />
     <Button

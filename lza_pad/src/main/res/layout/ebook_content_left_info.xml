@@ -5,19 +5,11 @@
     android:gravity="center_horizontal"
     android:padding="10dp">
 
-    <ImageButton
-        android:id="@+id/ebook_content_btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ebook_content_btn_back"
-        android:layout_marginTop="30dp"
-        />
-
     <com.android.volley.toolbox.NetworkImageView
         android:layout_width="140dp"
         android:layout_height="205dp"
         android:id="@+id/ebook_content_img_cover_net"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/ic_launcher"
         android:background="@drawable/ebook_content_cover_bg"
         android:visibility="gone"
@@ -26,7 +18,7 @@
         android:layout_width="140dp"
         android:layout_height="205dp"
         android:id="@+id/ebook_content_img_cover"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/ic_launcher"
         android:background="@drawable/ebook_content_cover_bg"
         />
@@ -99,8 +91,10 @@
         android:padding="10dp">
         <ImageView
             android:id="@+id/ebook_content_2dc_get_ebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:maxWidth="200dp"
+            android:maxHeight="200dp"
             android:src="@drawable/ic_launcher"
             />
 
@@ -130,8 +124,10 @@
         android:padding="10dp">
         <ImageView
             android:id="@+id/ebook_content_2dc_get_apk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:maxWidth="200dp"
+            android:maxHeight="200dp"
             android:src="@drawable/ic_launcher"
             />
 
@@ -149,6 +145,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ebook_content_bottom_seperate"
+        />
+
+    <ImageButton
+        android:id="@+id/ebook_content_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ebook_content_btn_back"
+        android:layout_marginTop="25dp"
         />
 
 </LinearLayout>

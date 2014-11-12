@@ -14,6 +14,7 @@ public class HotBook {
 
     public static final String TABLE_NAME = "lza_pad_hot_book";
     public static final String _ID = "hot_book_id";
+    public static final String _XK = "hot_book_xk";
     public static final String _TYPE = "hot_bok_type";
 
     @DatabaseField(generatedId = true)

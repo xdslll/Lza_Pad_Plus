@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.WindowManager;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -96,6 +97,7 @@ public class BasePreferenceActivity extends SherlockFragmentActivity
         AppLogger.d("onSaveInstanceState");
     }
 
+    private String password = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,10 +109,25 @@ public class BasePreferenceActivity extends SherlockFragmentActivity
         //设置友盟的DEBUG模式，发布时应关闭
         MobclickAgent.setDebugMode(true);
 
-        mData.add("全局设置");
+        if (getIntent() != null) {
+            password = getIntent().getStringExtra("password");
+            if (!TextUtils.isEmpty(password)) {
+                if (password.equals("njlza")) {
+                    mData.add("全局设置");
+                    mData.add("模块设置");
+                    mTags.add(TAB_GLOBAL_TAG);
+                    mTags.add(TAB_MODULE_TAG);
+                } else if (password.equals("654321")) {
+                    mData.add("全局设置");
+                    mTags.add(TAB_GLOBAL_TAG);
+                }
+            }
+        }
+
+        /*mData.add("全局设置");
         mData.add("模块设置");
         mTags.add(TAB_GLOBAL_TAG);
-        mTags.add(TAB_MODULE_TAG);
+        mTags.add(TAB_MODULE_TAG);*/
         /*ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mData) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {

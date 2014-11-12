@@ -22,7 +22,6 @@ import com.lza.pad.lib.support.debug.AppLogger;
 import com.lza.pad.ui.widget.BookShelfItem;
 import com.lza.pad.ui.widget.BookSize;
 import com.lza.pad.ui.widget.Bookshelf;
-import com.lza.pad.ui.widget.TitleBar;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class EbookListFragment extends AbstractFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ebook_list_old, container, false);
-        mTitleBar = (TitleBar) view.findViewById(R.id.ebook_list_title_bar);
+        //mTitleBar = (TitleBar) view.findViewById(R.id.ebook_list_title_bar);
         mContainer = (FrameLayout) view.findViewById(R.id.ebook_list_container);
         mBtnPrevPage = (Button) view.findViewById(R.id.ebook_list_page_prev);
         mBtnNextPage = (Button) view.findViewById(R.id.ebook_list_page_next);

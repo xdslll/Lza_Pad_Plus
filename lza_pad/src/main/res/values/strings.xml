@@ -73,13 +73,23 @@
     <string name="pref_glb_api_edit_title">请修改</string>
     <string name="pref_mod_more_running_mode">设置运行模式</string>
     <string name="pref_mod_more_running_mode_title">当前运行模式：%s</string>
+    <string name="pref_mod_more_subject_mode">设置学科筛选功能</string>
+    <string name="pref_mod_more_subject_mode_title">当前学科是否显示：%s</string>
     <string-array name="pref_mod_more_running_mode_key">
         <item>数据库模式</item>
         <item>网络模式</item>
     </string-array>
+    <string-array name="pref_mod_more_subject_mode_key">
+        <item>显示</item>
+        <item>不显示</item>
+    </string-array>
     <string-array name="pref_mod_more_running_mode_value">
         <item>0</item>
         <item>1</item>
+    </string-array>
+    <string-array name="pref_mod_more_subject_mode_value">
+        <item>1</item>
+        <item>0</item>
     </string-array>
     <string name="pref_mod_more_running_mode_dialog_title">请选择</string>
 

@@ -12,7 +12,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/ebook_content_book_name"
+            android:textSize="20sp"
+            android:textColor="@color/sienna"
+            android:textStyle="bold"
             android:id="@+id/ebook_content_item_title"
             />
         <ImageButton
@@ -31,6 +33,9 @@
         android:id="@+id/ebook_content_item_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:lineSpacingExtra="10dp"
+        android:textColor="@color/dark_gray"
         android:padding="15dp"
         />
     <ImageView

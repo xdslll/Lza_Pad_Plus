@@ -13,7 +13,6 @@ import android.widget.VideoView;
 
 import com.lza.pad.R;
 import com.lza.pad.lib.support.file.FileTools;
-import com.lza.pad.ui.widget.TitleBar;
 
 import java.io.File;
 
@@ -38,7 +37,7 @@ public class VideoPlayFragment extends AbstractFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.video_play, container, false);
-        mTitleBar = (TitleBar) view.findViewById(R.id.video_play_title_bar);
+        //mTitleBar = (TitleBar) view.findViewById(R.id.video_play_title_bar);
         mTxtInfo = (TextView) view.findViewById(R.id.video_play_info);
         mVideoView = (VideoView) view.findViewById(R.id.video_play_view);
         mMediaController = new MediaController(getActivity());
